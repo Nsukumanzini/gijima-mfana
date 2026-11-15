@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export GIT_DIR="$ROOT/.gitrepo"
+export GIT_WORK_TREE="$ROOT"
+exec git "$@"

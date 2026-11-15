@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export XDG_CONFIG_HOME="${FLUTTER_CONFIG_HOME:-$ROOT/.config}"
+export PUB_CACHE="${PUB_CACHE:-$ROOT/.pub-cache}"
+export FLUTTER_SUPPRESS_ANALYTICS=true
+exec "$ROOT/toolchains/flutter/bin/flutter" "$@"

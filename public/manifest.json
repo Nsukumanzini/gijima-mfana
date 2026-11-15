@@ -1,0 +1,12 @@
+{
+    "name": "Gijima Mfana",
+    "short_name": "Gijima Mfana",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#F5F7F6",
+    "theme_color": "#087F5B",
+    "description": "Customer app for local Ermelo shopping and delivery.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": []
+}
