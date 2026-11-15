@@ -1,8 +1,4 @@
 analyzer:
-  # Flutter 3.50 deprecates the established Material facade before a
-  # replacement package is available in the Flutter SDK or this project.
-  errors:
-    deprecated_member_use: ignore
   exclude:
     - build/**
     - web/**

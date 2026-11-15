@@ -1,3 +1,4 @@
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../data/mock/catalog.dart';
 import '../shared/product_card.dart';
