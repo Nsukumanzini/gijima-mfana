@@ -16,7 +16,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Ermelo · Home'), findsOneWidget);
-    expect(find.text('Explore'), findsOneWidget);
+    expect(find.text('Categories'), findsOneWidget);
+    await tester.tap(find.text('Categories'));
+    await tester.pumpAndSettle();
+    expect(find.text('What are you shopping for?'), findsOneWidget);
+    expect(find.text('Restaurants'), findsOneWidget);
     expect(find.text('Requests'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });

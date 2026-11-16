@@ -59,3 +59,5 @@ The app name uses a shared `BrandText` widget: “Gijima” is black and “Mfan
 ## Category browsing
 
 Ten categories are defined centrally in `lib/data/mock/categories.dart`. Home shortcuts link to `/explore?category=<id>`, Explore shows per-category counts, and text search combines with the active category. Empty searches offer a clear-filters action. Each demonstration product belongs to one defined category; tests cover membership and filtering/reset behavior.
+
+The second bottom navigation destination is now Categories, opening a dedicated searchable category directory with product counts and links to filtered results. Customers can still browse all products from that screen.

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/mock/catalog.dart';
 import '../home/home_screen.dart';
-import '../explore/explore_screen.dart';
+import '../categories/categories_screen.dart';
 import '../requests/requests_screen.dart';
 import '../orders/orders_screen.dart';
 import '../profile/profile_screen.dart';
@@ -19,7 +19,7 @@ class _AppShellState extends ConsumerState<AppShell> {
   int index = 0;
   final pages = const [
     HomeScreen(),
-    ExploreScreen(),
+    CategoriesScreen(),
     RequestsScreen(),
     OrdersScreen(),
     ProfileScreen()
@@ -47,9 +47,9 @@ class _AppShellState extends ConsumerState<AppShell> {
                 selectedIcon: Icon(Icons.home),
                 label: 'Home'),
             NavigationDestination(
-                icon: Icon(Icons.explore_outlined),
-                selectedIcon: Icon(Icons.explore),
-                label: 'Explore'),
+                icon: Icon(Icons.category_outlined),
+                selectedIcon: Icon(Icons.category),
+                label: 'Categories'),
             NavigationDestination(
                 icon: Icon(Icons.add_circle_outline),
                 selectedIcon: Icon(Icons.add_circle),
