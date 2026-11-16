@@ -28,7 +28,10 @@ class _AppShellState extends ConsumerState<AppShell> {
   Widget build(BuildContext context) {
     final count = ref.watch(basketProvider).count;
     return Scaffold(
-      body: SafeArea(child: IndexedStack(index: index, children: pages)),
+      body: SafeArea(
+          child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 350),
+              child: KeyedSubtree(key: ValueKey(index), child: pages[index]))),
       floatingActionButton: count == 0
           ? null
           : FloatingActionButton.extended(

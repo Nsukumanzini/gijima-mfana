@@ -16,10 +16,10 @@ const products = <ShopProduct>[
       0xFFF8E5CF, 4.8),
   ShopProduct('Market fruit box', 'Ermelo Fresh Market', 8999, 'Fresh produce',
       '🍊', 0xFFFFE6D9, 4.7),
-  ShopProduct('Sunday roast chicken', 'Mahlasedi Kitchen', 12900, 'Restaurants',
-      '🍗', 0xFFFFE5D5, 4.9),
-  ShopProduct('Wireless earbuds', 'Tech Corner Ermelo', 34900, 'Electronics',
-      '🎧', 0xFFE5E9F3, 4.6),
+  ShopProduct('Streetwise chicken meal', 'KFC', 12900, 'Restaurants', '🍗',
+      0xFFFFE5D5, 4.9),
+  ShopProduct('Burger & chips', 'McDonald’s', 8990, 'Restaurants', '🍔',
+      0xFFE5E9F3, 4.6),
   ShopProduct(
       'Hand cream set', 'Bloom Beauty', 15900, 'Beauty', '🧴', 0xFFF4E3EF, 4.8),
   ShopProduct('Household starter kit', 'Corner Basket', 7499, 'Household', '🧺',
@@ -72,3 +72,9 @@ class BasketController extends Notifier<BasketState> {
 final basketProvider =
     NotifierProvider<BasketController, BasketState>(BasketController.new);
 final favoritesProvider = StateProvider<Set<String>>((ref) => <String>{});
+
+String productImage(ShopProduct p) => p.store == 'KFC'
+    ? 'assets/images/chicken.jpg'
+    : p.store == 'McDonald’s'
+        ? 'assets/images/burger.jpg'
+        : 'assets/images/groceries.jpg';

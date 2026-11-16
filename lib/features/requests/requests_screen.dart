@@ -127,38 +127,61 @@ class _RequestsScreenState extends State<RequestsScreen> {
     if (!requestKey.currentState!.validate()) return;
     setState(() => submitted = 'GM-${1000 + DateTime.now().millisecond}');
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Demo only: your request was saved on this device.')));
+        content:
+            Text('Request received. We’ll review your demo request shortly.')));
   }
 
   void _delivery(BuildContext context) {
+    final collection = TextEditingController();
+    final reference = TextEditingController();
+    final form = GlobalKey<FormState>();
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (c) => Padding(
             padding: EdgeInsets.fromLTRB(
                 20, 20, 20, MediaQuery.viewInsetsOf(c).bottom + 20),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Collect & deliver',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  const Text(
-                      'Collection: Main Street business, Ermelo\nDelivery: 12 Acacia Street\nEstimated quote: R 45.00\n\nThis is a simulated quote.'),
-                  const SizedBox(height: 14),
-                  SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                          onPressed: () {
-                            Navigator.pop(c);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Mock delivery request confirmed.')));
-                          },
-                          child: const Text('Confirm demo request')))
-                ])));
+            child: Form(
+                key: form,
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Collect & deliver',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                          controller: collection,
+                          validator: (v) => v == null || v.trim().isEmpty
+                              ? 'Add a collection address'
+                              : null,
+                          decoration: const InputDecoration(
+                              labelText: 'Business and collection address')),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                          controller: reference,
+                          validator: (v) => v == null || v.trim().isEmpty
+                              ? 'Add your order reference'
+                              : null,
+                          decoration: const InputDecoration(
+                              labelText: 'Order reference / collection code')),
+                      const SizedBox(height: 10),
+                      const Text(
+                          'Collection: Main Street business, Ermelo\nDelivery: 12 Acacia Street\nEstimated quote: R 45.00\n\nThis is a simulated quote.'),
+                      const SizedBox(height: 14),
+                      SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                              onPressed: () {
+                                if (!form.currentState!.validate()) return;
+                                Navigator.pop(c);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Mock delivery request confirmed.')));
+                              },
+                              child: const Text('Confirm demo request')))
+                    ]))));
   }
 }

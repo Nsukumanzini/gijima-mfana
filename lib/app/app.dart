@@ -7,9 +7,14 @@ import '../features/shell/shell.dart';
 import '../features/checkout/checkout.dart';
 import '../features/product/product_detail.dart';
 import '../data/mock/catalog.dart';
+import '../features/profile/account_pages.dart';
 
 final routerProvider =
     Provider<GoRouter>((ref) => GoRouter(initialLocation: '/', routes: [
+          GoRoute(
+              path: '/account/:page',
+              builder: (context, state) =>
+                  AccountPage(title: state.pathParameters['page']!)),
           GoRoute(path: '/', builder: (context, state) => const AppShell()),
           GoRoute(
               path: '/checkout',
@@ -30,6 +35,6 @@ class GijimaApp extends ConsumerWidget {
       title: 'Gijima Mfana',
       debugShowCheckedModeBanner: false,
       theme: buildTheme(Brightness.light),
-      darkTheme: buildTheme(Brightness.dark),
+      themeMode: ThemeMode.light,
       routerConfig: ref.watch(routerProvider));
 }

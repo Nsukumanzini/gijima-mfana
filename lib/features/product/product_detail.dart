@@ -16,9 +16,10 @@ class ProductDetail extends ConsumerWidget {
             decoration: BoxDecoration(
                 color: Color(product.color),
                 borderRadius: BorderRadius.circular(24)),
-            child: Center(
-                child: Text(product.emoji,
-                    style: const TextStyle(fontSize: 120)))),
+            clipBehavior: Clip.antiAlias,
+            child: Hero(
+                tag: product.name,
+                child: Image.asset(productImage(product), fit: BoxFit.cover))),
         const SizedBox(height: 18),
         Row(children: [
           Expanded(

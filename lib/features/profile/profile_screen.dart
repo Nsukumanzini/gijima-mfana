@@ -1,6 +1,7 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../app/theme/app_theme.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -46,7 +47,8 @@ class ProfileScreen extends StatelessWidget {
                 fontSize: 11,
                 color: Colors.black54)),
         const SizedBox(height: 8),
-        _item(context, Icons.palette_outlined, 'Appearance', 'System default'),
+        _item(context, Icons.palette_outlined, 'Appearance',
+            'Light · Gijima Mfana'),
         _item(context, Icons.help_outline, 'Help centre',
             'FAQs and mock support'),
         _item(context, Icons.privacy_tip_outlined, 'Privacy & terms',
@@ -61,8 +63,7 @@ class ProfileScreen extends StatelessWidget {
               Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: Text(sub),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () =>
-              _toast(c, '$title will be available in the demo profile.')));
+          onTap: () => c.push('/account/${Uri.encodeComponent(title)}')));
   static void _toast(BuildContext c, String s) =>
       ScaffoldMessenger.of(c).showSnackBar(SnackBar(content: Text(s)));
 }

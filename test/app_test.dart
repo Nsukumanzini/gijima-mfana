@@ -18,5 +18,6 @@ void main() {
     expect(find.text('Ermelo · Home'), findsOneWidget);
     expect(find.text('Explore'), findsOneWidget);
     expect(find.text('Requests'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
   });
 }

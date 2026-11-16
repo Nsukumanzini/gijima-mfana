@@ -8,4 +8,7 @@ export FLUTTER_SUPPRESS_ANALYTICS=true
 rm -rf public
 mkdir -p public
 cp -R build/web/. public/
+# Flutter's loader uses its engine-revision-pinned public CanvasKit CDN by
+# default. These local copies are not used unless useLocalCanvasKit is enabled.
+rm -rf public/canvaskit public/flutter.js.map
 echo 'Vercel static web files prepared in public/.'
