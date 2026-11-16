@@ -1,3 +1,4 @@
+import '../../shared/components/category_shortcuts.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
@@ -150,6 +151,7 @@ class _HomeState extends State<HomeScreen> {
                             Icons.delivery_dining, 'Collect & deliver')
                       ]),
                       const SizedBox(height: 26),
+                      const CategoryShortcuts(),
                       const Text('Around your neighbourhood',
                           style: TextStyle(
                               fontWeight: FontWeight.w800, fontSize: 21)),

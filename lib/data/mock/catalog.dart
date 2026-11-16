@@ -12,7 +12,7 @@ class ShopProduct {
 const products = <ShopProduct>[
   ShopProduct('Farm fresh eggs', 'Highveld Farm Store', 4599, 'Groceries', '🥚',
       0xFFFFF2D8, 4.9),
-  ShopProduct('Sourdough loaf', 'The Daily Crumb', 3899, 'Fresh produce', '🍞',
+  ShopProduct('Sourdough loaf', 'The Daily Crumb', 3899, 'Bakery', '🍞',
       0xFFF8E5CF, 4.8),
   ShopProduct('Market fruit box', 'Ermelo Fresh Market', 8999, 'Fresh produce',
       '🍊', 0xFFFFE6D9, 4.7),
@@ -26,6 +26,14 @@ const products = <ShopProduct>[
       0xFFE4F0E9, 4.5),
   ShopProduct('Local honey 500g', 'Highveld Farm Store', 6999, 'Groceries',
       '🍯', 0xFFFFE9B8, 4.9),
+  ShopProduct('USB-C charging cable', 'Tech Corner Ermelo', 7990, 'Electronics',
+      '🔌', 0xFFE5E9F3, 4.6),
+  ShopProduct('Plain cotton T-shirt', 'Highveld Clothing', 14999, 'Fashion',
+      '👕', 0xFFE4F0E9, 4.7),
+  ShopProduct('A4 exercise books · 5 pack', 'Ermelo Paper & Pen', 5999,
+      'Stationery', '📚', 0xFFFFF2D8, 4.8),
+  ShopProduct('Chips & cooldrink combo', 'Corner Basket', 3599, 'Convenience',
+      '🥤', 0xFFFFE6D9, 4.6),
 ];
 
 class BasketLine {

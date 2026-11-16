@@ -1,3 +1,5 @@
+import '../features/explore/explore_screen.dart';
+import '../data/mock/categories.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +17,15 @@ final routerProvider =
               path: '/account/:page',
               builder: (context, state) =>
                   AccountPage(title: state.pathParameters['page']!)),
+          GoRoute(
+              path: '/explore',
+              builder: (context, state) => Scaffold(
+                  body: SafeArea(
+                      child: ExploreScreen(
+                          initialCategory: categoryById(
+                                      state.uri.queryParameters['category'])
+                                  ?.name ??
+                              'All')))),
           GoRoute(path: '/', builder: (context, state) => const AppShell()),
           GoRoute(
               path: '/checkout',

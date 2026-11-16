@@ -41,7 +41,8 @@ class _AccountState extends ConsumerState<AccountPage> {
       return const RequestsScreen();
     }
     if (['Shop local', 'Restaurants', 'Groceries'].contains(title)) {
-      return const ExploreScreen();
+      return ExploreScreen(
+          initialCategory: title == 'Shop local' ? 'All' : title);
     }
     if (title == 'Favourites') {
       final saved = ref.watch(favoritesProvider);

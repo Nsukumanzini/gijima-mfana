@@ -55,3 +55,7 @@ The user-supplied official logo is bundled unchanged at `assets/brand/gijima-mfa
 The courier-only artwork supplied subsequently is now used as a transparent PNG (`assets/brand/courier.png` and `web/logo.png`). The PNG was prepared with background removal and is paired with the app name in the header/loading screen. Original artwork is retained for reference.
 
 The app name uses a shared `BrandText` widget: “Gijima” is black and “Mfana” uses brand emerald green. The web loading wordmark uses the matching colours. Browser page titles remain plain text as required by the platform.
+
+## Category browsing
+
+Ten categories are defined centrally in `lib/data/mock/categories.dart`. Home shortcuts link to `/explore?category=<id>`, Explore shows per-category counts, and text search combines with the active category. Empty searches offer a clear-filters action. Each demonstration product belongs to one defined category; tests cover membership and filtering/reset behavior.
