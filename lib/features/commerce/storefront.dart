@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/mock/catalog.dart';
 import '../../data/repositories/commerce.dart';
 import '../shared/product_card.dart';
+import '../shared/product_visual.dart';
 import 'common.dart';
 
 class Storefront extends ConsumerStatefulWidget {
@@ -42,13 +43,15 @@ class _StoreState extends ConsumerState<Storefront> {
                       children: [
                         ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                                all.isEmpty
-                                    ? 'assets/images/groceries.jpg'
-                                    : productImage(all.first),
-                                height: 200,
-                                width: double.infinity,
-                                fit: BoxFit.cover)),
+                            child: all.isEmpty
+                                ? Image.asset('assets/images/groceries.jpg',
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover)
+                                : ProductVisual(
+                                    product: all.first,
+                                    height: 200,
+                                    width: double.infinity)),
                         heading(widget.name),
                         Text(all.isEmpty
                             ? 'No catalogue yet'

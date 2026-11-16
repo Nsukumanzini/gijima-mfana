@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
 import '../../data/mock/catalog.dart';
 import '../shared/product_card.dart';
+import '../shared/product_visual.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/commerce.dart';
@@ -165,12 +166,19 @@ class _HomeState extends ConsumerState<HomeScreen> {
                             Icons.delivery_dining, 'Collect & deliver')
                       ]),
                       const SizedBox(height: 26),
-                      const Text('Around your neighbourhood',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800, fontSize: 21)),
+                      Row(children: [
+                        const Expanded(
+                            child: Text('Around your neighbourhood',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 21))),
+                        TextButton(
+                            onPressed: () => context.push('/discover'),
+                            child: const Text('See all'))
+                      ]),
                       const SizedBox(height: 12),
                       SizedBox(
-                          height: 90,
+                          height: 160,
                           child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: [
@@ -181,18 +189,101 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                 'Nando’s',
                                 'Mzansi Braai Kitchen',
                                 'Highveld Farm Store',
-                                'Ermelo Fresh Market',
-                                'The Daily Crumb'
-                              ]
-                                  .map((s) => Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: ActionChip(
-                                          avatar: const Icon(Icons.storefront,
-                                              size: 18),
-                                          label: Text(s),
-                                          onPressed: () => context.push(
-                                              '/account/${Uri.encodeComponent(s)}'))))
-                                  .toList())),
+                                'Ermelo Fresh Market'
+                              ].map((s) {
+                                final item =
+                                    products.firstWhere((p) => p.store == s);
+                                return Container(
+                                    width: 170,
+                                    margin: const EdgeInsets.only(right: 12),
+                                    child: Card(
+                                        clipBehavior: Clip.antiAlias,
+                                        child: InkWell(
+                                            onTap: () => context.push(
+                                                '/shop/${Uri.encodeComponent(s)}'),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Expanded(
+                                                      child: Image.asset(
+                                                          productImage(item),
+                                                          width:
+                                                              double.infinity,
+                                                          fit: BoxFit.cover)),
+                                                  Padding(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(
+                                                          10, 6, 10, 8),
+                                                      child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(s,
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            const Text(
+                                                                '25–40 min · Demo',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    color: Colors
+                                                                        .black54))
+                                                          ]))
+                                                ]))));
+                              }).toList())),
+                      const SizedBox(height: 22),
+                      if (ref.watch(recentlyViewedProvider).isNotEmpty) ...[
+                        Row(children: [
+                          const Expanded(
+                              child: Text('Recently viewed',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 21))),
+                          TextButton(
+                              onPressed: () => context.push('/history'),
+                              child: const Text('See all'))
+                        ]),
+                        SizedBox(
+                            height: 100,
+                            child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: ref
+                                    .watch(recentlyViewedProvider)
+                                    .take(6)
+                                    .map((name) {
+                                  final p = products
+                                      .firstWhere((item) => item.name == name);
+                                  return Container(
+                                      width: 230,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: Card(
+                                          child: ListTile(
+                                              leading: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: ProductVisual(
+                                                      product: p,
+                                                      width: 52,
+                                                      height: 52)),
+                                              title: Text(p.name,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                              subtitle: Text(
+                                                  'R ${(p.priceCents / 100).toStringAsFixed(2)}'),
+                                              onTap: () => context.push(
+                                                  '/product/${Uri.encodeComponent(p.name)}'))));
+                                }).toList())),
+                        const SizedBox(height: 22),
+                      ],
                       const Text('Popular in Ermelo',
                           style: TextStyle(
                               fontSize: 23, fontWeight: FontWeight.w800)),

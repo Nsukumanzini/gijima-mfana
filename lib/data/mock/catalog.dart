@@ -89,11 +89,19 @@ class BasketController extends Notifier<BasketState> {
 
   void note(String name, String text) => _save(
       BasketState(state.lines, state.merchant, {...state.notes, name: text}));
-  bool add(ShopProduct p) {
+  bool add(ShopProduct p) => addQuantity(p, 1);
+  bool addQuantity(ShopProduct p, int quantity, {String? instructions}) {
+    if (quantity < 1 || quantity > 99) {
+      throw ArgumentError.value(quantity, 'quantity');
+    }
     if (state.merchant != null && state.merchant != p.store) return false;
     final next = Map<String, int>.from(state.lines)
-      ..update(p.name, (n) => n + 1, ifAbsent: () => 1);
-    _save(BasketState(next, p.store, state.notes));
+      ..update(p.name, (n) => n + quantity, ifAbsent: () => quantity);
+    final notes = {...state.notes};
+    if (instructions != null && instructions.trim().isNotEmpty) {
+      notes[p.name] = instructions.trim();
+    }
+    _save(BasketState(next, p.store, notes));
     return true;
   }
 
@@ -135,4 +143,31 @@ String productImage(ShopProduct p) {
   if (p.store == 'Spur') return 'assets/images/grill.jpg';
   if (p.store == 'Mzansi Braai Kitchen') return 'assets/images/steak.jpg';
   return 'assets/images/groceries.jpg';
+}
+
+final recentlyViewedProvider =
+    NotifierProvider<RecentProductsController, List<String>>(
+        RecentProductsController.new);
+
+class RecentProductsController extends Notifier<List<String>> {
+  @override
+  List<String> build() {
+    final raw = ref.read(localStoreProvider).read('recent-products.v1');
+    return (raw?['items'] as List? ?? [])
+        .whereType<String>()
+        .where((s) => products.any((p) => p.name == s))
+        .take(12)
+        .toList();
+  }
+
+  void record(String name) {
+    if (!products.any((p) => p.name == name)) return;
+    state = [name, ...state.where((s) => s != name)].take(12).toList();
+    persist(ref, 'recent-products.v1', {'items': state});
+  }
+
+  void clear() {
+    state = [];
+    persist(ref, 'recent-products.v1', {'items': state});
+  }
 }

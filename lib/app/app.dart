@@ -1,3 +1,5 @@
+import '../features/discover/discover_screen.dart';
+import '../features/discover/history_screen.dart';
 import '../features/orders/orders_screen.dart';
 import '../features/requests/requests_screen.dart';
 import '../features/commerce/addresses.dart';
@@ -19,6 +21,8 @@ import '../features/profile/account_pages.dart';
 
 final routerProvider = Provider<GoRouter>((ref) =>
     GoRouter(initialLocation: '/', routes: [
+      GoRoute(path: '/discover', builder: (c, s) => const DiscoverScreen()),
+      GoRoute(path: '/history', builder: (c, s) => const HistoryScreen()),
       GoRoute(
           path: '/orders/:id',
           builder: (c, s) => OrderDetail(id: s.pathParameters['id']!)),

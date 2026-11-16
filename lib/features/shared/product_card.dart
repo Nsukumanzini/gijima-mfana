@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/mock/catalog.dart';
 import '../../app/theme/app_theme.dart';
+import 'product_visual.dart';
 
 class ProductCard extends ConsumerWidget {
   const ProductCard({super.key, required this.product});
@@ -22,10 +23,7 @@ class ProductCard extends ConsumerWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Expanded(
                   child: Stack(fit: StackFit.expand, children: [
-                Hero(
-                    tag: product.name,
-                    child:
-                        Image.asset(productImage(product), fit: BoxFit.cover)),
+                Hero(tag: product.name, child: ProductVisual(product: product)),
                 Positioned(
                     right: 7,
                     top: 7,

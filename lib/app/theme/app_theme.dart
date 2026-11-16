@@ -29,6 +29,26 @@ ThemeData buildTheme(Brightness brightness) {
           elevation: 0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+      filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+              backgroundColor: Brand.green,
+              foregroundColor: Colors.white,
+              minimumSize: const Size(0, 48),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)))),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+              foregroundColor: Brand.green,
+              minimumSize: const Size(0, 48),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)))),
+      chipTheme: ChipThemeData(
+          selectedColor: Brand.mint,
+          side: BorderSide(color: Brand.green.withValues(alpha: .15)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          labelStyle: const TextStyle(
+              color: Brand.charcoal, fontWeight: FontWeight.w600)),
       inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: scheme.surface,

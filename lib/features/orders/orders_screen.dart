@@ -142,6 +142,11 @@ class OrderDetail extends ConsumerWidget {
                   }
                 },
                 child: const Text('Resolve / retry demo payment')),
+          if (o['type'] == 'Shop')
+            OutlinedButton.icon(
+                onPressed: () => _reorder(context, ref, o),
+                icon: const Icon(Icons.replay),
+                label: const Text('Add these items to basket again')),
           heading('Delivery tracking'),
           const Text('Illustrative local route · no GPS or mapping service'),
           const SizedBox(height: 12),
@@ -204,6 +209,65 @@ class OrderDetail extends ConsumerWidget {
                 onPressed: () => context.push('/requests/${o['requestId']}'),
                 child: const Text('View original request'))
         ]));
+  }
+}
+
+Future<void> _reorder(BuildContext context, WidgetRef ref, Record order) async {
+  final items = order['items'] as List;
+  final available = <({ShopProduct product, int quantity, String note})>[];
+  for (final raw in items) {
+    final match = products
+        .where((p) => p.name == raw['name'] && p.store == order['merchant'])
+        .toList();
+    if (match.isNotEmpty &&
+        raw['quantity'] is int &&
+        (raw['quantity'] as int) > 0) {
+      available.add((
+        product: match.first,
+        quantity: (raw['quantity'] as int).clamp(1, 99),
+        note: raw['note'] as String? ?? ''
+      ));
+    }
+  }
+  if (available.isEmpty) {
+    if (context.mounted) {
+      message(context, 'These items are no longer in the demo catalogue.');
+    }
+    return;
+  }
+  if (available.length != items.length) {
+    if (context.mounted) {
+      message(
+          context, 'Some items are no longer available in the demo catalogue.');
+    }
+  }
+  final basket = ref.read(basketProvider.notifier);
+  if (ref.read(basketProvider).merchant != null &&
+      ref.read(basketProvider).merchant != order['merchant']) {
+    final replace = await showDialog<bool>(
+        context: context,
+        builder: (d) => AlertDialog(
+                title: const Text('Start a new basket?'),
+                content: Text(
+                    'Your basket has items from ${ref.read(basketProvider).merchant}. Replace them with items from ${order['merchant']}?'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(d, false),
+                      child: const Text('Keep basket')),
+                  FilledButton(
+                      onPressed: () => Navigator.pop(d, true),
+                      child: const Text('Replace basket'))
+                ]));
+    if (replace != true || !context.mounted) return;
+    basket.clear();
+  }
+  for (final item in available) {
+    basket.addQuantity(item.product, item.quantity, instructions: item.note);
+  }
+  if (context.mounted) {
+    message(context,
+        'Items added at current demo prices. Review your basket before checkout.');
+    context.go('/');
   }
 }
 
