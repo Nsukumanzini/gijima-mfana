@@ -38,11 +38,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Gijima Mfana">
 
-  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="apple-touch-icon" href="logo.jpg">
   <title>Gijima Mfana</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <div id="brand-loading" role="status" aria-label="Loading Gijima Mfana" style="position:fixed;inset:0;z-index:9999;background:#fff;display:grid;place-items:center;transition:opacity .25s">
+    <img src="logo.jpg" alt="Gijima Mfana" style="width:min(65vw,280px);height:auto;object-fit:contain">
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      const brand = document.getElementById('brand-loading');
+      if (brand) { brand.style.opacity = '0'; setTimeout(() => brand.remove(), 250); }
+    });
+  </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader

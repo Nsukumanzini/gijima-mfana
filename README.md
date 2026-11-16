@@ -47,3 +47,7 @@ The official logo was supplied as a chat image but was not present as a workspac
 The UI now stays in light mode and includes a timed promotional carousel, animated tab changes, Hero product image transitions, bundled South Africa/food/grocery photography, and KFC/McDonald’s demonstration storefronts. Brand-name listings, photos and prices are illustrative and do not indicate affiliation or live availability. Images are bundled from Unsplash (`photo-1576485290814-1c72aa4bbb8e`, `photo-1568901346375-23c9450c58cd`, `photo-1626082927389-6cd097cdc6ec`, `photo-1542838132-92c53300491e`).
 
 Profile routes now open saved addresses (add/delete), favourites, notifications (mark all read), payment preferences, appearance information, privacy information and a local support ticket form. Address and support changes remain in memory for the current screen session. The official logo source file still needs to be supplied; the header uses the app name until it can be bundled unmodified. Full authentication/onboarding and the full original feature list remain roadmap work.
+
+## Official brand artwork
+
+The user-supplied official logo is bundled unchanged at `assets/brand/gijima-mfana.jpg` and `web/logo.jpg`. It appears on Home, Profile, the web loading screen and browser icon. The complete supplied square artwork is preserved with contain sizing. This supersedes earlier notes about the logo being unavailable.

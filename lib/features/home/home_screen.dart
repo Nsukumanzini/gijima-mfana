@@ -44,6 +44,13 @@ class _HomeState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(children: [
+                        Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: Image.asset('assets/brand/gijima-mfana.jpg',
+                                width: 88,
+                                height: 88,
+                                fit: BoxFit.contain,
+                                semanticLabel: 'Official Gijima Mfana logo')),
                         const Expanded(
                             child: Text('Gijima Mfana',
                                 style: TextStyle(
