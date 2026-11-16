@@ -7,14 +7,16 @@ import '../../app/theme/app_theme.dart';
 import '../../data/mock/catalog.dart';
 import '../shared/product_card.dart';
 import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/repositories/commerce.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
   @override
-  State<HomeScreen> createState() => _HomeState();
+  ConsumerState<HomeScreen> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeScreen> {
+class _HomeState extends ConsumerState<HomeScreen> {
   final controller = PageController();
   Timer? timer;
   int slide = 0;
@@ -60,20 +62,33 @@ class _HomeState extends State<HomeScreen> {
                                     fontWeight: FontWeight.w900,
                                     color: Brand.green))),
                         IconButton(
-                            onPressed: () =>
-                                context.push('/account/Notifications'),
-                            icon: const Badge(
-                                child: Icon(Icons.notifications_outlined)))
+                            onPressed: () => context.push('/notifications'),
+                            icon: Badge(
+                                isLabelVisible: ref
+                                    .watch(commerceProvider)
+                                    .notifications
+                                    .any((n) => n['read'] != true),
+                                label: Text(
+                                    '${ref.watch(commerceProvider).notifications.where((n) => n['read'] != true).length}'),
+                                child:
+                                    const Icon(Icons.notifications_outlined)))
                       ]),
                       const SizedBox(height: 8),
                       Row(children: [
                         const Icon(Icons.location_on_outlined,
                             color: Brand.green, size: 18),
-                        TextButton(
-                            onPressed: () =>
-                                context.push('/account/Saved addresses'),
-                            child: const Text('Ermelo · Home')),
-                        const Spacer(),
+                        Expanded(
+                            child: TextButton(
+                                onPressed: () => context.push('/addresses'),
+                                child: Text(
+                                    ref
+                                                .watch(commerceProvider)
+                                                .defaultAddress ==
+                                            null
+                                        ? 'Choose delivery address'
+                                        : '${ref.watch(commerceProvider).defaultAddress!['city']} · ${ref.watch(commerceProvider).defaultAddress!['label']}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis))),
                         const Text('🇿🇦  Mzansi',
                             style: TextStyle(fontWeight: FontWeight.w600))
                       ]),
@@ -98,7 +113,7 @@ class _HomeState extends State<HomeScreen> {
                               suffixIcon: Icon(Icons.tune))),
                       const SizedBox(height: 22),
                       SizedBox(
-                          height: 240,
+                          height: 285,
                           child: PageView(
                               controller: controller,
                               onPageChanged: (v) => setState(() => slide = v),
@@ -239,7 +254,7 @@ class _HomeState extends State<HomeScreen> {
               onTap: () => context.push('/account/$page'),
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                  height: 135,
+                  height: 165,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                       color: Brand.mint,
@@ -250,10 +265,14 @@ class _HomeState extends State<HomeScreen> {
                         Icon(icon, color: Brand.green, size: 29),
                         const Spacer(),
                         Text(title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w800, fontSize: 12)),
                         const SizedBox(height: 4),
                         Text(sub,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 10, color: Colors.black54))
                       ]))));

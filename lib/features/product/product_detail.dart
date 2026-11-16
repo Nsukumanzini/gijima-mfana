@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/mock/catalog.dart';
 import '../../app/theme/app_theme.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetail extends ConsumerWidget {
   const ProductDetail({super.key, required this.product});
@@ -32,6 +33,10 @@ class ProductDetail extends ConsumerWidget {
                   .update((s) => ({...s, product.name})),
               icon: const Icon(Icons.favorite_border))
         ]),
+        TextButton(
+            onPressed: () =>
+                context.push('/shop/${Uri.encodeComponent(product.store)}'),
+            child: const Text('Visit business storefront')),
         Text('${product.store} · Ermelo',
             style: const TextStyle(color: Colors.black54)),
         const SizedBox(height: 8),

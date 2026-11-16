@@ -3,11 +3,13 @@ import '../../shared/components/brand_text.dart';
 import 'package:flutter/material.dart';
 import '../../app/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/repositories/commerce.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
   @override
-  Widget build(BuildContext context) =>
+  Widget build(BuildContext context, WidgetRef ref) =>
       ListView(padding: const EdgeInsets.fromLTRB(20, 18, 20, 110), children: [
         Image.asset('assets/brand/courier.png',
             height: 120,
@@ -39,8 +41,13 @@ class ProfileScreen extends StatelessWidget {
                 fontSize: 11,
                 color: Colors.black54)),
         const SizedBox(height: 8),
-        _item(context, Icons.location_on_outlined, 'Saved addresses',
-            'Home · 12 Acacia Street'),
+        _item(
+            context,
+            Icons.location_on_outlined,
+            'Saved addresses',
+            ref.watch(commerceProvider).defaultAddress == null
+                ? 'Add a delivery address'
+                : addressText(ref.watch(commerceProvider).defaultAddress!)),
         _item(context, Icons.favorite_border, 'Favourites',
             'Your saved shops and products'),
         _item(context, Icons.notifications_none, 'Notifications',

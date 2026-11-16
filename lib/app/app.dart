@@ -1,3 +1,9 @@
+import '../features/orders/orders_screen.dart';
+import '../features/requests/requests_screen.dart';
+import '../features/commerce/addresses.dart';
+import '../features/commerce/notifications.dart';
+import '../features/commerce/support.dart';
+import '../features/commerce/storefront.dart';
 import '../features/explore/explore_screen.dart';
 import '../data/mock/categories.dart';
 // ignore: deprecated_member_use
@@ -11,33 +17,57 @@ import '../features/product/product_detail.dart';
 import '../data/mock/catalog.dart';
 import '../features/profile/account_pages.dart';
 
-final routerProvider =
-    Provider<GoRouter>((ref) => GoRouter(initialLocation: '/', routes: [
-          GoRoute(
-              path: '/account/:page',
-              builder: (context, state) =>
-                  AccountPage(title: state.pathParameters['page']!)),
-          GoRoute(
-              path: '/explore',
-              builder: (context, state) => Scaffold(
-                  body: SafeArea(
-                      child: ExploreScreen(
-                          initialCategory: categoryById(
-                                      state.uri.queryParameters['category'])
+final routerProvider = Provider<GoRouter>((ref) =>
+    GoRouter(initialLocation: '/', routes: [
+      GoRoute(
+          path: '/orders/:id',
+          builder: (c, s) => OrderDetail(id: s.pathParameters['id']!)),
+      GoRoute(
+          path: '/request/new/:type',
+          builder: (c, s) => RequestForm(
+              collection: s.pathParameters['type'] == 'collection')),
+      GoRoute(
+          path: '/requests/:id',
+          builder: (c, s) => RequestDetail(id: s.pathParameters['id']!)),
+      GoRoute(path: '/addresses', builder: (c, s) => const AddressesScreen()),
+      GoRoute(
+          path: '/notifications',
+          builder: (c, s) => const NotificationsScreen()),
+      GoRoute(
+          path: '/support',
+          builder: (c, s) =>
+              SupportScreen(orderId: s.uri.queryParameters['order'])),
+      GoRoute(
+          path: '/support/:id',
+          builder: (c, s) => TicketDetail(id: s.pathParameters['id']!)),
+      GoRoute(
+          path: '/shop/:name',
+          builder: (c, s) => Storefront(name: s.pathParameters['name']!)),
+      GoRoute(
+          path: '/account/:page',
+          builder: (context, state) =>
+              AccountPage(title: state.pathParameters['page']!)),
+      GoRoute(
+          path: '/explore',
+          builder: (context, state) => Scaffold(
+              body: SafeArea(
+                  child: ExploreScreen(
+                      initialCategory:
+                          categoryById(state.uri.queryParameters['category'])
                                   ?.name ??
                               'All')))),
-          GoRoute(path: '/', builder: (context, state) => const AppShell()),
-          GoRoute(
-              path: '/checkout',
-              builder: (context, state) => const CheckoutScreen()),
-          GoRoute(
-              path: '/product/:name',
-              builder: (context, state) {
-                final name = Uri.decodeComponent(state.pathParameters['name']!);
-                return ProductDetail(
-                    product: products.firstWhere((p) => p.name == name));
-              }),
-        ]));
+      GoRoute(path: '/', builder: (context, state) => const AppShell()),
+      GoRoute(
+          path: '/checkout',
+          builder: (context, state) => const CheckoutScreen()),
+      GoRoute(
+          path: '/product/:name',
+          builder: (context, state) {
+            final name = Uri.decodeComponent(state.pathParameters['name']!);
+            return ProductDetail(
+                product: products.firstWhere((p) => p.name == name));
+          }),
+    ]));
 
 class GijimaApp extends ConsumerWidget {
   const GijimaApp({super.key});

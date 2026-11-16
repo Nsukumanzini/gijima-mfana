@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../repositories/local_store.dart';
 
 class ShopProduct {
   const ShopProduct(this.name, this.store, this.priceCents, this.category,
@@ -43,7 +44,8 @@ class BasketLine {
 }
 
 class BasketState {
-  const BasketState(this.lines, this.merchant);
+  const BasketState(this.lines, this.merchant, [this.notes = const {}]);
+  final Map<String, String> notes;
   final Map<String, int> lines;
   final String? merchant;
   int get count => lines.values.fold(0, (a, b) => a + b);
@@ -55,12 +57,33 @@ class BasketState {
 
 class BasketController extends Notifier<BasketState> {
   @override
-  BasketState build() => const BasketState({}, null);
+  BasketState build() {
+    final saved = ref.read(localStoreProvider).read('basket.v1');
+    final lines = Map<String, int>.from(saved?['lines'] ?? {});
+    lines.removeWhere(
+        (name, qty) => qty <= 0 || !products.any((p) => p.name == name));
+    final merchant = lines.isEmpty
+        ? null
+        : products.firstWhere((p) => p.name == lines.keys.first).store;
+    lines.removeWhere((name, qty) =>
+        products.firstWhere((p) => p.name == name).store != merchant);
+    return BasketState(
+        lines, merchant, Map<String, String>.from(saved?['notes'] ?? {}));
+  }
+
+  void _save(BasketState next) {
+    state = next;
+    persist(ref, 'basket.v1',
+        {'lines': next.lines, 'merchant': next.merchant, 'notes': next.notes});
+  }
+
+  void note(String name, String text) => _save(
+      BasketState(state.lines, state.merchant, {...state.notes, name: text}));
   bool add(ShopProduct p) {
     if (state.merchant != null && state.merchant != p.store) return false;
     final next = Map<String, int>.from(state.lines)
       ..update(p.name, (n) => n + 1, ifAbsent: () => 1);
-    state = BasketState(next, p.store);
+    _save(BasketState(next, p.store, state.notes));
     return true;
   }
 
@@ -71,15 +94,22 @@ class BasketController extends Notifier<BasketState> {
     } else {
       next[name] = n;
     }
-    state = BasketState(next, next.isEmpty ? null : state.merchant);
+    _save(BasketState(next, next.isEmpty ? null : state.merchant,
+        {...state.notes}..removeWhere((k, v) => !next.containsKey(k))));
   }
 
-  void clear() => state = const BasketState({}, null);
+  void clear() => _save(const BasketState({}, null));
 }
 
 final basketProvider =
     NotifierProvider<BasketController, BasketState>(BasketController.new);
-final favoritesProvider = StateProvider<Set<String>>((ref) => <String>{});
+final favoritesProvider = StateProvider<Set<String>>((ref) {
+  final saved = ref.read(localStoreProvider).read('favourites.v1');
+  // ignore: deprecated_member_use
+  ref.listenSelf((previous, next) =>
+      persist(ref, 'favourites.v1', {'items': next.toList()}));
+  return Set<String>.from(saved?['items'] ?? []);
+});
 
 String productImage(ShopProduct p) => p.store == 'KFC'
     ? 'assets/images/chicken.jpg'

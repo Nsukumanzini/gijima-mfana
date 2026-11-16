@@ -1,63 +1,52 @@
 # Gijima Mfana
 
-Customer facing Flutter prototype for local Ermelo shopping, personal shopping requests and collection/delivery. All data and payment/delivery interactions are local demonstrations; there are no backend connections, real messages, live GPS, or payment credentials.
+Flutter customer prototype for local shopping, personal shopping, and collection/delivery in Ermelo and Wesselton. All orders, quotes, payments, courier updates, support conversations and refunds are simulated on the device. No backend, payment credentials, live GPS, external messages or merchant connections are used. KFC/McDonald’s and all catalogue prices, addresses, hours and ratings are demonstration listings; no affiliation or real availability is implied.
 
-## Run
+## Run and verify
 
-Flutter 3.50.0 (Dart 3.14.0) is installed for this environment at `toolchains/flutter`. Its writable configuration and package cache are in `.config/` and `.pub-cache/`. `scripts/flutterw` runs this SDK with the workspace cache settings. Run:
+This environment has Flutter 3.50.0 / Dart 3.14.0 under `toolchains/flutter`. Its config/cache directories are `.config` and `.pub-cache`. The wrapper configures them automatically:
 
 ```sh
 scripts/flutterw pub get
-dart format .
+toolchains/flutter/bin/dart format lib test
 scripts/flutterw analyze
 scripts/flutterw test
 scripts/flutterw run -d chrome
-scripts/flutterw build web
+scripts/publish_web.sh
 ```
 
-`dart format lib test`, `scripts/flutterw analyze`, `scripts/flutterw test`, and `scripts/publish_web.sh` pass in this environment. The analyzer's workspace scan excludes the bundled SDK and generated build output.
+For a normal local installation use `flutter` instead of `scripts/flutterw`. The SDK is not committed. Only Web platform scaffolding is currently included; generate Android/iOS runners with Flutter when preparing those builds. `scripts/publish_web.sh` produces `public/` for the static Vercel project `gijima-mfana-customer-app`. Flutter uses its engine-pinned official CDN renderer by default; unused local renderer files are omitted. Local demo data is scoped to the browser/device and site origin. Clearing site storage removes it; private browser settings can restrict persistence. Save failures show an in-app warning.
 
-To prepare Vercel's static output, run `scripts/publish_web.sh`; this builds the release Web app and copies it to `public/`. It omits unused local CanvasKit copies because Flutter's loader fetches the engine-revision-pinned renderer from the official Flutter CDN by default. Vercel settings are in `vercel.json`. The Vercel project `gijima-mfana-customer-app` has been created.
+## Connected customer flows
+
+1. **Orders and tracking:** checkout produces a saved order with item/address snapshots, integer-cent fees, payment state and a timeline. Orders filters cover active, completed, cancelled and request-based deliveries. Advance demo statuses from order details to move the illustrative courier map and generate notifications. No real location is used. Early orders can be cancelled; paid cancellations can request a simulated refund through support.
+2. **Personal shopping:** request name, description, quantity, preferred shop, item budget, urgency, instructions and a saved address. Use the clearly labelled simulation controls to move Submitted → Under review → Quotation received. Accept or reject the itemised quote; successful simulated payment creates one linked tracked order. The quoted item amount covers the complete requested quantity and is within the supplied item budget.
+3. **Collect & deliver:** enter collection business/address/town, reference, item/quantity, recipient, future collection time, handling notes and a delivery address. Review the R 45 delivery + R 5 service quotation before acceptance/payment. Item purchase cost is zero because it is an existing order/parcel. A paid request becomes a courier delivery order.
+4. **Saved addresses:** add/edit/delete locations, select the default, and check demo coverage. Outside-area addresses can be saved but cannot be checked out. Existing order/request address snapshots survive later edits/deletion.
+5. **Storefronts:** business address, hours, rating, availability, delivery estimate/fee, minimum order, promotion, search/category filters, product links, and saved businesses. Access from Home shop shortcuts or product details.
+6. **Basket and checkout:** one shop per basket, quantity changes/removal, per-item instructions, delivery notes, saved address selection, minimums and coverage validation. `LOCAL10` discounts item subtotal by 10%, capped at R 50. Fees and final totals are shown before payment. Outcomes are Successful, Pending, Failed or Cancelled. Successful checkout clears the basket; pending/failed orders can resolve/retry payment in order details. No real payment information is collected.
+7. **Notifications:** locally generated order/payment, quote/request and support updates with unread badge, mark-all-read, and direct links to their originating records.
+8. **Order support:** report missing/damaged items or delivery problems, request a refund or create a general enquiry. Tickets keep local replies and simulated support review/resolution. Paid orders can receive one simulated refund; no actual money moves. Refund approval appears in the related order.
+
+Baskets/item notes, product/business favourites, addresses/default, payment-method preference, requests/quotes, orders/payment statuses, notifications/read status and support tickets are saved locally. All save operations serialize through the preferences adapter.
 
 ## Architecture
 
-- `lib/app`: app entry, GoRouter and Material 3 theme.
-- `lib/data/mock`: fictional catalog and local Riverpod basket/favourites state.
-- `lib/features`: home, explore, requests, orders, profile, product detail and checkout views.
-- `lib/features/shared`: reusable product presentation.
+- `lib/app`: Material 3 light theme, routes and shared branding.
+- `lib/data/mock`: fictional product/category catalogue and basket/favourite providers.
+- `lib/data/repositories/local_store.dart`: `LocalStore` interface, SharedPreferences adapter and memory test adapter.
+- `lib/data/repositories/commerce.dart`: local commerce state and guarded domain transitions. A versioned JSON document stores linked orders, requests, addresses, notifications and tickets. Orders snapshot prices and addresses so historical totals cannot change with catalogue/address edits.
+- `lib/features`: customer screens organised by feature; `commerce/` supplies address, notification, support and storefront screens plus shared form/payment controls.
+- `lib/shared/components`: reusable two-colour wordmark and category shortcuts.
 
-Repository boundaries should be introduced around the current in-memory providers as backend work begins. Keep UI models independent of future transport/database models. No Supabase, Firebase, REST, external payments or location services are included.
+## Checks
 
-## Current prototype coverage
+Tests cover basket calculations/single merchant, catalogue category membership and filtering, discount/fee calculations, delivery coverage/default addresses, snapshot integrity, payment retries/cancellation/delivery, quotation acceptance/rejection and idempotent conversion, collection quotes, support/refund transitions, notification routing/read state, preferences restoration, and connected screens at 360px and 1280px widths. The checkout widget test follows payment through order creation and notification navigation.
 
-Includes responsive product grids, local category/search filters, favourites, a single-merchant basket with integer-cent totals and confirmation, simulated checkout, request submission and quote confirmation, demo order status/tracking illustration, and profile/help placeholders. Several items in the full product brief remain roadmap work: onboarding/auth flows, full storefronts, quotes and multi-step order persistence, notification centre, address editing, support conversations, richer mock data, and bundled official logo/product photography.
+## Artwork
 
-The official logo was supplied as a chat image but was not present as a workspace file. Add the original unmodified artwork under `assets/brand/` and register it in `pubspec.yaml` before shipping. The web scaffold's default Flutter icon assets were removed rather than used as Gijima branding.
+Transparent courier PNG: `assets/brand/courier.png` / `web/logo.png`. The original supplied complete logo remains in `assets/brand/gijima-mfana.jpg` for reference. “Gijima” is black and “Mfana” emerald green via `BrandText`. Photos are bundled from Unsplash (`photo-1576485290814-1c72aa4bbb8e`, `photo-1568901346375-23c9450c58cd`, `photo-1626082927389-6cd097cdc6ec`, `photo-1542838132-92c53300491e`) and are illustrative.
 
-## Roadmap
+## Future integration
 
-1. Add typed mock repository interfaces, local persistence, full request/quotation and order lifecycle models.
-2. Complete onboarding and simulated authentication, notification centre, address management, storefronts and support flows.
-3. Add approved local image assets and official logo/splash/icon artwork.
-4. Add widget, workflow, accessibility, responsive and navigation tests; verify Android/iOS/Web builds on a Flutter SDK.
-5. Replace repository implementations behind the existing UI contracts only after backend requirements and privacy/payment decisions are approved.
-
-## South African visual refresh
-
-The UI now stays in light mode and includes a timed promotional carousel, animated tab changes, Hero product image transitions, bundled South Africa/food/grocery photography, and KFC/McDonald’s demonstration storefronts. Brand-name listings, photos and prices are illustrative and do not indicate affiliation or live availability. Images are bundled from Unsplash (`photo-1576485290814-1c72aa4bbb8e`, `photo-1568901346375-23c9450c58cd`, `photo-1626082927389-6cd097cdc6ec`, `photo-1542838132-92c53300491e`).
-
-Profile routes now open saved addresses (add/delete), favourites, notifications (mark all read), payment preferences, appearance information, privacy information and a local support ticket form. Address and support changes remain in memory for the current screen session. The official logo source file still needs to be supplied; the header uses the app name until it can be bundled unmodified. Full authentication/onboarding and the full original feature list remain roadmap work.
-
-## Official brand artwork
-
-The user-supplied official logo is bundled unchanged at `assets/brand/gijima-mfana.jpg` and `web/logo.jpg`. It appears on Home, Profile, the web loading screen and browser icon. The complete supplied square artwork is preserved with contain sizing. This supersedes earlier notes about the logo being unavailable.
-
-The courier-only artwork supplied subsequently is now used as a transparent PNG (`assets/brand/courier.png` and `web/logo.png`). The PNG was prepared with background removal and is paired with the app name in the header/loading screen. Original artwork is retained for reference.
-
-The app name uses a shared `BrandText` widget: “Gijima” is black and “Mfana” uses brand emerald green. The web loading wordmark uses the matching colours. Browser page titles remain plain text as required by the platform.
-
-## Category browsing
-
-Ten categories are defined centrally in `lib/data/mock/categories.dart`. Home shortcuts link to `/explore?category=<id>`, Explore shows per-category counts, and text search combines with the active category. Empty searches offer a clear-filters action. Each demonstration product belongs to one defined category; tests cover membership and filtering/reset behavior.
-
-The second bottom navigation destination is now Categories, opening a dedicated searchable category directory with product counts and links to filtered results. Customers can still browse all products from that screen.
+Authentication/onboarding is deferred at the user's request. Before real service launch, replace local transition methods with authenticated server-authoritative commerce APIs; introduce immutable typed transport/domain records and migration handling; enforce pricing/stock/coverage on the server; integrate approved payment/refund processing and courier dispatch; validate genuine merchant details and legal terms. The current application intentionally has no such integrations.

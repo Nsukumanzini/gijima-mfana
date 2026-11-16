@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/mock/catalog.dart';
+import '../../data/repositories/commerce.dart';
+import '../../data/repositories/local_store.dart';
 import '../home/home_screen.dart';
 import '../categories/categories_screen.dart';
 import '../requests/requests_screen.dart';
@@ -29,9 +31,21 @@ class _AppShellState extends ConsumerState<AppShell> {
     final count = ref.watch(basketProvider).count;
     return Scaffold(
       body: SafeArea(
-          child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 350),
-              child: KeyedSubtree(key: ValueKey(index), child: pages[index]))),
+          child: Column(children: [
+        if (ref.watch(saveErrorProvider) != null)
+          MaterialBanner(
+              content: Text(ref.watch(saveErrorProvider)!),
+              actions: [
+                TextButton(
+                    onPressed: () =>
+                        ref.read(saveErrorProvider.notifier).state = null,
+                    child: const Text('Dismiss'))
+              ]),
+        Expanded(
+            child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 350),
+                child: KeyedSubtree(key: ValueKey(index), child: pages[index])))
+      ])),
       floatingActionButton: count == 0
           ? null
           : FloatingActionButton.extended(
@@ -79,14 +93,16 @@ class CartSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final basket = ref.watch(basketProvider);
-    final fee = basket.lines.isEmpty ? 0 : 2500;
+    final totals = basketTotals(basket, '');
+    final fee = totals.delivery;
     return SafeArea(
         child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: SingleChildScrollView(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                   Row(children: [
                     const Expanded(
                         child: Text('Your basket',
@@ -110,8 +126,21 @@ class CartSheet extends ConsumerWidget {
                     return ListTile(
                         contentPadding: EdgeInsets.zero,
                         title: Text(p.name),
-                        subtitle: Text(
-                            'R ${(p.priceCents / 100).toStringAsFixed(2)}'),
+                        subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'R ${(p.priceCents / 100).toStringAsFixed(2)}'),
+                              TextFormField(
+                                  key: ValueKey(e.key),
+                                  initialValue: basket.notes[e.key] ?? '',
+                                  onChanged: (v) => ref
+                                      .read(basketProvider.notifier)
+                                      .note(e.key, v),
+                                  decoration: const InputDecoration(
+                                      labelText:
+                                          'Item instructions (optional)'))
+                            ]),
                         trailing:
                             Row(mainAxisSize: MainAxisSize.min, children: [
                           IconButton(
@@ -131,15 +160,19 @@ class CartSheet extends ConsumerWidget {
                     const Divider(),
                     _money('Subtotal', basket.subtotal),
                     _money('Delivery fee', fee),
-                    _money('Total', basket.subtotal + fee, bold: true),
+                    _money('Service fee', totals.service),
+                    _money('Total', totals.total, bold: true),
                     const SizedBox(height: 12),
                     SizedBox(
                         width: double.infinity,
                         child: FilledButton(
-                            onPressed: () => context.push('/checkout'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context.push('/checkout');
+                            },
                             child: const Text('Continue to checkout')))
                   ]
-                ])));
+                ]))));
   }
 
   Widget _money(String label, int cents, {bool bold = false}) => Padding(
