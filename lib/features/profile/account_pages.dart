@@ -1,3 +1,4 @@
+import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,7 +88,7 @@ class _AccountState extends ConsumerState<AccountPage> {
                 leading: Icon(read
                     ? Icons.mark_email_read_outlined
                     : Icons.mark_email_unread_outlined),
-                title: Text(m),
+                title: BrandText(m),
                 subtitle: const Text('Local demo update · Ermelo'))))
       ]);
     }
@@ -126,20 +127,21 @@ class _AccountState extends ConsumerState<AccountPage> {
     }
     if (title == 'Appearance') {
       return const Center(
-          child: Text('Light mode is on ☀️\nGijima Mfana · Emerald & charcoal',
+          child: BrandText(
+              'Light mode is on ☀️\nGijima Mfana · Emerald & charcoal',
               textAlign: TextAlign.center));
     }
     if (title == 'Privacy & terms') {
       return const Padding(
           padding: EdgeInsets.all(24),
-          child: Text(
+          child: BrandText(
               'Gijima Mfana customer prototype\n\nAll accounts, orders and payments are simulated. No real payment credentials are collected. KFC and McDonald’s are illustrative demo listings; no partnership or availability is implied. Photography is illustrative. Full service terms will be supplied before launch.'));
     }
     if (title == 'Payment preferences') {
       return ListView(children: [
         ...['Debit or credit card', 'Instant EFT', 'Digital wallet'].map((m) =>
             SwitchListTile(
-                title: Text(m),
+                title: BrandText(m),
                 subtitle: const Text('Demo preference only'),
                 value: enabled,
                 onChanged: (v) => setState(() => enabled = v)))

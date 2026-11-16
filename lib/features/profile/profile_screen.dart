@@ -1,3 +1,4 @@
+import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../app/theme/app_theme.dart';
@@ -12,6 +13,8 @@ class ProfileScreen extends StatelessWidget {
             height: 120,
             fit: BoxFit.contain,
             semanticLabel: 'Gijima Mfana courier symbol'),
+        const Center(
+            child: BrandText('Gijima Mfana', style: TextStyle(fontSize: 26))),
         const SizedBox(height: 16),
         const Text('Profile',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
@@ -66,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
           leading: Icon(icon, color: Brand.green),
           title:
               Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-          subtitle: Text(sub),
+          subtitle: BrandText(sub),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => c.push('/account/${Uri.encodeComponent(title)}')));
   static void _toast(BuildContext c, String s) =>

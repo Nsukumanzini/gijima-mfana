@@ -1,3 +1,4 @@
+import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -52,7 +53,7 @@ class _HomeState extends State<HomeScreen> {
                                 fit: BoxFit.contain,
                                 semanticLabel: 'Gijima Mfana courier symbol')),
                         const Expanded(
-                            child: Text('Gijima Mfana',
+                            child: BrandText('Gijima Mfana',
                                 style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w900,
@@ -209,7 +210,7 @@ class _HomeState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('GIJIMA MFANA • ERMELO',
+                      const BrandText('Ermelo · Mpumalanga',
                           style: TextStyle(
                               color: Colors.white70,
                               letterSpacing: 2,
