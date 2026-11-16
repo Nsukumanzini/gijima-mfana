@@ -13,6 +13,16 @@ class ShopProduct {
 const products = <ShopProduct>[
   ShopProduct('Farm fresh eggs', 'Highveld Farm Store', 4599, 'Groceries', '🥚',
       0xFFFFF2D8, 4.9),
+  ShopProduct('Boerewors, pap & chakalaka', 'Mzansi Braai Kitchen', 8990,
+      'Restaurants', '🍽️', 0xFFFFE6D9, 4.9),
+  ShopProduct('Spur-style grilled ribs', 'Spur', 16990, 'Restaurants', '🍖',
+      0xFFFFE6D9, 4.8),
+  ShopProduct('Steers-style flame-grilled burger', 'Steers', 9990,
+      'Restaurants', '🍔', 0xFFFFE6D9, 4.7),
+  ShopProduct('Nando’s-style peri-peri chicken', 'Nando’s', 11990,
+      'Restaurants', '🍗', 0xFFFFE6D9, 4.8),
+  ShopProduct('Braai steak platter', 'Mzansi Braai Kitchen', 13990,
+      'Restaurants', '🥩', 0xFFFFE6D9, 4.8),
   ShopProduct('Sourdough loaf', 'The Daily Crumb', 3899, 'Bakery', '🍞',
       0xFFF8E5CF, 4.8),
   ShopProduct('Market fruit box', 'Ermelo Fresh Market', 8999, 'Fresh produce',
@@ -111,8 +121,18 @@ final favoritesProvider = StateProvider<Set<String>>((ref) {
   return Set<String>.from(saved?['items'] ?? []);
 });
 
-String productImage(ShopProduct p) => p.store == 'KFC'
-    ? 'assets/images/chicken.jpg'
-    : p.store == 'McDonald’s'
-        ? 'assets/images/burger.jpg'
-        : 'assets/images/groceries.jpg';
+String productImage(ShopProduct p) {
+  if (p.name == 'Boerewors, pap & chakalaka') {
+    return 'assets/images/boerewors-pap.png';
+  }
+  if (p.store == 'Nando’s') return 'assets/images/peri-chicken.png';
+  if (p.store == 'KFC') {
+    return 'assets/images/chicken.jpg';
+  }
+  if (p.store == 'McDonald’s' || p.store == 'Steers') {
+    return 'assets/images/burger.jpg';
+  }
+  if (p.store == 'Spur') return 'assets/images/grill.jpg';
+  if (p.store == 'Mzansi Braai Kitchen') return 'assets/images/steak.jpg';
+  return 'assets/images/groceries.jpg';
+}

@@ -50,3 +50,5 @@ Transparent courier PNG: `assets/brand/courier.png` / `web/logo.png`. The origin
 ## Future integration
 
 Authentication/onboarding is deferred at the user's request. Before real service launch, replace local transition methods with authenticated server-authoritative commerce APIs; introduce immutable typed transport/domain records and migration handling; enforce pricing/stock/coverage on the server; integrate approved payment/refund processing and courier dispatch; validate genuine merchant details and legal terms. The current application intentionally has no such integrations.
+
+Home features South African-inspired demo dishes, with illustrative photographs for KFC, McDonald’s, Spur, Steers and Nando’s. No affiliation or real menu availability is implied. Grilled meat photos: Unsplash `photo-1558030006-450675393462` and `photo-1544025162-d76694265947`. The boerewors, pap and chakalaka and peri-peri chicken images are AI-generated.

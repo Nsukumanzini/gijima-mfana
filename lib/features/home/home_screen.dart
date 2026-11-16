@@ -1,4 +1,3 @@
-import '../../shared/components/category_shortcuts.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
@@ -166,7 +165,6 @@ class _HomeState extends ConsumerState<HomeScreen> {
                             Icons.delivery_dining, 'Collect & deliver')
                       ]),
                       const SizedBox(height: 26),
-                      const CategoryShortcuts(),
                       const Text('Around your neighbourhood',
                           style: TextStyle(
                               fontWeight: FontWeight.w800, fontSize: 21)),
@@ -178,6 +176,10 @@ class _HomeState extends ConsumerState<HomeScreen> {
                               children: [
                                 'KFC',
                                 'McDonald’s',
+                                'Spur',
+                                'Steers',
+                                'Nando’s',
+                                'Mzansi Braai Kitchen',
                                 'Highveld Farm Store',
                                 'Ermelo Fresh Market',
                                 'The Daily Crumb'

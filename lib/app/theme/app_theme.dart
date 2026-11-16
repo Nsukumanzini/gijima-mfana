@@ -12,6 +12,7 @@ ThemeData buildTheme(Brightness brightness) {
   final dark = brightness == Brightness.dark;
   final scheme = ColorScheme.fromSeed(
       seedColor: Brand.green,
+      primary: Brand.green,
       brightness: brightness,
       surface: dark ? const Color(0xFF182126) : Colors.white);
   return ThemeData(
@@ -37,7 +38,15 @@ ThemeData buildTheme(Brightness brightness) {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 15)),
       navigationBarTheme: NavigationBarThemeData(
-          indicatorColor: Brand.mint,
-          labelTextStyle: WidgetStateProperty.all(
-              const TextStyle(fontWeight: FontWeight.w600))));
+        indicatorColor: Brand.mint,
+        iconTheme: WidgetStateProperty.resolveWith((states) => IconThemeData(
+            color: states.contains(WidgetState.selected)
+                ? Brand.green
+                : Brand.charcoal)),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) => TextStyle(
+            fontWeight: FontWeight.w700,
+            color: states.contains(WidgetState.selected)
+                ? Brand.green
+                : Brand.charcoal)),
+      ));
 }
