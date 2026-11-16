@@ -8,10 +8,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ListView(padding: const EdgeInsets.fromLTRB(20, 18, 20, 110), children: [
-        Image.asset('assets/brand/gijima-mfana.jpg',
-            height: 150,
+        Image.asset('assets/brand/courier.png',
+            height: 120,
             fit: BoxFit.contain,
-            semanticLabel: 'Official Gijima Mfana logo'),
+            semanticLabel: 'Gijima Mfana courier symbol'),
         const SizedBox(height: 16),
         const Text('Profile',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),

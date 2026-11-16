@@ -51,3 +51,5 @@ Profile routes now open saved addresses (add/delete), favourites, notifications 
 ## Official brand artwork
 
 The user-supplied official logo is bundled unchanged at `assets/brand/gijima-mfana.jpg` and `web/logo.jpg`. It appears on Home, Profile, the web loading screen and browser icon. The complete supplied square artwork is preserved with contain sizing. This supersedes earlier notes about the logo being unavailable.
+
+The courier-only artwork supplied subsequently is now used as a transparent PNG (`assets/brand/courier.png` and `web/logo.png`). The PNG was prepared with background removal and is paired with the app name in the header/loading screen. Original artwork is retained for reference.

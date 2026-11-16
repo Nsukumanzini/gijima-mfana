@@ -8,5 +8,5 @@
     "description": "Customer app for local Ermelo shopping and delivery.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
-    "icons": [{"src":"logo.jpg","sizes":"1254x1254","type":"image/jpeg","purpose":"any"}]
+    "icons": [{"src":"logo.png","sizes":"any","type":"image/png","purpose":"any"}]
 }

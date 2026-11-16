@@ -46,11 +46,11 @@ class _HomeState extends State<HomeScreen> {
                       Row(children: [
                         Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: Image.asset('assets/brand/gijima-mfana.jpg',
-                                width: 88,
-                                height: 88,
+                            child: Image.asset('assets/brand/courier.png',
+                                width: 64,
+                                height: 64,
                                 fit: BoxFit.contain,
-                                semanticLabel: 'Official Gijima Mfana logo')),
+                                semanticLabel: 'Gijima Mfana courier symbol')),
                         const Expanded(
                             child: Text('Gijima Mfana',
                                 style: TextStyle(
