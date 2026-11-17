@@ -1,3 +1,4 @@
+import 'customer_preferences.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'local_store.dart';
 import '../mock/catalog.dart';
@@ -150,6 +151,7 @@ class CommerceController extends Notifier<DemoState> {
   }
 
   void notify(String text, String route) {
+    if (!ref.read(customerSettingsProvider).allows(route)) return;
     _list('notifications', [
       {
         'id': _id('N'),

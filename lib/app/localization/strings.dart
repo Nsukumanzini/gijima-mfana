@@ -13,6 +13,50 @@ final languageProvider = StateProvider<String>((ref) {
 });
 const languageNames = {'en': 'English', 'af': 'Afrikaans', 'zu': 'isiZulu'};
 const _words = <String, (String, String)>{
+  'Settings': ('Instellings', 'Izilungiselelo'),
+  'Edit profile': ('Wysig profiel', 'Hlela iphrofayela'),
+  'Hello': ('Hallo', 'Sawubona'),
+  'Demo profile · saved on this device': (
+    'Demoprofiel · op hierdie toestel gestoor',
+    'Iphrofayela yesivivinyo · igcinwe kule divayisi'
+  ),
+  'View your order history': (
+    'Bekyk jou bestelgeskiedenis',
+    'Buka umlando wama-oda akho'
+  ),
+  'View your in-app updates': (
+    'Bekyk jou opdaterings in die toepassing',
+    'Buka izaziso zakho ohlelweni'
+  ),
+  'Language, payments and notifications': (
+    'Taal, betalings en kennisgewings',
+    'Ulimi, izinkokhelo nezaziso'
+  ),
+  'Make it yours': ('Maak dit joune', 'Kwenze kube ngokwakho'),
+  'Your demo profile is saved on this device.': (
+    'Jou demoprofiel word op hierdie toestel gestoor.',
+    'Iphrofayela yakho yesivivinyo igcinwe kule divayisi.'
+  ),
+  'Display name': ('Vertoonnaam', 'Igama eliboniswayo'),
+  'Please enter a display name': (
+    'Voer asseblief ’n vertoonnaam in',
+    'Sicela ufake igama eliboniswayo'
+  ),
+  'Your preferences': ('Jou voorkeure', 'Okuncamelayo'),
+  'In-app notifications': (
+    'Kennisgewings in die toepassing',
+    'Izaziso zohlelo'
+  ),
+  'Controls new in-app updates on this device.': (
+    'Beheer nuwe opdaterings in die toepassing op hierdie toestel.',
+    'Lawula izaziso ezintsha zohlelo kule divayisi.'
+  ),
+  'Order updates': ('Bestelopdaterings', 'Izaziso zama-oda'),
+  'Shopping request updates': (
+    'Inkopieversoekopdaterings',
+    'Izaziso zezicelo zokuthenga'
+  ),
+  'Support updates': ('Ondersteuningsopdaterings', 'Izaziso zosizo'),
   'Home': ('Tuis', 'Ekhaya'),
   'Categories': ('Kategorieë', 'Izigaba'),
   'Requests': ('Versoeke', 'Izicelo'),

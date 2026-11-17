@@ -45,7 +45,7 @@ Tests cover basket calculations/single merchant, catalogue category membership a
 
 ## Artwork
 
-Transparent courier PNG: `assets/brand/courier.png` / `web/logo.png`. The original supplied complete logo remains in `assets/brand/gijima-mfana.jpg` for reference. “Gijima” is black and “Mfana” emerald green via `BrandText`. Photos are bundled from Unsplash (`photo-1576485290814-1c72aa4bbb8e`, `photo-1568901346375-23c9450c58cd`, `photo-1626082927389-6cd097cdc6ec`, `photo-1542838132-92c53300491e`) and are illustrative.
+The supplied full logo is used from `assets/brand/gijima-mfana.jpg` and `web/logo.jpg`. Profile names and notification preferences are stored locally on the device; notification switches filter new in-app updates only. “Gijima” is black and “Mfana” emerald green via `BrandText`. Photos are bundled from Unsplash (`photo-1576485290814-1c72aa4bbb8e`, `photo-1568901346375-23c9450c58cd`, `photo-1626082927389-6cd097cdc6ec`, `photo-1542838132-92c53300491e`) and are illustrative.
 
 ## Future integration
 

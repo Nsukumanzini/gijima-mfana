@@ -1,3 +1,5 @@
+import '../features/profile/profile_screen.dart';
+import '../features/profile/settings_screen.dart';
 import 'localization/strings.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import '../features/commerce/language_screen.dart';
@@ -25,6 +27,14 @@ import '../features/profile/account_pages.dart';
 
 final routerProvider = Provider<GoRouter>((ref) =>
     GoRouter(initialLocation: '/', routes: [
+      GoRoute(path: '/settings', builder: (c, s) => const SettingsScreen()),
+      GoRoute(
+          path: '/profile/edit', builder: (c, s) => const EditProfileScreen()),
+      GoRoute(
+          path: '/order-history',
+          builder: (c, s) => Scaffold(
+              appBar: AppBar(title: const AppText('Your orders')),
+              body: const SafeArea(child: OrdersScreen()))),
       GoRoute(path: '/language', builder: (c, s) => const LanguageScreen()),
       GoRoute(path: '/deals', builder: (c, s) => const DealsScreen()),
       GoRoute(path: '/discover', builder: (c, s) => const DiscoverScreen()),

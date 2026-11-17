@@ -1,3 +1,5 @@
+import '../../data/repositories/customer_preferences.dart';
+import '../../shared/components/brand_logo.dart';
 import '../../app/localization/strings.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
@@ -69,11 +71,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                     Row(children: [
                       Padding(
                           padding: const EdgeInsets.only(right: 12),
-                          child: Image.asset('assets/brand/courier.png',
-                              width: 64,
-                              height: 64,
-                              fit: BoxFit.contain,
-                              semanticLabel: 'Gijima Mfana courier symbol')),
+                          child: const BrandLogo(size: 64)),
                       const Expanded(
                           child: BrandText('Gijima Mfana',
                               style: TextStyle(
@@ -109,7 +107,8 @@ class _HomeState extends ConsumerState<HomeScreen> {
                           style: TextStyle(fontWeight: FontWeight.w600))
                     ]),
                     const SizedBox(height: 16),
-                    const AppText('Sawubona, Sihle 👋',
+                    Text(
+                        '${tr(context, 'Hello')}, ${ref.watch(customerNameProvider)} 👋',
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w800,
