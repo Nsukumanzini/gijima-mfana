@@ -18,6 +18,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeState extends ConsumerState<HomeScreen> {
   final controller = PageController();
+  final searchController = TextEditingController();
+  String searchQuery = '';
   Timer? timer;
   int slide = 0;
   @override
@@ -36,81 +38,146 @@ class _HomeState extends ConsumerState<HomeScreen> {
   void dispose() {
     timer?.cancel();
     controller.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(slivers: [
-        SliverToBoxAdapter(
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(22, 20, 22, 0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: Image.asset('assets/brand/courier.png',
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.contain,
-                                semanticLabel: 'Gijima Mfana courier symbol')),
-                        const Expanded(
-                            child: BrandText('Gijima Mfana',
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w900,
-                                    color: Brand.green))),
-                        IconButton(
-                            onPressed: () => context.push('/notifications'),
-                            icon: Badge(
-                                isLabelVisible: ref
-                                    .watch(commerceProvider)
-                                    .notifications
-                                    .any((n) => n['read'] != true),
-                                label: Text(
-                                    '${ref.watch(commerceProvider).notifications.where((n) => n['read'] != true).length}'),
-                                child:
-                                    const Icon(Icons.notifications_outlined)))
-                      ]),
-                      const SizedBox(height: 8),
-                      Row(children: [
-                        const Icon(Icons.location_on_outlined,
-                            color: Brand.green, size: 18),
-                        Expanded(
-                            child: TextButton(
-                                onPressed: () => context.push('/addresses'),
-                                child: Text(
-                                    ref
-                                                .watch(commerceProvider)
-                                                .defaultAddress ==
-                                            null
-                                        ? 'Choose delivery address'
-                                        : '${ref.watch(commerceProvider).defaultAddress!['city']} · ${ref.watch(commerceProvider).defaultAddress!['label']}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis))),
-                        const Text('🇿🇦  Mzansi',
-                            style: TextStyle(fontWeight: FontWeight.w600))
-                      ]),
-                      const SizedBox(height: 16),
-                      const Text('Sawubona, Sihle 👋',
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: -1)),
-                      const SizedBox(height: 4),
-                      const Text('Your local favourites. A few taps away.',
-                          style:
-                              TextStyle(color: Colors.black54, fontSize: 16)),
+  Widget build(BuildContext context) {
+    final term = searchQuery.trim().toLowerCase();
+    final isSearching = term.isNotEmpty;
+    final matchingProducts = products
+        .where((p) =>
+            '${p.name} ${p.store} ${p.category}'.toLowerCase().contains(term))
+        .toList();
+    final matchingShops = products
+        .map((p) => p.store)
+        .toSet()
+        .where((name) => name.toLowerCase().contains(term))
+        .toList()
+      ..sort();
+    return CustomScrollView(slivers: [
+      SliverToBoxAdapter(
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(22, 20, 22, 0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Image.asset('assets/brand/courier.png',
+                              width: 64,
+                              height: 64,
+                              fit: BoxFit.contain,
+                              semanticLabel: 'Gijima Mfana courier symbol')),
+                      const Expanded(
+                          child: BrandText('Gijima Mfana',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w900,
+                                  color: Brand.green))),
+                      IconButton(
+                          onPressed: () => context.push('/notifications'),
+                          icon: Badge(
+                              isLabelVisible: ref
+                                  .watch(commerceProvider)
+                                  .notifications
+                                  .any((n) => n['read'] != true),
+                              label: Text(
+                                  '${ref.watch(commerceProvider).notifications.where((n) => n['read'] != true).length}'),
+                              child: const Icon(Icons.notifications_outlined)))
+                    ]),
+                    const SizedBox(height: 8),
+                    Row(children: [
+                      const Icon(Icons.location_on_outlined,
+                          color: Brand.green, size: 18),
+                      Expanded(
+                          child: TextButton(
+                              onPressed: () => context.push('/addresses'),
+                              child: Text(
+                                  ref.watch(commerceProvider).defaultAddress ==
+                                          null
+                                      ? 'Choose delivery address'
+                                      : '${ref.watch(commerceProvider).defaultAddress!['city']} · ${ref.watch(commerceProvider).defaultAddress!['label']}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis))),
+                      const Text('🇿🇦  Mzansi',
+                          style: TextStyle(fontWeight: FontWeight.w600))
+                    ]),
+                    const SizedBox(height: 16),
+                    const Text('Sawubona, Sihle 👋',
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -1)),
+                    const SizedBox(height: 4),
+                    const Text('Your local favourites. A few taps away.',
+                        style: TextStyle(color: Colors.black54, fontSize: 16)),
+                    const SizedBox(height: 20),
+                    TextField(
+                        controller: searchController,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (value) =>
+                            setState(() => searchQuery = value),
+                        onSubmitted: (_) => FocusScope.of(context).unfocus(),
+                        decoration: InputDecoration(
+                            hintText:
+                                'Find a meal, groceries or your local shop',
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: isSearching
+                                ? IconButton(
+                                    tooltip: 'Clear search',
+                                    onPressed: () {
+                                      searchController.clear();
+                                      setState(() => searchQuery = '');
+                                    },
+                                    icon: const Icon(Icons.close))
+                                : null)),
+                    if (isSearching) ...[
                       const SizedBox(height: 20),
-                      TextField(
-                          readOnly: true,
-                          onTap: () => context.push('/account/Shop local'),
-                          decoration: const InputDecoration(
-                              hintText:
-                                  'Find a meal, groceries or your local shop',
-                              prefixIcon: Icon(Icons.search),
-                              suffixIcon: Icon(Icons.tune))),
+                      Text('Search results',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.w800)),
+                      const SizedBox(height: 6),
+                      Text(
+                          '${matchingProducts.length} ${matchingProducts.length == 1 ? 'product' : 'products'} · ${matchingShops.length} ${matchingShops.length == 1 ? 'shop' : 'shops'}',
+                          style: const TextStyle(color: Colors.black54)),
+                      if (matchingShops.isNotEmpty) ...[
+                        const SizedBox(height: 14),
+                        const Text('Shops',
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold)),
+                        ...matchingShops.map((name) => Card(
+                            child: ListTile(
+                                leading: const CircleAvatar(
+                                    backgroundColor: Brand.mint,
+                                    child: Icon(Icons.storefront_outlined,
+                                        color: Brand.green)),
+                                title: Text(name),
+                                subtitle: const Text('View shop'),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  context.push(
+                                      '/shop/${Uri.encodeComponent(name)}');
+                                }))),
+                      ],
+                      if (matchingProducts.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        const Text('Products',
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold))
+                      ],
+                      if (matchingProducts.isEmpty && matchingShops.isEmpty)
+                        const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 32),
+                            child: Text(
+                                'No matches found. Try another product, category or shop.')),
+                    ],
+                    if (!isSearching) ...[
                       const SizedBox(height: 22),
                       SizedBox(
                           height: 285,
@@ -291,23 +358,28 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       const Text('Something good, from somewhere nearby.',
                           style: TextStyle(color: Colors.black54)),
                       const SizedBox(height: 14),
-                    ]))),
-        SliverPadding(
-            padding: const EdgeInsets.fromLTRB(18, 0, 18, 110),
-            sliver: SliverLayoutBuilder(
-                builder: (context, c) => SliverGrid.builder(
-                    itemCount: products.length,
-                    itemBuilder: (c, i) => ProductCard(product: products[i]),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: c.crossAxisExtent > 1000
-                            ? 4
-                            : c.crossAxisExtent > 650
-                                ? 3
-                                : 2,
-                        mainAxisSpacing: 14,
-                        crossAxisSpacing: 14,
-                        childAspectRatio: .84))))
-      ]);
+                    ],
+                  ]))),
+      SliverPadding(
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 110),
+          sliver: SliverLayoutBuilder(
+              builder: (context, c) => SliverGrid.builder(
+                  itemCount:
+                      isSearching ? matchingProducts.length : products.length,
+                  itemBuilder: (c, i) => ProductCard(
+                      product: isSearching ? matchingProducts[i] : products[i]),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: c.crossAxisExtent > 1000
+                          ? 4
+                          : c.crossAxisExtent > 650
+                              ? 3
+                              : 2,
+                      mainAxisSpacing: 14,
+                      crossAxisSpacing: 14,
+                      childAspectRatio: .84))))
+    ]);
+  }
+
   Widget _banner(String title, String sub, String photo, String page) =>
       ClipRRect(
           borderRadius: BorderRadius.circular(26),
