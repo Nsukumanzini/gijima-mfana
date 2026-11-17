@@ -113084,7 +113084,7 @@ A.cr(s,"/checkout",t.X)},
 $S:0}
 A.rd.prototype={
 H(a){var s=this.c
-return A.TK("assets/brand/gijima-mfana.jpg",B.ms,s,"Gijima Mfana official logo",s)}}
+return A.TK("assets/brand/courier.png",B.ms,s,"Gijima Mfana official logo",s)}}
 A.re.prototype={
 H(a){var s,r,q,p,o,n,m,l,k=null,j=A.bL(a,this.c),i=A.bA("Gijima Mfana",!1,!1,!1).mz(0,j),h=A.b([],t.Ne)
 for(s=new A.o6(i.a,i.b,i.c),r=t.Qz,q=0;s.u();){p=s.d

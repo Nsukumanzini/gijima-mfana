@@ -6,7 +6,7 @@ class BrandLogo extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) =>
-      Image.asset('assets/brand/gijima-mfana.jpg',
+      Image.asset('assets/brand/courier.png',
           width: size,
           height: size,
           fit: BoxFit.contain,
