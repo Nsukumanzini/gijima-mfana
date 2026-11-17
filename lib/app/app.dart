@@ -1,3 +1,7 @@
+import 'localization/strings.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../features/commerce/language_screen.dart';
+import '../features/commerce/deals.dart';
 import '../features/discover/discover_screen.dart';
 import '../features/discover/history_screen.dart';
 import '../features/orders/orders_screen.dart';
@@ -21,6 +25,8 @@ import '../features/profile/account_pages.dart';
 
 final routerProvider = Provider<GoRouter>((ref) =>
     GoRouter(initialLocation: '/', routes: [
+      GoRoute(path: '/language', builder: (c, s) => const LanguageScreen()),
+      GoRoute(path: '/deals', builder: (c, s) => const DealsScreen()),
       GoRoute(path: '/discover', builder: (c, s) => const DiscoverScreen()),
       GoRoute(path: '/history', builder: (c, s) => const HistoryScreen()),
       GoRoute(
@@ -63,7 +69,8 @@ final routerProvider = Provider<GoRouter>((ref) =>
       GoRoute(path: '/', builder: (context, state) => const AppShell()),
       GoRoute(
           path: '/checkout',
-          builder: (context, state) => const CheckoutScreen()),
+          builder: (context, state) =>
+              CheckoutScreen(initialCode: state.uri.queryParameters['code'])),
       GoRoute(
           path: '/product/:name',
           builder: (context, state) {
@@ -78,6 +85,19 @@ class GijimaApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp.router(
       title: 'Gijima Mfana',
+      locale: Locale(ref.watch(languageProvider)),
+      supportedLocales: const [
+        Locale('en', 'ZA'),
+        Locale('af', 'ZA'),
+        Locale('zu', 'ZA')
+      ],
+      localizationsDelegates: const [
+        // ignore: deprecated_member_use
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        // ignore: deprecated_member_use
+        GlobalCupertinoLocalizations.delegate
+      ],
       debugShowCheckedModeBanner: false,
       theme: buildTheme(Brightness.light),
       themeMode: ThemeMode.light,

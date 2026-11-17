@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,14 +11,14 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notes = ref.watch(commerceProvider).notifications;
     return Scaffold(
-        appBar: AppBar(title: const Text('Notifications'), actions: [
+        appBar: AppBar(title: const AppText('Notifications'), actions: [
           TextButton(
               onPressed: () => ref.read(commerceProvider.notifier).readAll(),
-              child: const Text('Mark all read'))
+              child: const AppText('Mark all read'))
         ]),
         body: notes.isEmpty
             ? const Center(
-                child: Text(
+                child: AppText(
                     'No updates yet. Order and request updates appear here.'))
             : ListView(
                 padding: const EdgeInsets.all(16),
@@ -27,8 +28,8 @@ class NotificationsScreen extends ConsumerWidget {
                             leading: Icon(n['read'] == true
                                 ? Icons.mark_email_read_outlined
                                 : Icons.mark_email_unread_outlined),
-                            title: Text(n['text'] as String),
-                            subtitle: Text(n['time'] as String),
+                            title: AppText(n['text'] as String),
+                            subtitle: AppText(n['time'] as String),
                             onTap: () {
                               ref
                                   .read(commerceProvider.notifier)

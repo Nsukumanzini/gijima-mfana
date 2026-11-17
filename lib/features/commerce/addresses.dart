@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,16 +11,16 @@ class AddressesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(commerceProvider);
     return Scaffold(
-        appBar: AppBar(title: const Text('Saved addresses')),
+        appBar: AppBar(title: const AppText('Saved addresses')),
         body: ListView(padding: const EdgeInsets.all(20), children: [
-          const Text(
+          const AppText(
               'Demo delivery region: Ermelo and Wesselton. Use fictional details for this prototype.'),
           const SizedBox(height: 16),
           if (data.addresses.isEmpty)
             const Padding(
                 padding: EdgeInsets.all(24),
-                child:
-                    Text('No addresses saved. Add one to arrange delivery.')),
+                child: AppText(
+                    'No addresses saved. Add one to arrange delivery.')),
           ...data.addresses.map((a) => Card(
               child: Padding(
                   padding: const EdgeInsets.all(12),
@@ -31,29 +32,29 @@ class AddressesScreen extends ConsumerWidget {
                             leading: Icon(covered(a)
                                 ? Icons.location_on_outlined
                                 : Icons.location_off_outlined),
-                            title: Text(addressText(a)),
-                            subtitle: Text(
+                            title: AppText(addressText(a)),
+                            subtitle: AppText(
                                 '${a['default'] == true ? 'Default · ' : ''}${covered(a) ? 'Delivery available' : 'Outside our demo delivery area'}')),
                         Wrap(spacing: 8, children: [
                           TextButton(
                               onPressed: () => _edit(context, ref, a),
-                              child: const Text('Edit')),
+                              child: const AppText('Edit')),
                           TextButton(
                               onPressed: () => ref
                                   .read(commerceProvider.notifier)
                                   .defaultAddress(a['id'] as String),
-                              child: const Text('Set default')),
+                              child: const AppText('Set default')),
                           TextButton(
                               onPressed: () => ref
                                   .read(commerceProvider.notifier)
                                   .deleteAddress(a['id'] as String),
-                              child: const Text('Delete'))
+                              child: const AppText('Delete'))
                         ])
                       ])))),
           FilledButton.icon(
               onPressed: () => _edit(context, ref, null),
               icon: const Icon(Icons.add),
-              label: const Text('Add address'))
+              label: const AppText('Add address'))
         ]));
   }
 
@@ -94,7 +95,8 @@ class _AddressEditorState extends ConsumerState<_AddressEditor> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-          title: Text(widget.address == null ? 'Add address' : 'Edit address'),
+          title:
+              AppText(widget.address == null ? 'Add address' : 'Edit address'),
           content: SizedBox(
               width: 440,
               child: SingleChildScrollView(
@@ -110,13 +112,13 @@ class _AddressEditorState extends ConsumerState<_AddressEditor> {
                                 RegExp(r'^\d{4}$').hasMatch(v ?? '')
                                     ? null
                                     : 'Enter a four-digit postal code'),
-                        const Text(
+                        const AppText(
                             'Addresses outside Ermelo/Wesselton can be saved but cannot be used for delivery.')
                       ])))),
           actions: [
             TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel')),
+                child: const AppText('Cancel')),
             FilledButton(
                 onPressed: () {
                   if (!form.currentState!.validate()) return;
@@ -130,6 +132,6 @@ class _AddressEditorState extends ConsumerState<_AddressEditor> {
                   });
                   Navigator.pop(context);
                 },
-                child: const Text('Save'))
+                child: const AppText('Save'))
           ]);
 }

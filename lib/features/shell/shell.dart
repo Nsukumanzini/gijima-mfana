@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,12 +35,12 @@ class _AppShellState extends ConsumerState<AppShell> {
           child: Column(children: [
         if (ref.watch(saveErrorProvider) != null)
           MaterialBanner(
-              content: Text(ref.watch(saveErrorProvider)!),
+              content: AppText(ref.watch(saveErrorProvider)!),
               actions: [
                 TextButton(
                     onPressed: () =>
                         ref.read(saveErrorProvider.notifier).state = null,
-                    child: const Text('Dismiss'))
+                    child: const AppText('Dismiss'))
               ]),
         Expanded(
             child: AnimatedSwitcher(
@@ -51,31 +52,31 @@ class _AppShellState extends ConsumerState<AppShell> {
           : FloatingActionButton.extended(
               onPressed: () => _cart(context),
               icon: const Icon(Icons.shopping_basket_outlined),
-              label: Text('Cart · $count')),
+              label: AppText('Cart · $count')),
       bottomNavigationBar: NavigationBar(
           selectedIndex: index,
           onDestinationSelected: (i) => setState(() => index = i),
-          destinations: const [
+          destinations: [
             NavigationDestination(
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(Icons.home),
-                label: 'Home'),
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home),
+                label: tr(context, 'Home')),
             NavigationDestination(
-                icon: Icon(Icons.category_outlined),
-                selectedIcon: Icon(Icons.category),
-                label: 'Categories'),
+                icon: const Icon(Icons.category_outlined),
+                selectedIcon: const Icon(Icons.category),
+                label: tr(context, 'Categories')),
             NavigationDestination(
-                icon: Icon(Icons.add_circle_outline),
-                selectedIcon: Icon(Icons.add_circle),
-                label: 'Requests'),
+                icon: const Icon(Icons.add_circle_outline),
+                selectedIcon: const Icon(Icons.add_circle),
+                label: tr(context, 'Requests')),
             NavigationDestination(
-                icon: Icon(Icons.receipt_long_outlined),
-                selectedIcon: Icon(Icons.receipt_long),
-                label: 'Orders'),
+                icon: const Icon(Icons.receipt_long_outlined),
+                selectedIcon: const Icon(Icons.receipt_long),
+                label: tr(context, 'Orders')),
             NavigationDestination(
-                icon: Icon(Icons.person_outline),
-                selectedIcon: Icon(Icons.person),
-                label: 'Profile')
+                icon: const Icon(Icons.person_outline),
+                selectedIcon: const Icon(Icons.person),
+                label: tr(context, 'Profile'))
           ]),
     );
   }
@@ -105,7 +106,7 @@ class CartSheet extends ConsumerWidget {
                     children: [
                   Row(children: [
                     const Expanded(
-                        child: Text('Your basket',
+                        child: AppText('Your basket',
                             style: TextStyle(
                                 fontSize: 23, fontWeight: FontWeight.w800))),
                     IconButton(
@@ -113,23 +114,23 @@ class CartSheet extends ConsumerWidget {
                         icon: const Icon(Icons.close))
                   ]),
                   if (basket.merchant != null)
-                    Text('From ${basket.merchant}',
+                    AppText('From ${basket.merchant}',
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.primary)),
                   if (basket.lines.isEmpty)
                     const Padding(
                         padding: EdgeInsets.all(24),
-                        child: Text(
+                        child: AppText(
                             'Your basket is empty. Explore local favourites to get started.')),
                   ...basket.lines.entries.map((e) {
                     final p = products.firstWhere((p) => p.name == e.key);
                     return ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(p.name),
+                        title: AppText(p.name),
                         subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              AppText(
                                   'R ${(p.priceCents / 100).toStringAsFixed(2)}'),
                               TextFormField(
                                   key: ValueKey(e.key),
@@ -137,9 +138,9 @@ class CartSheet extends ConsumerWidget {
                                   onChanged: (v) => ref
                                       .read(basketProvider.notifier)
                                       .note(e.key, v),
-                                  decoration: const InputDecoration(
-                                      labelText:
-                                          'Item instructions (optional)'))
+                                  decoration: InputDecoration(
+                                      labelText: tr(context,
+                                          'Item instructions (optional)')))
                             ]),
                         trailing:
                             Row(mainAxisSize: MainAxisSize.min, children: [
@@ -148,7 +149,7 @@ class CartSheet extends ConsumerWidget {
                                   .read(basketProvider.notifier)
                                   .quantity(e.key, e.value - 1),
                               icon: const Icon(Icons.remove_circle_outline)),
-                          Text('${e.value}'),
+                          AppText('${e.value}'),
                           IconButton(
                               onPressed: () => ref
                                   .read(basketProvider.notifier)
@@ -170,7 +171,7 @@ class CartSheet extends ConsumerWidget {
                               Navigator.pop(context);
                               context.push('/checkout');
                             },
-                            child: const Text('Continue to checkout')))
+                            child: const AppText('Continue to checkout')))
                   ]
                 ]))));
   }
@@ -179,9 +180,9 @@ class CartSheet extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
         Expanded(
-            child: Text(label,
+            child: AppText(label,
                 style: TextStyle(fontWeight: bold ? FontWeight.bold : null))),
-        Text('R ${(cents / 100).toStringAsFixed(2)}',
+        AppText('R ${(cents / 100).toStringAsFixed(2)}',
             style: TextStyle(fontWeight: bold ? FontWeight.bold : null))
       ]));
 }

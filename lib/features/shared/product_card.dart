@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,12 +42,12 @@ class ProductCard extends ConsumerWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(product.name,
+                        AppText(product.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
-                        Text(product.store,
+                        AppText(product.store,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -54,11 +55,11 @@ class ProductCard extends ConsumerWidget {
                         const SizedBox(height: 5),
                         Row(children: [
                           Expanded(
-                              child: Text(
+                              child: AppText(
                                   'R ${(product.priceCents / 100).toStringAsFixed(2)}',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w800))),
-                          Text('★ ${product.rating}',
+                          AppText('★ ${product.rating}',
                               style: const TextStyle(fontSize: 11))
                         ])
                       ]))

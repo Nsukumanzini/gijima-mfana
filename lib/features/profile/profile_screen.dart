@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class ProfileScreen extends ConsumerWidget {
         const Center(
             child: BrandText('Gijima Mfana', style: TextStyle(fontSize: 26))),
         const SizedBox(height: 16),
-        const Text('Profile',
+        const AppText('Profile',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
         const SizedBox(height: 14),
         Card(
@@ -26,15 +27,15 @@ class ProfileScreen extends ConsumerWidget {
                 leading: const CircleAvatar(
                     backgroundColor: Brand.mint,
                     child: Icon(Icons.person, color: Brand.green)),
-                title: const Text('Sihle Mokoena',
+                title: const AppText('Sihle Mokoena',
                     style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: const Text('Demo account · Ermelo'),
+                subtitle: const AppText('Demo account · Ermelo'),
                 trailing: IconButton(
                     onPressed: () =>
                         _toast(context, 'Profile editing is simulated'),
                     icon: const Icon(Icons.edit_outlined)))),
         const SizedBox(height: 14),
-        const Text('YOUR ACCOUNT',
+        const AppText('YOUR ACCOUNT',
             style: TextStyle(
                 letterSpacing: 1.2,
                 fontWeight: FontWeight.bold,
@@ -55,13 +56,20 @@ class ProfileScreen extends ConsumerWidget {
         _item(context, Icons.payments_outlined, 'Payment preferences',
             'Demo payment options only'),
         const SizedBox(height: 14),
-        const Text('PREFERENCES & HELP',
+        const AppText('PREFERENCES & HELP',
             style: TextStyle(
                 letterSpacing: 1.2,
                 fontWeight: FontWeight.bold,
                 fontSize: 11,
                 color: Colors.black54)),
         const SizedBox(height: 8),
+        Card(
+            child: ListTile(
+                leading: const Icon(Icons.translate, color: Brand.green),
+                title: const AppText('Language'),
+                subtitle: Text(languageNames[ref.watch(languageProvider)]!),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/language'))),
         _item(context, Icons.palette_outlined, 'Appearance',
             'Light · Gijima Mfana'),
         _item(context, Icons.help_outline, 'Help centre',
@@ -74,11 +82,11 @@ class ProfileScreen extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: 7),
       child: ListTile(
           leading: Icon(icon, color: Brand.green),
-          title:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          title: AppText(title,
+              style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: BrandText(sub),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => c.push('/account/${Uri.encodeComponent(title)}')));
   static void _toast(BuildContext c, String s) =>
-      ScaffoldMessenger.of(c).showSnackBar(SnackBar(content: Text(s)));
+      ScaffoldMessenger.of(c).showSnackBar(SnackBar(content: AppText(s)));
 }

@@ -204,7 +204,15 @@ class CommerceController extends Notifier<DemoState> {
       required String note,
       required String code,
       required String method,
-      required String outcome}) {
+      required String outcome,
+      DateTime? scheduledFor}) {
+    if (scheduledFor != null &&
+        (scheduledFor
+                .isBefore(DateTime.now().add(const Duration(minutes: 30))) ||
+            scheduledFor
+                .isAfter(DateTime.now().add(const Duration(days: 14))))) {
+      throw StateError('Please choose a time 30 minutes to 14 days from now');
+    }
     if (basket.count == 0) throw StateError('Your basket is empty');
     final address = state.address(addressId);
     if (address == null || !covered(address)) {
@@ -222,6 +230,7 @@ class CommerceController extends Notifier<DemoState> {
       'merchant': basket.merchant,
       'address': {...address},
       'note': note,
+      'scheduledFor': scheduledFor?.toUtc().toIso8601String(),
       'items': [
         for (final e in basket.lines.entries)
           {
@@ -342,6 +351,18 @@ class CommerceController extends Notifier<DemoState> {
     return id;
   }
 
+  void removeRequestPhoto(String id) {
+    final r = find('requests', id);
+    if (r == null) return;
+    _list('requests', [
+      for (final item in state.requests)
+        if (item['id'] == id)
+          (Map<String, dynamic>.from(item)..remove('photoBase64'))
+        else
+          item
+    ]);
+  }
+
   void review(String id) {
     final r = find('requests', id);
     if (r == null) return;
@@ -365,12 +386,30 @@ class CommerceController extends Notifier<DemoState> {
     notify('Quote ${accept ? 'accepted' : 'rejected'} · $id', '/requests/$id');
   }
 
-  String? payRequest(String id, String method, String outcome) {
+  String? payRequest(String id, String method, String outcome,
+      {DateTime? scheduledFor}) {
     final r = find('requests', id);
     if (r == null || r['orderId'] != null || r['status'] != 'Quote accepted') {
       return r?['orderId'] as String?;
     }
-    _patch('requests', id, {'payment': outcome});
+    if (scheduledFor != null) {
+      final now = DateTime.now();
+      if (scheduledFor.isBefore(now.add(const Duration(minutes: 30))) ||
+          scheduledFor.isAfter(now.add(const Duration(days: 14)))) {
+        throw StateError('Please choose a time 30 minutes to 14 days from now');
+      }
+      if (r['type'] == 'Collect & deliver' &&
+          r['collectionTime'] is String &&
+          scheduledFor
+              .isBefore(DateTime.parse(r['collectionTime'] as String))) {
+        throw StateError(
+            'Delivery must be after the preferred collection time');
+      }
+    }
+    _patch('requests', id, {
+      'payment': outcome,
+      'scheduledFor': scheduledFor?.toUtc().toIso8601String()
+    });
     if (outcome != 'Successful') {
       notify('Request payment $outcome · $id', '/requests/$id');
       return null;
@@ -390,6 +429,7 @@ class CommerceController extends Notifier<DemoState> {
         'reference': r['reference'],
         'recipient': r['recipient'],
         'collectionTime': r['collectionTime'],
+        'scheduledFor': scheduledFor?.toUtc().toIso8601String(),
         'note': r['instructions'],
         'items': [
           {

@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../data/mock/catalog.dart';
@@ -25,7 +26,7 @@ class ProductVisual extends StatelessWidget {
             : ColoredBox(
                 color: Color(product.color),
                 child: Center(
-                    child: Text(product.emoji,
+                    child: AppText(product.emoji,
                         semanticsLabel: product.name,
                         style: const TextStyle(fontSize: 52)))));
   }

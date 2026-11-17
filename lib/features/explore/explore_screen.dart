@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../data/mock/catalog.dart';
@@ -33,14 +34,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final visible = products
         .where((p) =>
             (category == 'All' || p.category == category) &&
-            ('${p.name} ${p.store}'
+            ('${p.name} ${p.store} ${p.category} ${tr(context, p.category)}'
                 .toLowerCase()
                 .contains(query.toLowerCase())))
         .toList();
     return CustomScrollView(slivers: [
       SliverAppBar(
           pinned: true,
-          title: Text(category == 'All' ? 'Explore categories' : category,
+          title: AppText(category == 'All' ? 'Explore categories' : category,
               style: const TextStyle(fontWeight: FontWeight.w800)),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(74),
@@ -49,9 +50,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: TextField(
                       controller: searchController,
                       onChanged: (v) => setState(() => query = v),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search),
-                          hintText: 'Search products and local shops'))))),
+                          hintText: tr(
+                              context, 'Search products and local shops')))))),
       SliverToBoxAdapter(
           child: SizedBox(
               height: 50,
@@ -62,15 +64,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       .map((c) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: ChoiceChip(
-                              label: Text(
-                                  '$c (${c == 'All' ? products.length : products.where((p) => p.category == c).length})'),
+                              label: AppText(
+                                  '${tr(context, c)} (${c == 'All' ? products.length : products.where((p) => p.category == c).length})'),
                               selected: category == c,
                               onSelected: (_) => setState(() => category = c))))
                       .toList()))),
       SliverToBoxAdapter(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-              child: Text(
+              child: AppText(
                   '${visible.length} results${category == 'All' ? '' : ' in $category'}',
                   style: const TextStyle(fontWeight: FontWeight.w700)))),
       SliverPadding(
@@ -81,7 +83,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                   const Icon(Icons.search_off, size: 42),
                   const SizedBox(height: 12),
-                  const Text('No items match your search in this category.'),
+                  const AppText('No items match your search in this category.'),
                   TextButton(
                       onPressed: () {
                         searchController.clear();
@@ -90,7 +92,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           category = 'All';
                         });
                       },
-                      child: const Text('Clear filters'))
+                      child: const AppText('Clear filters'))
                 ])))
               : SliverGrid.builder(
                   itemCount: visible.length,

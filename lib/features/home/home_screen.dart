@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
@@ -48,7 +49,9 @@ class _HomeState extends ConsumerState<HomeScreen> {
     final isSearching = term.isNotEmpty;
     final matchingProducts = products
         .where((p) =>
-            '${p.name} ${p.store} ${p.category}'.toLowerCase().contains(term))
+            '${p.name} ${p.store} ${p.category} ${tr(context, p.category)}'
+                .toLowerCase()
+                .contains(term))
         .toList();
     final matchingShops = products
         .map((p) => p.store)
@@ -84,7 +87,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                   .watch(commerceProvider)
                                   .notifications
                                   .any((n) => n['read'] != true),
-                              label: Text(
+                              label: AppText(
                                   '${ref.watch(commerceProvider).notifications.where((n) => n['read'] != true).length}'),
                               child: const Icon(Icons.notifications_outlined)))
                     ]),
@@ -95,24 +98,24 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       Expanded(
                           child: TextButton(
                               onPressed: () => context.push('/addresses'),
-                              child: Text(
+                              child: AppText(
                                   ref.watch(commerceProvider).defaultAddress ==
                                           null
                                       ? 'Choose delivery address'
                                       : '${ref.watch(commerceProvider).defaultAddress!['city']} · ${ref.watch(commerceProvider).defaultAddress!['label']}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis))),
-                      const Text('🇿🇦  Mzansi',
+                      const AppText('🇿🇦  Mzansi',
                           style: TextStyle(fontWeight: FontWeight.w600))
                     ]),
                     const SizedBox(height: 16),
-                    const Text('Sawubona, Sihle 👋',
+                    const AppText('Sawubona, Sihle 👋',
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -1)),
                     const SizedBox(height: 4),
-                    const Text('Your local favourites. A few taps away.',
+                    const AppText('Your local favourites. A few taps away.',
                         style: TextStyle(color: Colors.black54, fontSize: 16)),
                     const SizedBox(height: 20),
                     TextField(
@@ -122,8 +125,8 @@ class _HomeState extends ConsumerState<HomeScreen> {
                             setState(() => searchQuery = value),
                         onSubmitted: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
-                            hintText:
-                                'Find a meal, groceries or your local shop',
+                            hintText: tr(context,
+                                'Find a meal, groceries or your local shop'),
                             prefixIcon: const Icon(Icons.search),
                             suffixIcon: isSearching
                                 ? IconButton(
@@ -136,18 +139,18 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                 : null)),
                     if (isSearching) ...[
                       const SizedBox(height: 20),
-                      Text('Search results',
+                      AppText('Search results',
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge
                               ?.copyWith(fontWeight: FontWeight.w800)),
                       const SizedBox(height: 6),
-                      Text(
-                          '${matchingProducts.length} ${matchingProducts.length == 1 ? 'product' : 'products'} · ${matchingShops.length} ${matchingShops.length == 1 ? 'shop' : 'shops'}',
+                      AppText(
+                          '${matchingProducts.length} ${tr(context, matchingProducts.length == 1 ? 'product' : 'products')} · ${matchingShops.length} ${tr(context, matchingShops.length == 1 ? 'shop' : 'shops')}',
                           style: const TextStyle(color: Colors.black54)),
                       if (matchingShops.isNotEmpty) ...[
                         const SizedBox(height: 14),
-                        const Text('Shops',
+                        const AppText('Shops',
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold)),
                         ...matchingShops.map((name) => Card(
@@ -156,8 +159,8 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                     backgroundColor: Brand.mint,
                                     child: Icon(Icons.storefront_outlined,
                                         color: Brand.green)),
-                                title: Text(name),
-                                subtitle: const Text('View shop'),
+                                title: AppText(name),
+                                subtitle: const AppText('View shop'),
                                 trailing: const Icon(Icons.chevron_right),
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
@@ -167,14 +170,14 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       ],
                       if (matchingProducts.isNotEmpty) ...[
                         const SizedBox(height: 16),
-                        const Text('Products',
+                        const AppText('Products',
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold))
                       ],
                       if (matchingProducts.isEmpty && matchingShops.isEmpty)
                         const Padding(
                             padding: EdgeInsets.symmetric(vertical: 32),
-                            child: Text(
+                            child: AppText(
                                 'No matches found. Try another product, category or shop.')),
                     ],
                     if (!isSearching) ...[
@@ -218,7 +221,20 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                       borderRadius:
                                           BorderRadius.circular(8))))),
                       const SizedBox(height: 24),
-                      const Text('What do you need today?',
+                      Card(
+                          color: Brand.mint,
+                          child: ListTile(
+                              leading: const Icon(Icons.local_offer_outlined,
+                                  color: Brand.green),
+                              title: const AppText('Deals & offers',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w800)),
+                              subtitle: const AppText(
+                                  'Save 10% on items with LOCAL10'),
+                              trailing: const Icon(Icons.chevron_right),
+                              onTap: () => context.push('/deals'))),
+                      const SizedBox(height: 16),
+                      const AppText('What do you need today?',
                           style: TextStyle(
                               fontSize: 21, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 14),
@@ -235,13 +251,13 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       const SizedBox(height: 26),
                       Row(children: [
                         const Expanded(
-                            child: Text('Around your neighbourhood',
+                            child: AppText('Around your neighbourhood',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 21))),
                         TextButton(
                             onPressed: () => context.push('/discover'),
-                            child: const Text('See all'))
+                            child: const AppText('See all'))
                       ]),
                       const SizedBox(height: 12),
                       SizedBox(
@@ -287,7 +303,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text(s,
+                                                            AppText(s,
                                                                 maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow
@@ -296,7 +312,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold)),
-                                                            const Text(
+                                                            const AppText(
                                                                 '25–40 min · Demo',
                                                                 style: TextStyle(
                                                                     fontSize:
@@ -310,13 +326,13 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       if (ref.watch(recentlyViewedProvider).isNotEmpty) ...[
                         Row(children: [
                           const Expanded(
-                              child: Text('Recently viewed',
+                              child: AppText('Recently viewed',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 21))),
                           TextButton(
                               onPressed: () => context.push('/history'),
-                              child: const Text('See all'))
+                              child: const AppText('See all'))
                         ]),
                         SizedBox(
                             height: 100,
@@ -340,22 +356,22 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                                       product: p,
                                                       width: 52,
                                                       height: 52)),
-                                              title: Text(p.name,
+                                              title: AppText(p.name,
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis),
-                                              subtitle: Text(
+                                              subtitle: AppText(
                                                   'R ${(p.priceCents / 100).toStringAsFixed(2)}'),
                                               onTap: () => context.push(
                                                   '/product/${Uri.encodeComponent(p.name)}'))));
                                 }).toList())),
                         const SizedBox(height: 22),
                       ],
-                      const Text('Popular in Ermelo',
+                      const AppText('Popular in Ermelo',
                           style: TextStyle(
                               fontSize: 23, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 4),
-                      const Text('Something good, from somewhere nearby.',
+                      const AppText('Something good, from somewhere nearby.',
                           style: TextStyle(color: Colors.black54)),
                       const SizedBox(height: 14),
                     ],
@@ -398,19 +414,19 @@ class _HomeState extends ConsumerState<HomeScreen> {
                               letterSpacing: 2,
                               fontSize: 11)),
                       const SizedBox(height: 12),
-                      Text(title,
+                      AppText(title,
                           style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w900,
                               color: Colors.white)),
-                      Text(sub, style: const TextStyle(color: Colors.white)),
+                      AppText(sub, style: const TextStyle(color: Colors.white)),
                       const SizedBox(height: 14),
                       FilledButton(
                           onPressed: () => context.push('/account/$page'),
                           style: FilledButton.styleFrom(
                               backgroundColor: Colors.white,
                               foregroundColor: Brand.green),
-                          child: const Text('Explore now  →'))
+                          child: const AppText('Explore now  →'))
                     ]))
           ]));
   Widget _service(String title, String sub, IconData icon, String page) =>
@@ -429,13 +445,13 @@ class _HomeState extends ConsumerState<HomeScreen> {
                       children: [
                         Icon(icon, color: Brand.green, size: 29),
                         const Spacer(),
-                        Text(title,
+                        AppText(title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w800, fontSize: 12)),
                         const SizedBox(height: 4),
-                        Text(sub,
+                        AppText(sub,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(

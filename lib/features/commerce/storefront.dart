@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +28,7 @@ class _StoreState extends ConsumerState<Storefront> {
         .toList();
     final saved = ref.watch(commerceProvider).savedShops.contains(widget.name);
     return Scaffold(
-        appBar: AppBar(title: Text(widget.name), actions: [
+        appBar: AppBar(title: AppText(widget.name), actions: [
           IconButton(
               tooltip: saved ? 'Unsave business' : 'Save business',
               onPressed: () =>
@@ -53,46 +54,46 @@ class _StoreState extends ConsumerState<Storefront> {
                                     height: 200,
                                     width: double.infinity)),
                         heading(widget.name),
-                        Text(all.isEmpty
+                        AppText(all.isEmpty
                             ? 'No catalogue yet'
                             : '${all.first.category} · Locally selected demo catalogue'),
                         const SizedBox(height: 8),
-                        Text(
+                        AppText(
                             'Demo address: ${10 + products.indexWhere((p) => p.store == widget.name).clamp(0, 99)} Main Street, Ermelo\nDemo hours: 08:00–20:00 daily\nOpen for simulated orders · 25–40 min delivery\n★ ${all.isEmpty ? 'New' : (all.map((p) => p.rating).reduce((a, b) => a + b) / all.length).toStringAsFixed(1)} customer rating (fictional)\nDelivery ${rand(deliveryFee(widget.name))} · Minimum items ${rand(minimumOrder(widget.name))}'),
                         const SizedBox(height: 12),
-                        const Text(
+                        const AppText(
                             'Sample catalogue, prices and availability. No affiliation with named brands or live merchant ordering.'),
                         const SizedBox(height: 12),
                         const Card(
                             child: ListTile(
                                 leading: Icon(Icons.local_offer_outlined),
-                                title: Text('LOCAL10'),
-                                subtitle: Text(
+                                title: AppText('LOCAL10'),
+                                subtitle: AppText(
                                     '10% off items, up to R 50. Apply at checkout.'))),
                         const SizedBox(height: 12),
                         TextField(
                             onChanged: (v) => setState(() => query = v),
-                            decoration: const InputDecoration(
-                                labelText: 'Search this shop',
+                            decoration: InputDecoration(
+                                labelText: tr(context, 'Search this shop'),
                                 prefixIcon: Icon(Icons.search))),
                         const SizedBox(height: 12),
                         Wrap(
                             spacing: 8,
                             children: categories
                                 .map((c) => ChoiceChip(
-                                    label: Text(c),
+                                    label: AppText(c),
                                     selected: category == c,
                                     onSelected: (_) =>
                                         setState(() => category = c)))
                                 .toList()),
                         const SizedBox(height: 12),
-                        Text('${visible.length} available demo products')
+                        AppText('${visible.length} available demo products')
                       ]))),
           if (visible.isEmpty)
             const SliverToBoxAdapter(
                 child: Padding(
                     padding: EdgeInsets.all(24),
-                    child: Text(
+                    child: AppText(
                         'No matching items. Try another search or category.')))
           else
             SliverPadding(

@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
         .take(4)
         .toList();
     return Scaffold(
-        appBar: AppBar(title: Text(product.store)),
+        appBar: AppBar(title: AppText(product.store)),
         body: ListView(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
             children: [
@@ -59,7 +60,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
               const SizedBox(height: 20),
               Row(children: [
                 Expanded(
-                    child: Text(product.name,
+                    child: AppText(product.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w900, fontSize: 26))),
                 IconButton.filledTonal(
@@ -73,15 +74,16 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                         color: Brand.green))
               ]),
               const SizedBox(height: 8),
-              Text('★ ${product.rating}   ·   Available today   ·   25–40 min',
+              AppText(
+                  '★ ${product.rating}   ·   Available today   ·   25–40 min',
                   style: const TextStyle(
                       color: Brand.green, fontWeight: FontWeight.w600)),
               const SizedBox(height: 16),
-              Text(rand(product.priceCents),
+              AppText(rand(product.priceCents),
                   style: const TextStyle(
                       fontWeight: FontWeight.w900, fontSize: 24)),
               const SizedBox(height: 8),
-              Text(
+              AppText(
                   'A local favourite from ${product.store}. Product photos, availability and prices are illustrative.',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -92,22 +94,22 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                           backgroundColor: Brand.mint,
                           child: Icon(Icons.storefront_outlined,
                               color: Brand.green)),
-                      title: Text(product.store,
+                      title: AppText(product.store,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(
+                      subtitle: AppText(
                           'Ermelo · Delivery ${rand(deliveryFee(product.store))}'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push(
                           '/shop/${Uri.encodeComponent(product.store)}'))),
               const SizedBox(height: 16),
-              const Text('Quantity',
+              const AppText('Quantity',
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
               Row(children: [
                 IconButton(
                     onPressed:
                         quantity > 1 ? () => setState(() => quantity--) : null,
                     icon: const Icon(Icons.remove_circle_outline)),
-                Text('$quantity',
+                AppText('$quantity',
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
                 IconButton(
@@ -119,20 +121,20 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                   controller: instructions,
                   maxLength: 200,
                   maxLines: 2,
-                  decoration: const InputDecoration(
-                      labelText: 'Special instructions (optional)',
-                      hintText: 'Add a note for the shop')),
+                  decoration: InputDecoration(
+                      labelText: tr(context, 'Special instructions (optional)'),
+                      hintText: tr(context, 'Add a note for the shop'))),
               const SizedBox(height: 12),
               FilledButton.icon(
                   onPressed: () => _add(false),
                   icon: const Icon(Icons.shopping_basket_outlined),
-                  label: Text(
+                  label: AppText(
                       'Add to basket · ${rand(product.priceCents * quantity)}')),
               OutlinedButton(
-                  onPressed: () => _add(true), child: const Text('Buy now')),
+                  onPressed: () => _add(true), child: const AppText('Buy now')),
               if (related.isNotEmpty) ...[
                 const SizedBox(height: 24),
-                const Text('You may also like',
+                const AppText('You may also like',
                     style:
                         TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
                 const SizedBox(height: 8),
@@ -142,9 +144,9 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                             borderRadius: BorderRadius.circular(10),
                             child: ProductVisual(
                                 product: p, width: 52, height: 52)),
-                        title: Text(p.name,
+                        title: AppText(p.name,
                             maxLines: 1, overflow: TextOverflow.ellipsis),
-                        subtitle: Text('${p.store} · ${rand(p.priceCents)}'),
+                        subtitle: AppText('${p.store} · ${rand(p.priceCents)}'),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => context
                             .push('/product/${Uri.encodeComponent(p.name)}'))))
@@ -159,16 +161,16 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
       final replace = await showDialog<bool>(
           context: context,
           builder: (d) => AlertDialog(
-                  title: const Text('One shop per order'),
-                  content: Text(
+                  title: const AppText('One shop per order'),
+                  content: AppText(
                       'Your basket contains items from ${ref.read(basketProvider).merchant}. Start a new basket for ${product.store}?'),
                   actions: [
                     TextButton(
                         onPressed: () => Navigator.pop(d, false),
-                        child: const Text('Keep basket')),
+                        child: const AppText('Keep basket')),
                     FilledButton(
                         onPressed: () => Navigator.pop(d, true),
-                        child: const Text('Start new basket'))
+                        child: const AppText('Start new basket'))
                   ]));
       if (replace != true || !mounted) return;
       basket.clear();
@@ -179,7 +181,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
       context.push('/checkout');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('$quantity × ${product.name} added to your basket')));
+          content:
+              AppText('$quantity × ${product.name} added to your basket')));
     }
   }
 }

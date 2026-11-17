@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 import '../../data/repositories/local_store.dart';
 import '../commerce/addresses.dart';
 import '../commerce/notifications.dart';
@@ -54,7 +55,7 @@ class _AccountState extends ConsumerState<AccountPage> {
     ].contains(title)) {
       return Storefront(name: title);
     }
-    return Scaffold(appBar: AppBar(title: Text(title)), body: _body(title));
+    return Scaffold(appBar: AppBar(title: AppText(title)), body: _body(title));
   }
 
   Widget _body(String title) {
@@ -75,19 +76,20 @@ class _AccountState extends ConsumerState<AccountPage> {
       final saved = ref.watch(favoritesProvider),
           shops = ref.watch(commerceProvider).savedShops;
       return ListView(padding: const EdgeInsets.all(20), children: [
-        const Text('Saved businesses',
+        const AppText('Saved businesses',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        if (shops.isEmpty) const Text('Save a business from its storefront.'),
+        if (shops.isEmpty)
+          const AppText('Save a business from its storefront.'),
         ...shops.map((s) => ListTile(
-            title: Text(s),
+            title: AppText(s),
             trailing: IconButton(
                 onPressed: () =>
                     ref.read(commerceProvider.notifier).toggleShop(s),
                 icon: const Icon(Icons.favorite)),
             onTap: () => context.push('/shop/${Uri.encodeComponent(s)}'))),
-        const Text('Saved products',
+        const AppText('Saved products',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        if (saved.isEmpty) const Text('Tap a product heart to save it.'),
+        if (saved.isEmpty) const AppText('Tap a product heart to save it.'),
         ...products
             .where((p) => saved.contains(p.name))
             .map((p) => SizedBox(height: 290, child: ProductCard(product: p))),
@@ -114,17 +116,17 @@ class _AccountState extends ConsumerState<AccountPage> {
           child: ListView(children: [
             const Padding(
                 padding: EdgeInsets.all(20),
-                child: Text(
+                child: AppText(
                     'Choose the default online method for demo payments. No payment credentials are stored.')),
             ...['Card', 'Instant EFT', 'Digital wallet']
-                .map((m) => RadioListTile<String>(value: m, title: Text(m))),
+                .map((m) => RadioListTile<String>(value: m, title: AppText(m))),
           ]));
     }
     if (title == 'Sign out') {
       return Center(
           child: FilledButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Continue browsing as a guest')));
+              child: const AppText('Continue browsing as a guest')));
     }
     return Storefront(name: title);
   }

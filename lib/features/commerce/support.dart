@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,46 +34,47 @@ class _SupportState extends ConsumerState<SupportScreen> {
   Widget build(BuildContext context) {
     final data = ref.watch(commerceProvider);
     return Scaffold(
-        appBar: AppBar(title: const Text('Help & support')),
+        appBar: AppBar(title: const AppText('Help & support')),
         body: Form(
             key: form,
             child: ListView(padding: const EdgeInsets.all(20), children: [
               heading('How can we help?'),
               const ExpansionTile(
-                  title: Text('Where do you deliver?'),
+                  title: AppText('Where do you deliver?'),
                   children: [
                     Padding(
                         padding: EdgeInsets.all(16),
-                        child: Text(
+                        child: AppText(
                             'The demo service covers Ermelo and Wesselton. All tracking, payments and refunds are simulated.'))
                   ]),
               const ExpansionTile(
-                  title: Text('How do requests work?'),
+                  title: AppText('How do requests work?'),
                   children: [
                     Padding(
                         padding: EdgeInsets.all(16),
-                        child: Text(
+                        child: AppText(
                             'Submit your requirements, review a quotation, accept it, and simulate online payment. Your request then becomes a tracked delivery order.'))
                   ]),
               heading('Report an order issue'),
               DropdownButtonFormField<String>(
                   initialValue: order,
                   isExpanded: true,
-                  decoration: const InputDecoration(
-                      labelText: 'Related order (optional)'),
+                  decoration: InputDecoration(
+                      labelText: tr(context, 'Related order (optional)')),
                   items: [
                     const DropdownMenuItem<String>(
-                        value: '', child: Text('General enquiry')),
+                        value: '', child: AppText('General enquiry')),
                     ...data.orders.map((o) => DropdownMenuItem<String>(
                         value: o['id'] as String,
-                        child: Text('${o['merchant']} · ${o['id']}',
+                        child: AppText('${o['merchant']} · ${o['id']}',
                             overflow: TextOverflow.ellipsis)))
                   ],
                   onChanged: (v) => setState(() => order = v)),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                   initialValue: kind,
-                  decoration: const InputDecoration(labelText: 'Issue type'),
+                  decoration:
+                      InputDecoration(labelText: tr(context, 'Issue type')),
                   items: [
                     'Missing item',
                     'Damaged item',
@@ -80,7 +82,7 @@ class _SupportState extends ConsumerState<SupportScreen> {
                     'Delivery problem',
                     'Other'
                   ]
-                      .map((k) => DropdownMenuItem(value: k, child: Text(k)))
+                      .map((k) => DropdownMenuItem(value: k, child: AppText(k)))
                       .toList(),
                   onChanged: (v) => setState(() => kind = v!)),
               const SizedBox(height: 12),
@@ -107,13 +109,14 @@ class _SupportState extends ConsumerState<SupportScreen> {
                       message(context, e);
                     }
                   },
-                  child: const Text('Create demo support ticket')),
+                  child: const AppText('Create demo support ticket')),
               heading('Your tickets'),
-              if (data.tickets.isEmpty) const Text('No support tickets yet.'),
+              if (data.tickets.isEmpty)
+                const AppText('No support tickets yet.'),
               ...data.tickets.map((t) => Card(
                   child: ListTile(
-                      title: Text('${t['kind']} · ${t['status']}'),
-                      subtitle: Text('${t['id']}\n${t['orderId']}'),
+                      title: AppText('${t['kind']} · ${t['status']}'),
+                      subtitle: AppText('${t['id']}\n${t['orderId']}'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => context.push('/support/${t['id']}'))))
             ])));
@@ -142,41 +145,42 @@ class _TicketState extends ConsumerState<TicketDetail> {
         t = repo.find('tickets', widget.id);
     if (t == null) {
       return Scaffold(
-          appBar: AppBar(title: const Text('Support ticket')),
-          body: const Center(child: Text('Ticket not found.')));
+          appBar: AppBar(title: const AppText('Support ticket')),
+          body: const Center(child: AppText('Ticket not found.')));
     }
     return Scaffold(
-        appBar: AppBar(title: Text(t['id'] as String)),
+        appBar: AppBar(title: AppText(t['id'] as String)),
         body: ListView(padding: const EdgeInsets.all(20), children: [
           heading('${t['kind']} · ${t['status']}'),
           if (t['kind'] == 'Refund request')
-            Text('Refund: ${t['refund']} · Demo only'),
+            AppText('Refund: ${t['refund']} · Demo only'),
           if ((t['orderId'] as String).isNotEmpty)
             TextButton(
                 onPressed: () => context.push('/orders/${t['orderId']}'),
-                child: const Text('View related order')),
+                child: const AppText('View related order')),
           ...(t['messages'] as List).map((m) => Card(
               child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text('${m['sender']}\n${m['text']}')))),
+                  child: AppText('${m['sender']}\n${m['text']}')))),
           if (t['status'] != 'Resolved') ...[
             TextField(
                 controller: reply,
                 maxLines: 2,
-                decoration: const InputDecoration(labelText: 'Add a reply')),
+                decoration:
+                    InputDecoration(labelText: tr(context, 'Add a reply'))),
             TextButton(
                 onPressed: () {
                   repo.reply(widget.id, reply.text.trim());
                   reply.clear();
                 },
-                child: const Text('Send local reply')),
+                child: const AppText('Send local reply')),
             FilledButton(
                 onPressed: () => repo.reviewTicket(widget.id),
-                child: Text(t['status'] == 'Open'
+                child: AppText(t['status'] == 'Open'
                     ? 'Simulate support review'
                     : 'Simulate resolution'))
           ],
-          const Text(
+          const AppText(
               'This conversation stays on your device. No external ticket, message or refund is sent.')
         ]));
   }

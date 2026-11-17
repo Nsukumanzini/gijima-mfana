@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +30,7 @@ class _OrdersState extends ConsumerState<OrdersScreen> {
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 110),
         children: [
           heading('Your orders'),
-          const Text(
+          const AppText(
               'Shop orders, personal shopping and collection deliveries.'),
           const SizedBox(height: 12),
           Wrap(
@@ -43,7 +44,7 @@ class _OrdersState extends ConsumerState<OrdersScreen> {
                 'Collect & deliver'
               ]
                   .map((f) => ChoiceChip(
-                      label: Text(f),
+                      label: AppText(f),
                       selected: filter == f,
                       onSelected: (_) => setState(() => filter = f)))
                   .toList()),
@@ -52,15 +53,15 @@ class _OrdersState extends ConsumerState<OrdersScreen> {
             const Card(
                 child: Padding(
                     padding: EdgeInsets.all(24),
-                    child: Text(
+                    child: AppText(
                         'No orders here yet. Shop local or submit a request to get started.'))),
           ...orders.map((o) => Card(
               child: ListTile(
                   leading: const Icon(Icons.local_shipping_outlined,
                       color: Brand.green),
-                  title: Text(o['merchant'] as String),
-                  subtitle: Text(
-                      '${o['id']}\n${o['type']} · ${o['cancelled'] == true ? 'Cancelled' : stepsFor(o)[o['step'] as int]}\nPayment: ${o['payment']} · ${rand(o['total'] as int)}'),
+                  title: AppText(o['merchant'] as String),
+                  subtitle: AppText(
+                      '${o['id']}\n${tr(context, o['type'] as String)} · ${tr(context, o['cancelled'] == true ? 'Cancelled' : stepsFor(o)[o['step'] as int])}\n${tr(context, 'Payment')}: ${tr(context, o['payment'] as String)} · ${rand(o['total'] as int)}'),
                   isThreeLine: true,
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => context.push('/orders/${o['id']}'))))
@@ -78,38 +79,44 @@ class OrderDetail extends ConsumerWidget {
         o = repo.find('orders', id);
     if (o == null) {
       return Scaffold(
-          appBar: AppBar(title: const Text('Order')),
-          body: const Center(child: Text('Order not found on this device.')));
+          appBar: AppBar(title: const AppText('Order')),
+          body:
+              const Center(child: AppText('Order not found on this device.')));
     }
     final steps = stepsFor(o), step = o['step'] as int;
     final paid = o['payment'] == 'Successful',
         cancelled = o['cancelled'] == true;
     return Scaffold(
-        appBar: AppBar(title: Text(id)),
+        appBar: AppBar(title: AppText(id)),
         body: ListView(padding: const EdgeInsets.all(20), children: [
           heading(o['merchant'] as String),
-          Text('${o['type']} · ${o['created']}'),
-          Text(cancelled ? 'Cancelled' : steps[step],
+          AppText('${tr(context, o['type'] as String)} · ${o['created']}'),
+          if (o['scheduledFor'] != null)
+            AppText(
+                '${tr(context, 'Scheduled delivery')}: ${MaterialLocalizations.of(context).formatFullDate(DateTime.parse(o['scheduledFor'] as String).toLocal())} · ${MaterialLocalizations.of(context).formatTimeOfDay(TimeOfDay.fromDateTime(DateTime.parse(o['scheduledFor'] as String).toLocal()))}')
+          else
+            const AppText('Delivery: As soon as possible'),
+          AppText(cancelled ? 'Cancelled' : steps[step],
               style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
                   color: Brand.green)),
           const SizedBox(height: 12),
-          Text(
+          AppText(
               'Delivery: ${addressText(Map<String, dynamic>.from(o['address'] as Map))}'),
           if (o['collection'] != null)
-            Text(
+            AppText(
                 'Collection: ${o['collection']}\nReference: ${o['reference']}\nRecipient: ${o['recipient']}\nCollection time: ${o['collectionTime']}'),
           if ((o['note'] as String? ?? '').isNotEmpty)
-            Text('Instructions: ${o['note']}'),
+            AppText('Instructions: ${o['note']}'),
           heading('Items'),
           ...(o['items'] as List).map((raw) {
             final item = Map<String, dynamic>.from(raw as Map);
             return ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text('${item['quantity']} × ${item['name']}'),
-                subtitle: Text(item['note'] as String? ?? ''),
-                trailing: Text(rand((item['price'] as int) *
+                title: AppText('${item['quantity']} × ${item['name']}'),
+                subtitle: AppText(item['note'] as String? ?? ''),
+                trailing: AppText(rand((item['price'] as int) *
                     (o['type'] == 'Personal shopping'
                         ? 1
                         : item['quantity'] as int))));
@@ -120,9 +127,9 @@ class OrderDetail extends ConsumerWidget {
           moneyRow('Service fee', o['service'] as int),
           moneyRow('Discount', -(o['discount'] as int)),
           moneyRow('Total', o['total'] as int),
-          Text('${o['method']} · ${o['payment']} (simulated)'),
+          AppText('${o['method']} · ${o['payment']} (simulated)'),
           if (o['refund'] == 'Approved')
-            Text('Simulated refund approved: ${rand(o['total'] as int)}'),
+            AppText('Simulated refund approved: ${rand(o['total'] as int)}'),
           if (!paid && !cancelled)
             FilledButton(
                 onPressed: () async {
@@ -141,30 +148,35 @@ class OrderDetail extends ConsumerWidget {
                     }
                   }
                 },
-                child: const Text('Resolve / retry demo payment')),
+                child: const AppText('Resolve / retry demo payment')),
           if (o['type'] == 'Shop')
             OutlinedButton.icon(
                 onPressed: () => _reorder(context, ref, o),
                 icon: const Icon(Icons.replay),
-                label: const Text('Add these items to basket again')),
+                label: const AppText('Add these items to basket again')),
           heading('Delivery tracking'),
-          const Text('Illustrative local route · no GPS or mapping service'),
+          const AppText('Illustrative local route · no GPS or mapping service'),
           const SizedBox(height: 12),
           _RouteMap(progress: cancelled ? 0 : step / (steps.length - 1)),
           const SizedBox(height: 12),
-          Text(cancelled
+          AppText(cancelled
               ? 'Delivery cancelled'
-              : step == steps.length - 1
-                  ? 'Delivered to your demo address'
-                  : step >= 2
-                      ? 'Courier Sipho Dlamini · ETA ${step >= steps.length - 2 ? '5–15' : '20–35'} min (simulated)'
-                      : 'Courier allocation follows payment and preparation.'),
+              : o['scheduledFor'] != null &&
+                      DateTime.parse(o['scheduledFor'] as String)
+                          .isAfter(DateTime.now()) &&
+                      step < 2
+                  ? 'Scheduled delivery; updates are simulated.'
+                  : step == steps.length - 1
+                      ? 'Delivered to your demo address'
+                      : step >= 2
+                          ? 'Courier Sipho Dlamini · ETA ${step >= steps.length - 2 ? '5–15' : '20–35'} min (simulated)'
+                          : 'Courier allocation follows payment and preparation.'),
           if (paid && !cancelled)
             TextButton.icon(
                 onPressed: () => message(context,
                     'Demo contact: Sipho has received your request. No call or message was sent.'),
                 icon: const Icon(Icons.chat_outlined),
-                label: const Text('Contact courier (demo)')),
+                label: const AppText('Contact courier (demo)')),
           for (var i = 0; i < steps.length; i++)
             ListTile(
                 leading: Icon(
@@ -172,11 +184,11 @@ class OrderDetail extends ConsumerWidget {
                         ? Icons.check_circle
                         : Icons.radio_button_unchecked,
                     color: i <= step && !cancelled ? Brand.green : Colors.grey),
-                title: Text(steps[i])),
+                title: AppText(steps[i])),
           if (paid && !cancelled && step < steps.length - 1)
             FilledButton(
                 onPressed: () => repo.advanceOrder(id),
-                child: Text(step == steps.length - 2
+                child: AppText(step == steps.length - 2
                     ? 'Confirm delivered (demo)'
                     : 'Simulate next delivery update')),
           if (!cancelled && step < 2)
@@ -185,29 +197,29 @@ class OrderDetail extends ConsumerWidget {
                   final yes = await showDialog<bool>(
                       context: context,
                       builder: (d) => AlertDialog(
-                              title: const Text('Cancel this demo order?'),
-                              content: const Text(
+                              title: const AppText('Cancel this demo order?'),
+                              content: const AppText(
                                   'The order will remain in cancelled history. For a paid order, use support to request a simulated refund.'),
                               actions: [
                                 TextButton(
                                     onPressed: () => Navigator.pop(d, false),
-                                    child: const Text('Keep order')),
+                                    child: const AppText('Keep order')),
                                 FilledButton(
                                     onPressed: () => Navigator.pop(d, true),
-                                    child: const Text('Cancel order'))
+                                    child: const AppText('Cancel order'))
                               ]));
                   if (yes == true) repo.cancelOrder(id);
                 },
-                child: const Text('Cancel order')),
+                child: const AppText('Cancel order')),
           const SizedBox(height: 18),
           OutlinedButton.icon(
               onPressed: () => context.push('/support?order=$id'),
               icon: const Icon(Icons.support_agent),
-              label: const Text('Report an issue / request a refund')),
+              label: const AppText('Report an issue / request a refund')),
           if (o['requestId'] != null)
             TextButton(
                 onPressed: () => context.push('/requests/${o['requestId']}'),
-                child: const Text('View original request'))
+                child: const AppText('View original request'))
         ]));
   }
 }
@@ -247,16 +259,16 @@ Future<void> _reorder(BuildContext context, WidgetRef ref, Record order) async {
     final replace = await showDialog<bool>(
         context: context,
         builder: (d) => AlertDialog(
-                title: const Text('Start a new basket?'),
-                content: Text(
+                title: const AppText('Start a new basket?'),
+                content: AppText(
                     'Your basket has items from ${ref.read(basketProvider).merchant}. Replace them with items from ${order['merchant']}?'),
                 actions: [
                   TextButton(
                       onPressed: () => Navigator.pop(d, false),
-                      child: const Text('Keep basket')),
+                      child: const AppText('Keep basket')),
                   FilledButton(
                       onPressed: () => Navigator.pop(d, true),
-                      child: const Text('Replace basket'))
+                      child: const AppText('Replace basket'))
                 ]));
     if (replace != true || !context.mounted) return;
     basket.clear();
@@ -284,9 +296,11 @@ class _RouteMap extends StatelessWidget {
           builder: (c, s) => Stack(children: [
                 Positioned.fill(child: CustomPaint(painter: _MapPainter())),
                 const Positioned(
-                    left: 15, bottom: 15, child: Text('Collection · Ermelo')),
+                    left: 15,
+                    bottom: 15,
+                    child: AppText('Collection · Ermelo')),
                 const Positioned(
-                    right: 15, top: 15, child: Text('Your address')),
+                    right: 15, top: 15, child: AppText('Your address')),
                 AnimatedPositioned(
                     duration: MediaQuery.of(context).disableAnimations
                         ? Duration.zero

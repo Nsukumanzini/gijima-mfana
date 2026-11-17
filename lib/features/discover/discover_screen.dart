@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,33 +24,33 @@ class _DiscoverState extends ConsumerState<DiscoverScreen> {
     final visible = shops
         .where((s) =>
             (!savedOnly || saved.contains(s)) &&
-            ('$s ${products.where((p) => p.store == s).map((p) => p.category).join(' ')}'
+            ('$s ${products.where((p) => p.store == s).map((p) => '${p.category} ${tr(context, p.category)}').join(' ')}'
                 .toLowerCase()
                 .contains(query.toLowerCase())))
         .toList();
     return Scaffold(
-        appBar: AppBar(title: const Text('Discover local shops')),
+        appBar: AppBar(title: const AppText('Discover local shops')),
         body: ListView(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
             children: [
-              const Text('A little closer to home.',
+              const AppText('A little closer to home.',
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.w900)),
               const SizedBox(height: 6),
-              const Text(
+              const AppText(
                   'Browse our illustrative Ermelo marketplace and find your next favourite.'),
               const SizedBox(height: 18),
               TextField(
                   onChanged: (v) => setState(() => query = v),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search),
-                      hintText: 'Search shops or categories')),
+                      hintText: tr(context, 'Search shops or categories'))),
               const SizedBox(height: 10),
               FilterChip(
-                  label: const Text('Saved shops'),
+                  label: const AppText('Saved shops'),
                   selected: savedOnly,
                   onSelected: (v) => setState(() => savedOnly = v)),
               const SizedBox(height: 10),
-              Text(
+              AppText(
                   '${visible.length} ${visible.length == 1 ? 'shop' : 'shops'}',
                   style: const TextStyle(
                       color: Brand.green, fontWeight: FontWeight.bold)),
@@ -57,7 +58,7 @@ class _DiscoverState extends ConsumerState<DiscoverScreen> {
               if (visible.isEmpty)
                 const Padding(
                     padding: EdgeInsets.all(24),
-                    child: Text(
+                    child: AppText(
                         'No shops found. Try another search or remove the saved filter.')),
               ...visible.map((s) {
                 final shopItems = products.where((p) => p.store == s).toList();
@@ -81,18 +82,18 @@ class _DiscoverState extends ConsumerState<DiscoverScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                    Text(s,
+                                    AppText(s,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w800,
                                             fontSize: 16)),
-                                    Text(
+                                    AppText(
                                         shopItems
                                             .map((p) => p.category)
                                             .toSet()
                                             .join(' · '),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis),
-                                    Text(
+                                    AppText(
                                         '${shopItems.length} items · Delivery ${rand(deliveryFee(s))}',
                                         style: const TextStyle(
                                             fontSize: 12,
@@ -113,7 +114,7 @@ class _DiscoverState extends ConsumerState<DiscoverScreen> {
                             ]))));
               }),
               const SizedBox(height: 12),
-              const Text(
+              const AppText(
                   'Demo shops and prices are illustrative; no live merchant availability or affiliation is implied.',
                   style: TextStyle(fontSize: 12, color: Colors.black54))
             ]));

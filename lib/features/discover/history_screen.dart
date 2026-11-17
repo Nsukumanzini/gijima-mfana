@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,15 +12,16 @@ class HistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final recent = ref.watch(recentlyViewedProvider);
     return Scaffold(
-        appBar: AppBar(title: const Text('Recently viewed'), actions: [
+        appBar: AppBar(title: const AppText('Recently viewed'), actions: [
           TextButton(
               onPressed: recent.isEmpty
                   ? null
                   : () => ref.read(recentlyViewedProvider.notifier).clear(),
-              child: const Text('Clear'))
+              child: const AppText('Clear'))
         ]),
         body: recent.isEmpty
-            ? const Center(child: Text('Products you view will appear here.'))
+            ? const Center(
+                child: AppText('Products you view will appear here.'))
             : ListView(
                 padding: const EdgeInsets.all(20),
                 children: recent.map((name) {
@@ -30,8 +32,8 @@ class HistoryScreen extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                               child: ProductVisual(
                                   product: p, width: 56, height: 56)),
-                          title: Text(p.name),
-                          subtitle: Text(
+                          title: AppText(p.name),
+                          subtitle: AppText(
                               '${p.store} · R ${(p.priceCents / 100).toStringAsFixed(2)}'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () => context.push(

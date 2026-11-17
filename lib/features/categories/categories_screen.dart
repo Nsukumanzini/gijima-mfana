@@ -1,3 +1,4 @@
+import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,14 +16,14 @@ class _CategoriesState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final visible = shopCategories
-        .where((c) => '${c.name} ${c.description}'
+        .where((c) => '${c.name} ${tr(context, c.name)} ${c.description}'
             .toLowerCase()
             .contains(query.toLowerCase()))
         .toList();
     return CustomScrollView(slivers: [
       const SliverAppBar(
           pinned: true,
-          title: Text('Categories',
+          title: AppText('Categories',
               style: TextStyle(fontWeight: FontWeight.w800))),
       SliverPadding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 18),
@@ -30,29 +31,31 @@ class _CategoriesState extends State<CategoriesScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                const Text('What are you shopping for?',
+                const AppText('What are you shopping for?',
                     style:
                         TextStyle(fontSize: 26, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 8),
-                const Text('Choose a category to find your local favourites.',
+                const AppText(
+                    'Choose a category to find your local favourites.',
                     style: TextStyle(color: Colors.black54)),
                 const SizedBox(height: 18),
                 TextField(
                     onChanged: (v) => setState(() => query = v),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search),
-                        hintText: 'Search categories')),
+                        hintText: tr(context, 'Search categories'))),
                 const SizedBox(height: 12),
                 TextButton.icon(
                     onPressed: () => context.push('/explore'),
                     icon: const Icon(Icons.grid_view_outlined),
-                    label: const Text('Browse all products')),
+                    label: const AppText('Browse all products')),
               ]))),
       if (visible.isEmpty)
         const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
-                child: Text('No categories match. Try meals, fresh or home.')))
+                child:
+                    AppText('No categories match. Try meals, fresh or home.')))
       else
         SliverPadding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
@@ -79,18 +82,18 @@ class _CategoriesState extends State<CategoriesScreen> {
                                       foregroundColor: Brand.green,
                                       child: Icon(c.icon)),
                                   const SizedBox(height: 12),
-                                  Text(c.name,
+                                  AppText(c.name,
                                       style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w800)),
                                   const SizedBox(height: 4),
-                                  Text(c.description,
+                                  AppText(c.description,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.black54)),
                                   const Spacer(),
-                                  Text('${c.count} items  →',
+                                  AppText('${c.count} items  →',
                                       style: const TextStyle(
                                           color: Brand.green,
                                           fontWeight: FontWeight.w600)),

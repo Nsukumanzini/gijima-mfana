@@ -56,3 +56,13 @@ Home features South African-inspired demo dishes, with illustrative photographs 
 ## Discovery and repeat shopping
 
 The Home screen links to a searchable shop directory with saved-shop filtering. Recently viewed products are stored locally and can be cleared from their own screen. Product details offer quantity selection, optional item notes, a favourite toggle, related items and a buy-now route to checkout. Shop orders can be added to the basket again using current catalogue prices; a confirmation protects a basket from another merchant. Listings remain illustrative.
+
+## Scheduling, deals, photos and languages
+
+Customers can choose ASAP or a delivery date/time at checkout. Scheduled slots must be at least 30 minutes and at most 14 days ahead; an order stores the chosen instant in UTC and displays it in the device locale. Personal shopping and collection quotations can also be scheduled during simulated payment. Collection delivery cannot be scheduled before the selected collection time; a pending quotation payment remembers the selected time for retry.
+
+The Deals & Offers screen shows the LOCAL10 demo coupon and links to checkout with it applied to an eligible shop basket. It is 10% off item subtotal, capped at R 50; service and delivery fees are excluded.
+
+Personal shopping requests may attach one JPEG, PNG or WebP reference image of at most 1 MB. The file is validated, encoded into device-local preferences, shown in the request and can be removed. It is never uploaded. Browser storage quotas and private browsing may limit persistence; the request screen displays a warning if saving fails.
+
+Profile → Language offers English, Afrikaans and isiZulu; the choice is saved on the device. Navigation, primary screen labels, categories, offer and checkout controls, requests, support, and calendar controls are localised. Shop/product names, customer-written text, older notification text and some dynamic demo messages remain in their original language. Untranslated text falls back to English; translations should receive native-speaker review before production.
