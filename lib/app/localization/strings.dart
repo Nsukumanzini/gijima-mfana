@@ -432,6 +432,49 @@ const _words = <String, (String, String)>{
   'Saved products': ('Gestoorde produkte', 'Imikhiqizo egciniwe'),
   'Notifications': ('Kennisgewings', 'Izaziso'),
   'Mark all read': ('Merk almal as gelees', 'Maka konke njengokufundiwe'),
+  'Refresh updates': ('Verfris opdaterings', 'Vuselela izaziso'),
+  'You’re all caught up': ('Jy is heeltemal op datum', 'Usunolwazi lwakamuva'),
+  'View orders': ('Bekyk bestellings', 'Buka ama-oda'),
+  'All updates marked as read': (
+    'Alle opdaterings as gelees gemerk',
+    'Zonke izaziso zimakwe njengezifundiwe'
+  ),
+  'Notification marked as read': (
+    'Kennisgewing as gelees gemerk',
+    'Isaziso simakwe njengesifundiwe'
+  ),
+  'Updates refreshed': ('Opdaterings verfris', 'Izaziso zibuyekeziwe'),
+  'Just now': ('Zo pas', 'Manje nje'),
+  'Order cancelled': ('Bestelling gekanselleer', 'I-oda likhanseliwe'),
+  'Any paid demo amount can be reviewed through support.': (
+    'Enige betaalde demobedrag kan deur ondersteuning nagegaan word.',
+    'Noma iyiphi imali yesivivinyo ekhokhiwe ingabuyekezwa ngosizo.'
+  ),
+  'Personal shopping request received': (
+    'Persoonlike inkopieversoek ontvang',
+    'Isicelo sokuthengelwa samukelwe'
+  ),
+  'Delivery quotation ready': (
+    'Afleweringskwotasie gereed',
+    'Isilinganiso sokulethwa sesilungile'
+  ),
+  'Request under review': ('Versoek word nagegaan', 'Isicelo siyabuyekezwa'),
+  'Quotation ready': ('Kwotasie gereed', 'Isilinganiso sesilungile'),
+  'Request payment': ('Versoekbetaling', 'Inkokhelo yesicelo'),
+  'Courier allocation pending': (
+    'Koeriertoewysing hangend',
+    'Ukuthola umthumeli kusalindile'
+  ),
+  'Support ticket received': (
+    'Ondersteuningsversoek ontvang',
+    'Isicelo sosizo samukelwe'
+  ),
+  'Support resolved': ('Ondersteuning afgehandel', 'Udaba losizo luxazululiwe'),
+  'Support under review': (
+    'Ondersteuning word nagegaan',
+    'Usizo luyabuyekezwa'
+  ),
+  'App update': ('Toepassingsopdatering', 'Isaziso sohlelo lokusebenza'),
   'Help centre': ('Hulpsentrum', 'Isikhungo sosizo'),
   'Help & support': ('Hulp en ondersteuning', 'Usizo nokusekelwa'),
   'How can we help?': ('Hoe kan ons help?', 'Singakusiza kanjani?'),
@@ -1096,11 +1139,11 @@ const _words = <String, (String, String)>{
     'Alledaagse gunstelinge',
     'Okuthandwayo kwansuku zonke'
   ),
-  'We’ll find it for you': (
-    'Ons sal dit vir jou vind',
-    'Sizokutholela kona'
+  'We’ll find it for you': ('Ons sal dit vir jou vind', 'Sizokutholela kona'),
+  'From A to your door': (
+    'Van A tot by jou deur',
+    'Sikusukela ku-A kuye ekhaya'
   ),
-  'From A to your door': ('Van A tot by jou deur', 'Sikusukela ku-A kuye ekhaya'),
   'All deals': ('Alle aanbiedinge', 'Konke okunikezwayo'),
   'Search deals, shops or food': (
     'Soek aanbiedinge, winkels of kos',
