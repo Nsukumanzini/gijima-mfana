@@ -13,6 +13,42 @@ final languageProvider = StateProvider<String>((ref) {
 });
 const languageNames = {'en': 'English', 'af': 'Afrikaans', 'zu': 'isiZulu'};
 const _words = <String, (String, String)>{
+  'Order status': ('Bestelstatus', 'Isimo se-oda'),
+  'Total orders': ('Totale bestellings', 'Ama-oda esewonke'),
+  'Refresh orders': ('Verfris bestellings', 'Vuselela ama-oda'),
+  'Orders refreshed': ('Bestellings verfris', 'Ama-oda avuselelwe'),
+  'Type': ('Tipe', 'Uhlobo'),
+  'Sort by': ('Sorteer volgens', 'Hlunga nge-'),
+  'All types': ('Alle tipes', 'Zonke izinhlobo'),
+  'Newest': ('Nuutste', 'Okusha kakhulu'),
+  'Oldest': ('Oudste', 'Okudala kakhulu'),
+  'Highest total': ('Hoogste totaal', 'Inani eliphezulu kakhulu'),
+  'No orders match these filters': (
+    'Geen bestellings pas by hierdie filters nie',
+    'Awekho ama-oda ahambisana nalezi zihlungi'
+  ),
+  'No orders yet': ('Nog geen bestellings nie', 'Awekho ama-oda okwamanje'),
+  'Try another status or order type.': (
+    'Probeer ’n ander status of bestellingstipe.',
+    'Zama esinye isimo noma uhlobo lwe-oda.'
+  ),
+  'Shop local or request a personal shop and delivery.': (
+    'Koop plaaslik of versoek persoonlike inkopies en aflewering.',
+    'Thenga endaweni noma ucele ukuthengelwa nokulethwa.'
+  ),
+  'Browse shops': ('Blaai deur winkels', 'Buka izitolo'),
+  'Make a request': ('Dien ’n versoek in', 'Thumela isicelo'),
+  'Order progress': ('Bestelvordering', 'Ukuqhubeka kwe-oda'),
+  'Collection': ('Afhaal', 'Ukulanda'),
+  'Reference': ('Verwysing', 'Inombolo yesithenjwa'),
+  'Recipient': ('Ontvanger', 'Umamukeli'),
+  'Collection time': ('Afhaaltyd', 'Isikhathi sokulanda'),
+  'Instructions': ('Instruksies', 'Imiyalelo'),
+  'simulated': ('gesimuleer', 'okuyisivivinyo'),
+  'Simulated refund approved': (
+    'Gesimuleerde terugbetaling goedgekeur',
+    'Ukubuyiselwa kwemali kwesivivinyo kuvunyiwe'
+  ),
   'Settings': ('Instellings', 'Izilungiselelo'),
   'Edit profile': ('Wysig profiel', 'Hlela iphrofayela'),
   'Hello': ('Hallo', 'Sawubona'),
