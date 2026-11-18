@@ -37,8 +37,33 @@ List<String> stepsFor(Record o) => o['type'] == 'Personal shopping'
         : orderSteps;
 bool covered(Record a) => ['ermelo', 'wesselton']
     .contains((a['city'] as String? ?? '').trim().toLowerCase());
-String addressText(Record a) =>
-    '${a['label']} · ${a['street']}, ${a['city']} ${a['postal']}';
+String addressText(Record a) {
+  final street = [
+    a['unit'],
+    a['building'],
+    a['street'],
+  ]
+      .whereType<String>()
+      .map((part) => part.trim())
+      .where((part) => part.isNotEmpty)
+      .join(', ');
+  final area = [
+    a['suburb'],
+    a['city'],
+    a['province'],
+  ]
+      .whereType<String>()
+      .map((part) => part.trim())
+      .where((part) => part.isNotEmpty)
+      .join(', ');
+  final postal = (a['postal'] as String? ?? '').trim();
+  final location = [area, postal].where((part) => part.isNotEmpty).join(' ');
+  return '${a['label']} · ${[
+    street,
+    location
+  ].where((part) => part.isNotEmpty).join(', ')}';
+}
+
 int deliveryFee(String merchant) =>
     merchant == 'KFC' || merchant == 'McDonald’s' ? 2990 : 2500;
 int minimumOrder(String merchant) =>
@@ -111,16 +136,24 @@ class CommerceController extends Notifier<DemoState> {
                 'id': 'home',
                 'label': 'Home',
                 'street': '12 Acacia Street',
+                'building': 'Acacia Place',
+                'suburb': 'Central Ermelo',
                 'city': 'Ermelo',
+                'province': 'Mpumalanga',
                 'postal': '2351',
+                'pinLabel': 'Town centre',
                 'default': true
               },
               {
                 'id': 'work',
                 'label': 'Work',
                 'street': '8 Church Street',
+                'building': 'Church Office Park',
+                'suburb': 'Ermelo CBD',
                 'city': 'Ermelo',
+                'province': 'Mpumalanga',
                 'postal': '2351',
+                'pinLabel': 'Near my street',
                 'default': false
               },
             ]

@@ -742,6 +742,173 @@ const _words = <String, (String, String)>{
     'Umthumeli wabelwa ngemva kokukhokha nokulungiselela.'
   ),
   'Add photo': ('Voeg foto by', 'Faka isithombe'),
+  'Your places': ('Jou plekke', 'Izindawo zakho'),
+  'Manage delivery locations and choose where your demo order goes.': (
+    'Bestuur afleweringsplekke en kies waar jou demo-bestelling afgelewer word.',
+    'Phatha izindawo zokuletha bese ukhetha lapho kuzolethwa khona i-oda lesivivinyo.'
+  ),
+  'Saved places': ('Gestoorde plekke', 'Izindawo ezigciniwe'),
+  'Check delivery coverage': (
+    'Kyk na afleweringsdekking',
+    'Hlola indawo yokuletha'
+  ),
+  'Enter a town or four-digit postal code to check the demo area.': (
+    'Voer ’n dorp of vier-syfer-poskode in om die demo-area na te gaan.',
+    'Faka idolobha noma ikhodi yeposi enezinombolo ezine ukuze uhlole indawo yesivivinyo.'
+  ),
+  'Town or postal code': ('Dorp of poskode', 'Idolobha noma ikhodi yeposi'),
+  'e.g. Ermelo or 2351': ('bv. Ermelo of 2351', 'isib. i-Ermelo noma u-2351'),
+  'Check coverage': ('Kyk na dekking', 'Hlola indawo'),
+  'Coverage is available for this demo.': (
+    'Aflewering is vir hierdie demo beskikbaar.',
+    'Ukuletha kuyatholakala kulesi sivivinyo.'
+  ),
+  'This location is outside the demo area. You can still save it.': (
+    'Hierdie plek is buite die demo-area. Jy kan dit steeds stoor.',
+    'Le ndawo ingaphandle kwendawo yesivivinyo. Usengayigcina.'
+  ),
+  'Checked location:': ('Plek nagegaan:', 'Indawo ehloliwe:'),
+  'Demo area: Ermelo and Wesselton · postal code 2351.': (
+    'Demo-area: Ermelo en Wesselton · poskode 2351.',
+    'Indawo yesivivinyo: i-Ermelo ne-Wesselton · ikhodi yeposi 2351.'
+  ),
+  'Demo area: Ermelo and Wesselton · postal code 2351': (
+    'Demo-area: Ermelo en Wesselton · poskode 2351',
+    'Indawo yesivivinyo: i-Ermelo ne-Wesselton · ikhodi yeposi 2351'
+  ),
+  'addresses': ('adresse', 'amakheli'),
+  'address': ('adres', 'ikheli'),
+  'Add delivery address': ('Voeg afleweringsadres by', 'Faka ikheli lokuletha'),
+  'Default address': ('Verstekadres', 'Ikheli eliyinhloko'),
+  'Delivery available': ('Aflewering beskikbaar', 'Ukuletha kuyatholakala'),
+  'Outside demo area': ('Buite demo-area', 'Ngaphandle kwendawo yesivivinyo'),
+  'Estimate · 25–40 min': (
+    'Raming · 25–40 min',
+    'Isilinganiso · imizuzu 25–40'
+  ),
+  'Estimate unavailable': (
+    'Raming nie beskikbaar nie',
+    'Isilinganiso asitholakali'
+  ),
+  'Demo delivery fee varies by shop': (
+    'Demo-afleweringsfooi verskil per winkel',
+    'Imali yokuletha yesivivinyo iyahlukahluka ngesitolo'
+  ),
+  'Demo pin': ('Demo-pen', 'Iphini lesivivinyo'),
+  'Illustrative demo map': (
+    'Illustratiewe demokaart',
+    'Imephu yesivivinyo eyisibonelo'
+  ),
+  'Saved address': ('Gestoorde adres', 'Ikheli eligciniwe'),
+  'Work': ('Werk', 'Emsebenzini'),
+  'No delivery addresses yet': (
+    'Nog geen afleweringsadresse nie',
+    'Awekho amakheli okuletha okwamanje'
+  ),
+  'Add a place to make checkout quicker. This prototype uses local demo details.':
+      (
+    'Voeg ’n plek by om afhandeling vinniger te maak. Hierdie prototipe gebruik plaaslike demobesonderhede.',
+    'Faka indawo ukuze ukhokhe ngokushesha. Lesi sivivinyo sisebenzisa imininingwane eyisibonelo egcinwe kule divayisi.'
+  ),
+  'Add your first address': (
+    'Voeg jou eerste adres by',
+    'Faka ikheli lakho lokuqala'
+  ),
+  'Address actions': ('Adresaksies', 'Izenzo zekheli'),
+  'Edit address': ('Wysig adres', 'Hlela ikheli'),
+  'Make default': ('Stel as verstek', 'Beka njengekheli eliyinhloko'),
+  'Remove address': ('Verwyder adres', 'Susa ikheli'),
+  'Remove this address?': ('Verwyder hierdie adres?', 'Ususe leli kheli?'),
+  'You can add it again later. Existing orders keep their saved address.': (
+    'Jy kan dit later weer byvoeg. Bestaande bestellings behou hul gestoorde adres.',
+    'Ungalifaka futhi kamuva. Ama-oda akhona azogcina ikheli lawo elilondoloziwe.'
+  ),
+  'Address removed.': ('Adres verwyder.', 'Ikheli lisusiwe.'),
+  'Default address updated.': (
+    'Verstekadres opgedateer.',
+    'Ikheli eliyinhloko libuyekeziwe.'
+  ),
+  'Close': ('Sluit', 'Vala'),
+  'Edit delivery address': ('Wysig afleweringsadres', 'Hlela ikheli lokuletha'),
+  'Address details': ('Adresbesonderhede', 'Imininingwane yekheli'),
+  'Local example only: 12 Acacia Street, Ermelo, Mpumalanga 2351.': (
+    'Slegs ’n plaaslike voorbeeld: 12 Acacia Street, Ermelo, Mpumalanga 2351.',
+    'Isibonelo sendawo kuphela: 12 Acacia Street, e-Ermelo, eMpumalanga 2351.'
+  ),
+  'Address label': ('Adresbenaming', 'Igama lekheli'),
+  'e.g. Home or Work': ('bv. Tuis of Werk', 'isib. Ekhaya noma Emsebenzini'),
+  'Unit or apartment number': (
+    'Eenheid- of woonstelnommer',
+    'Inombolo yefulethi'
+  ),
+  'e.g. Flat 4': ('bv. Woonstel 4', 'isib. Ifulethi 4'),
+  'Building or complex name (optional)': (
+    'Gebou- of kompleksnaam (opsioneel)',
+    'Igama lesakhiwo noma lendawo yokuhlala (uma uthanda)'
+  ),
+  'e.g. Acacia Court': ('bv. Acacia Court', 'isib. i-Acacia Court'),
+  'Street address': ('Straatadres', 'Ikheli lomgwaqo'),
+  'e.g. 12 Acacia Street': ('bv. 12 Acacia Street', 'isib. 12 Acacia Street'),
+  'Suburb (optional)': (
+    'Voorstad (opsioneel)',
+    'Indawo yokuhlala (uma uthanda)'
+  ),
+  'e.g. Ermelo Central': ('bv. Sentraal-Ermelo', 'isib. e-Central Ermelo'),
+  'Town / city': ('Dorp / stad', 'Idolobha'),
+  'e.g. Ermelo': ('bv. Ermelo', 'isib. i-Ermelo'),
+  'Province': ('Provinsie', 'Isifundazwe'),
+  'e.g. Mpumalanga': ('bv. Mpumalanga', 'isib. iMpumalanga'),
+  'Enter a label such as Home or Work.': (
+    'Voer ’n benaming soos Tuis of Werk in.',
+    'Faka igama elifana nelithi Ekhaya noma Emsebenzini.'
+  ),
+  'Enter a street address.': (
+    'Voer ’n straatadres in.',
+    'Faka ikheli lomgwaqo.'
+  ),
+  'Enter a town or city.': ('Voer ’n dorp of stad in.', 'Faka idolobha.'),
+  'Enter a four-digit South African postal code.': (
+    'Voer ’n Suid-Afrikaanse poskode van vier syfers in.',
+    'Faka ikhodi yeposi yaseNingizimu Afrika enezinombolo ezine.'
+  ),
+  'Delivery available for this demo address.': (
+    'Aflewering is vir hierdie demo-adres beskikbaar.',
+    'Ukuletha kuyatholakala kuleli kheli lesivivinyo.'
+  ),
+  'Outside the demo area. You can save this address for later.': (
+    'Buite die demo-area. Jy kan hierdie adres vir later stoor.',
+    'Ngaphandle kwendawo yesivivinyo. Ungaligcina leli kheli ukuze ulisebenzise kamuva.'
+  ),
+  'Illustrative map pin': (
+    'Illustratiewe kaartpen',
+    'Iphini lemephu eliyisibonelo'
+  ),
+  'Choose demo pin': ('Kies demo-pen', 'Khetha iphini lesivivinyo'),
+  'This demo pin uses the town only; it does not use live location.': (
+    'Hierdie demo-pen gebruik slegs die dorp; dit gebruik nie jou lewendige ligging nie.',
+    'Leli phini lesivivinyo lisebenzisa idolobha kuphela; alisebenzisi indawo yakho yangempela.'
+  ),
+  'Delivery instructions': ('Afleweringsinstruksies', 'Imiyalelo yokuletha'),
+  'Directions for driver (optional)': (
+    'Aanwysings vir bestuurder (opsioneel)',
+    'Imiyalelo yomshayeli (uma uthanda)'
+  ),
+  'Gate code, landmark or where to leave the order': (
+    'Heknommer, baken of waar om die bestelling te los',
+    'Ikhodi yesango, uphawu lwendawo noma lapho kushiywa khona i-oda'
+  ),
+  'Save address': ('Stoor adres', 'Gcina ikheli'),
+  'Please complete this field.': (
+    'Voltooi asseblief hierdie veld.',
+    'Sicela ugcwalise le ngxenye.'
+  ),
+  'Choose a demo pin location': (
+    'Kies ’n demo-penplek',
+    'Khetha indawo yephini lesivivinyo'
+  ),
+  'Town centre': ('Dorpsentrum', 'Enkabeni yedolobha'),
+  'Near my street': ('Naby my straat', 'Eduze nomgwaqo wami'),
+  'Undo': ('Ontdoen', 'Hlehlisa'),
 };
 String tr(BuildContext context, String text) {
   final language = Localizations.maybeLocaleOf(context)?.languageCode ?? 'en';
