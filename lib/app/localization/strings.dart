@@ -97,6 +97,132 @@ const _words = <String, (String, String)>{
     'Okuhle okuvela eduze nawe.'
   ),
   'Checkout': ('Betaalpunt', 'Khokha'),
+  'Review and confirm': ('Hersien en bevestig', 'Buyekeza futhi uqinisekise'),
+  'Your local Mzansi marketplace': (
+    'Jou plaaslike Mzansi-mark',
+    'Imakethe yakho yaseMzansi'
+  ),
+  'Add a local favourite before you check out.': (
+    'Voeg ’n plaaslike gunsteling by voordat jy betaal.',
+    'Faka okuthandayo kwasendaweni ngaphambi kokukhokha.'
+  ),
+  'Check your delivery details, items and total before payment.': (
+    'Gaan jou afleweringsbesonderhede, items en totaal na voordat jy betaal.',
+    'Hlola imininingwane yokulethwa, izinto nesamba ngaphambi kokukhokha.'
+  ),
+  'Order from': ('Bestelling by', 'I-oda livela ku'),
+  'Delivery details': ('Afleweringsbesonderhede', 'Imininingwane yokulethwa'),
+  'Review order': ('Hersien bestelling', 'Buyekeza i-oda'),
+  'Review your order': ('Hersien jou bestelling', 'Buyekeza i-oda lakho'),
+  'Choose a payment method': (
+    'Kies ’n betaalmetode',
+    'Khetha indlela yokukhokha'
+  ),
+  'Demo payment options': (
+    'Demo-betalingsopsies',
+    'Izinketho zokukhokha zesivivinyo'
+  ),
+  'Preview only · no real payment': (
+    'Slegs voorskou · geen regte betaling nie',
+    'Ukubuka kuqala kuphela · akukho nkokhelo yangempela'
+  ),
+  'Gate code, unit or helpful directions': (
+    'Hek kode, eenheid of nuttige aanwysings',
+    'Ikhodi yesango, inombolo yendawo noma izinkomba'
+  ),
+  'Choose delivery address': (
+    'Kies afleweringsadres',
+    'Khetha ikheli lokulethwa'
+  ),
+  'No delivery addresses saved yet.': (
+    'Geen afleweringsadresse is nog gestoor nie.',
+    'Awekho amakheli okulethwa agciniwe okwamanje.'
+  ),
+  'Change delivery address': (
+    'Verander afleweringsadres',
+    'Shintsha ikheli lokulethwa'
+  ),
+  'Default': ('Verstek', 'Okuzenzakalelayo'),
+  'Outside delivery area': (
+    'Buite die afleweringsgebied',
+    'Ngaphandle kwendawo yokuletha'
+  ),
+  'Delivery available · Ermelo': (
+    'Aflewering beskikbaar · Ermelo',
+    'Ukuletha kuyatholakala · Ermelo'
+  ),
+  'No delivery address chosen.': (
+    'Geen afleweringsadres gekies nie.',
+    'Alikho ikheli lokulethwa elikhethiwe.'
+  ),
+  'Choose address': ('Kies adres', 'Khetha ikheli'),
+  'Change delivery time': (
+    'Verander afleweringstyd',
+    'Shintsha isikhathi sokulethwa'
+  ),
+  'Choose a delivery date': (
+    'Kies ’n afleweringsdatum',
+    'Khetha usuku lokulethwa'
+  ),
+  'Choose a delivery time': (
+    'Kies ’n afleweringstyd',
+    'Khetha isikhathi sokulethwa'
+  ),
+  'Use LOCAL10 for 10% off items, up to R 50.': (
+    'Gebruik LOCAL10 vir 10% afslag op items, tot R 50.',
+    'Sebenzisa i-LOCAL10 ukuthola u-10% esaphulelweni, kufika ku-R 50.'
+  ),
+  'Discount removed': ('Afslag verwyder', 'Isaphulelo sisusiwe'),
+  'Update code': ('Werk kode by', 'Buyekeza ikhodi'),
+  'LOCAL10 applied': ('LOCAL10 toegepas', 'I-LOCAL10 isetshenzisiwe'),
+  'Code not recognised. Try LOCAL10.': (
+    'Kode nie herken nie. Probeer LOCAL10.',
+    'Ikhodi ayaziwa. Zama i-LOCAL10.'
+  ),
+  'Courier delivery from your local shop.': (
+    'Koerieraflewering vanaf jou plaaslike winkel.',
+    'Ukulethwa yisithunywa okuvela esitolo sakini.'
+  ),
+  'Helps with order support and secure checkout.': (
+    'Help met bestellingsondersteuning en veilige betaalpunt.',
+    'Kusiza ngokwesekwa kwama-oda nangokukhokha okuphephile.'
+  ),
+  'Final order review': (
+    'Finale bestellingsoorsig',
+    'Ukubuyekezwa kokugcina kwe-oda'
+  ),
+  'Choose a covered Ermelo or Wesselton address.': (
+    'Kies ’n adres binne Ermelo of Wesselton.',
+    'Khetha ikheli lase-Ermelo noma e-Wesselton.'
+  ),
+  'Please check the highlighted checkout details.': (
+    'Gaan die gemerkte betaalbesonderhede na.',
+    'Hlola imininingwane yokukhokha egqanyisiwe.'
+  ),
+  'Add items to reach the shop minimum': (
+    'Voeg items by om die winkel se minimum te bereik',
+    'Faka izinto ukuze ufinyelele inani eliphansi lesitolo'
+  ),
+  'Processing…': ('Verwerk tans…', 'Kuyacutshungulwa…'),
+  'Confirm demo payment': (
+    'Bevestig demo-betaling',
+    'Qinisekisa inkokhelo yesivivinyo'
+  ),
+  'Total to pay': ('Totaal betaalbaar', 'Isamba esizokhokhwa'),
+  'Local shop': ('Plaaslike winkel', 'Isitolo sasendaweni'),
+  'Browse local shops': (
+    'Blaai deur plaaslike winkels',
+    'Buka izitolo zasendaweni'
+  ),
+  'Shop minimum reached for': (
+    'Winkelminimum bereik vir',
+    'Kufinyelelwe enanini eliphansi lesitolo se'
+  ),
+  'Add': ('Voeg by', 'Faka'),
+  'to reach the minimum for': (
+    'om die minimum te bereik vir',
+    'ukuze ufinyelele inani eliphansi le'
+  ),
   'Delivery address': ('Afleweringsadres', 'Ikheli lokulethwa'),
   'Manage delivery addresses': (
     'Bestuur afleweringsadresse',
