@@ -1048,6 +1048,64 @@ const _words = <String, (String, String)>{
   'Town centre': ('Dorpsentrum', 'Enkabeni yedolobha'),
   'Near my street': ('Naby my straat', 'Eduze nomgwaqo wami'),
   'Undo': ('Ontdoen', 'Hlehlisa'),
+  'All deals': ('Alle aanbiedinge', 'Konke okunikezwayo'),
+  'Search deals, shops or food': (
+    'Soek aanbiedinge, winkels of kos',
+    'Sesha okunikezwayo, izitolo noma ukudla'
+  ),
+  'Local shop offers': (
+    'Plaaslike winkel-aanbiedinge',
+    'Okunikezwa izitolo zasendaweni'
+  ),
+  'offers': ('aanbiedinge', 'okunikezwayo'),
+  'Sample promotions · no live merchant promotions': (
+    'Voorbeeldpromosies · geen regstreekse winkelpromosies nie',
+    'Izaphulelo zesibonelo · azikho izaphulelo zesitolo ezibukhoma'
+  ),
+  'Ends 30 Nov 2026': ('Eindig 30 Nov 2026', 'Iphela ngomhlaka-30 Nov 2026'),
+  'Your estimated savings': (
+    'Jou beraamde besparing',
+    'Imali olinganiselwa ukuyonga'
+  ),
+  'Add items to see your savings. Maximum R 50 at R 500 in items.': (
+    'Voeg items by om jou besparing te sien. Maksimum R 50 by R 500 se items.',
+    'Faka izinto ukuze ubone ukonga kwakho. Ubuningi buka-R 50 uma unezinto zika-R 500.'
+  ),
+  'Savings progress · maximum R 50 at R 500 in items.': (
+    'Besparingsvordering · maksimum R 50 by R 500 se items.',
+    'Ukuqhubeka kokonga · ubuningi buka-R 50 uma unezinto zika-R 500.'
+  ),
+  'LOCAL10 · 10% off': ('LOCAL10 · 10% afslag', 'LOCAL10 · 10% isephulelo'),
+  'LOCAL10 copied': ('LOCAL10 gekopieer', 'I-LOCAL10 ikopishiwe'),
+  'Use code LOCAL10 at checkout': (
+    'Gebruik kode LOCAL10 by betaalpunt',
+    'Sebenzisa ikhodi i-LOCAL10 lapho ukhokha'
+  ),
+  'Shop minimums vary by store and still apply at checkout.': (
+    'Winkelminimums verskil per winkel en geld steeds by betaalpunt.',
+    'Inani elincane le-oda liyahluka ngesitolo futhi lisasebenza lapho ukhokha.'
+  ),
+  'Different shop': ('Ander winkel', 'Esinye isitolo'),
+  'Add to basket': ('Voeg by mandjie', 'Faka kubhasikidi'),
+  'Added to basket': ('By mandjie gevoeg', 'Kufakwe kubhasikidi'),
+  'Your basket has items from another shop. Finish or clear that basket first.':
+      (
+    'Jou mandjie bevat items van ’n ander winkel. Voltooi of maak eers daardie mandjie leeg.',
+    'Ubhasikidi wakho unezinto ezivela kwesinye isitolo. Qedela noma usule lowo bhasikidi kuqala.'
+  ),
+  'Demo offers use sample data and prices. LOCAL10 is the working checkout code; it takes 10% off items up to R 50. Delivery and service fees are excluded.':
+      (
+    'Demo-aanbiedinge gebruik voorbeelddata en pryse. LOCAL10 is die werkende betaalkode; dit gee 10% afslag op items tot R 50. Aflewerings- en diensfooie is uitgesluit.',
+    'Izipesheli zesivivinyo zisebenzisa idatha nezintengo zesibonelo. I-LOCAL10 iyikhodi esebenza lapho ukhokha; yehlisa u-10% ezintweni kuze kufike ku-R 50. Izindleko zokuletha nezesevisi azifakiwe.'
+  ),
+  'No deals match your search.': (
+    'Geen aanbiedinge pas by jou soektog nie.',
+    'Akukho okunikezwayo okufana nosesho lwakho.'
+  ),
+  'Try another shop or food': (
+    'Probeer ’n ander winkel of kos',
+    'Zama esinye isitolo noma okunye ukudla'
+  ),
 };
 String tr(BuildContext context, String text) {
   final language = Localizations.maybeLocaleOf(context)?.languageCode ?? 'en';
