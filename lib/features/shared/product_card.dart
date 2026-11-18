@@ -8,8 +8,10 @@ import '../../app/theme/app_theme.dart';
 import 'product_visual.dart';
 
 class ProductCard extends ConsumerWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard(
+      {super.key, required this.product, this.showDeliveryEstimate = false});
   final ShopProduct product;
+  final bool showDeliveryEstimate;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favorites = ref.watch(favoritesProvider);
@@ -61,7 +63,25 @@ class ProductCard extends ConsumerWidget {
                                       fontWeight: FontWeight.w800))),
                           AppText('★ ${product.rating}',
                               style: const TextStyle(fontSize: 11))
-                        ])
+                        ]),
+                        if (showDeliveryEstimate) ...[
+                          const SizedBox(height: 5),
+                          Row(children: [
+                            const Icon(Icons.schedule_outlined,
+                                size: 13, color: Brand.green),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: AppText(
+                                  product.category == 'Restaurants'
+                                      ? '25–35 min · Demo'
+                                      : '35–45 min · Demo',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: Brand.green, fontSize: 11)),
+                            ),
+                          ])
+                        ]
                       ]))
             ])));
   }

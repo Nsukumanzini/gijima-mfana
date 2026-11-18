@@ -1048,6 +1048,59 @@ const _words = <String, (String, String)>{
   'Town centre': ('Dorpsentrum', 'Enkabeni yedolobha'),
   'Near my street': ('Naby my straat', 'Eduze nomgwaqo wami'),
   'Undo': ('Ontdoen', 'Hlehlisa'),
+  'Recent searches': ('Onlangse soektogte', 'Usesho lwakamuva'),
+  'Clear history': ('Vee geskiedenis uit', 'Sula umlando'),
+  'Your recently viewed items will appear here.': (
+    'Items wat jy onlangs bekyk het, sal hier verskyn.',
+    'Izinto ozibuke kamuva zizovela lapha.'
+  ),
+  'Explore local favourites to get started.': (
+    'Ontdek plaaslike gunstelinge om te begin.',
+    'Hlola okuthandwayo kwasendaweni ukuze uqale.'
+  ),
+  'Local is lekker.': ('Plaaslik is lekker.', 'Okwasendaweni kumnandi.'),
+  'Find Ermelo neighbourhood favourites': (
+    'Vind gunstelinge in Ermelo se buurt',
+    'Thola okuthandwayo komakhelwane base-Ermelo'
+  ),
+  'A proper lunch break.': (
+    '’n Behoorlike middagete.',
+    'Isidlo sasemini esimnandi.'
+  ),
+  'Peri-peri, pap and flame-grilled favourites': (
+    'Peri-peri, pap en gunstelinge van die vlamrooster',
+    'I-peri-peri, uphuthu nokuthandwayo okosiwe elangabini'
+  ),
+  'Fresh for the week.': ('Vars vir die week.', 'Okusha kweviki.'),
+  'From local produce to your kitchen': (
+    'Van plaaslike varsprodukte tot in jou kombuis',
+    'Kusuka emikhiqizweni yasendaweni kuya ekhishini lakho'
+  ),
+  'Up to R 50 off items with LOCAL10': (
+    'Tot R 50 afslag op items met LOCAL10',
+    'Kufika ku-R 50 wesaphulelo ngezinto nge-LOCAL10'
+  ),
+  'Estimated savings': ('Geskatte besparing', 'Imali elinganiselwa ukonga'),
+  'Sort local shops': (
+    'Sorteer plaaslike winkels',
+    'Hlela izitolo zasendaweni'
+  ),
+  'Recommended': ('Aanbeveel', 'Kunconyiwe'),
+  'Top rated': ('Hoogste gradering', 'Ezikalwe kakhulu'),
+  'Fastest delivery': ('Vinnigste aflewering', 'Ukulethwa okushesha kakhulu'),
+  '25–35 min · Demo': ('25–35 min · Demo', '25–35 imin · Isivivinyo'),
+  '30–40 min · Demo': ('30–40 min · Demo', '30–40 imin · Isivivinyo'),
+  '35–45 min · Demo': ('35–45 min · Demo', '35–45 imin · Isivivinyo'),
+  'Back to top': ('Terug na bo', 'Buyela phezulu'),
+  'Everyday favourites': (
+    'Alledaagse gunstelinge',
+    'Okuthandwayo kwansuku zonke'
+  ),
+  'We’ll find it for you': (
+    'Ons sal dit vir jou vind',
+    'Sizokutholela kona'
+  ),
+  'From A to your door': ('Van A tot by jou deur', 'Sikusukela ku-A kuye ekhaya'),
   'All deals': ('Alle aanbiedinge', 'Konke okunikezwayo'),
   'Search deals, shops or food': (
     'Soek aanbiedinge, winkels of kos',
