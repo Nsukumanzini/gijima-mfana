@@ -3,33 +3,56 @@ import 'package:flutter/material.dart';
 import 'catalog.dart';
 
 class ShopCategory {
-  const ShopCategory(this.id, this.name, this.icon, this.description);
+  const ShopCategory(this.id, this.name, this.icon, this.description,
+      {this.imageAsset,
+      this.illustration = '🛍️',
+      this.isPopular = false,
+      this.isNew = false});
   final String id, name, description;
   final IconData icon;
+  final String? imageAsset;
+  final String illustration;
+  final bool isPopular, isNew;
   int get count => products.where((p) => p.category == name).length;
 }
 
 const shopCategories = [
   ShopCategory('groceries', 'Groceries', Icons.shopping_basket_outlined,
-      'Everyday pantry favourites'),
+      'Everyday pantry favourites',
+      imageAsset: 'assets/images/groceries.jpg',
+      illustration: '🥚',
+      isPopular: true),
   ShopCategory('restaurants', 'Restaurants', Icons.restaurant_outlined,
-      'Meals, burgers & chicken'),
+      'Meals, burgers & chicken',
+      imageAsset: 'assets/images/chicken.jpg',
+      illustration: '🍗',
+      isPopular: true),
   ShopCategory('fresh-produce', 'Fresh produce', Icons.eco_outlined,
-      'Fruit & vegetables'),
+      'Fruit & vegetables',
+      imageAsset: 'assets/images/groceries.jpg',
+      illustration: '🍊',
+      isPopular: true),
   ShopCategory('bakery', 'Bakery', Icons.bakery_dining_outlined,
-      'Fresh bread & baked treats'),
+      'Fresh bread & baked treats',
+      illustration: '🍞'),
   ShopCategory('convenience', 'Convenience',
-      Icons.local_convenience_store_outlined, 'Quick snacks & essentials'),
+      Icons.local_convenience_store_outlined, 'Quick snacks & essentials',
+      illustration: '🥤'),
   ShopCategory('electronics', 'Electronics', Icons.headphones_outlined,
-      'Useful tech & accessories'),
+      'Useful tech & accessories',
+      illustration: '🎧', isNew: true),
   ShopCategory(
-      'fashion', 'Fashion', Icons.checkroom_outlined, 'Everyday clothing'),
+      'fashion', 'Fashion', Icons.checkroom_outlined, 'Everyday clothing',
+      illustration: '👕', isNew: true),
   ShopCategory(
-      'beauty', 'Beauty', Icons.spa_outlined, 'Personal care favourites'),
+      'beauty', 'Beauty', Icons.spa_outlined, 'Personal care favourites',
+      illustration: '🧴', isNew: true),
   ShopCategory('household', 'Household', Icons.chair_outlined,
-      'Essentials for your home'),
+      'Essentials for your home',
+      illustration: '🧺'),
   ShopCategory('stationery', 'Stationery', Icons.edit_note_outlined,
-      'School & office supplies'),
+      'School & office supplies',
+      illustration: '📚'),
 ];
 
 ShopCategory? categoryById(String? id) {

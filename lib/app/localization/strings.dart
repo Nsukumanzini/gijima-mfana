@@ -705,6 +705,19 @@ const _words = <String, (String, String)>{
     'Alledaagse koskasgunstelinge',
     'Okuthandwayo kwasekhishini nsuku zonke'
   ),
+  'item': ('item', 'umkhiqizo'),
+  'items': ('items', 'imikhiqizo'),
+  'Popular': ('Gewild', 'Okudumile'),
+  'New': ('Nuut', 'Okusha'),
+  'Clear search': ('Vee soektog uit', 'Sula usesho'),
+  'No categories match your search.': (
+    'Geen kategorieë pas by jou soektog nie.',
+    'Azikho izigaba ezihambisana nosesho lwakho.'
+  ),
+  'Try another search or clear it to see everything.': (
+    'Probeer ’n ander soektog of vee dit uit om alles te sien.',
+    'Zama olunye usesho noma ulusule ukuze ubone konke.'
+  ),
   'Meals, burgers & chicken': (
     'Etes, burgers en hoender',
     'Ukudla, amabhega nenkukhu'
