@@ -9,9 +9,15 @@ import 'product_visual.dart';
 
 class ProductCard extends ConsumerWidget {
   const ProductCard(
-      {super.key, required this.product, this.showDeliveryEstimate = false});
+      {super.key,
+      required this.product,
+      this.showDeliveryEstimate = false,
+      this.highlightQuery = '',
+      this.showCategory = false});
   final ShopProduct product;
   final bool showDeliveryEstimate;
+  final String highlightQuery;
+  final bool showCategory;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favorites = ref.watch(favoritesProvider);
@@ -31,29 +37,41 @@ class ProductCard extends ConsumerWidget {
                     right: 7,
                     top: 7,
                     child: IconButton.filledTonal(
+                        tooltip: tr(context,
+                            saved ? 'Remove from favourites' : 'Save to favourites'),
                         onPressed: () =>
                             ref.read(favoritesProvider.notifier).state = saved
                                 ? ({...favorites}..remove(product.name))
                                 : ({...favorites, product.name}),
-                        icon: Icon(
-                            saved ? Icons.favorite : Icons.favorite_border,
-                            color: saved ? Brand.green : null)))
+                        icon: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 180),
+                          child: Icon(
+                              saved ? Icons.favorite : Icons.favorite_border,
+                              key: ValueKey(saved),
+                              color: saved ? Brand.green : null),
+                        )))
               ])),
               Padding(
                   padding: const EdgeInsets.fromLTRB(12, 9, 12, 12),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppText(product.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
+                        _HighlightedProductName(
+                            name: tr(context, product.name),
+                            query: highlightQuery),
                         AppText(product.store,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 11, color: Colors.black54)),
+                        if (showCategory)
+                          AppText(tr(context, product.category),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  color: Brand.green,
+                                  fontWeight: FontWeight.w700)),
                         const SizedBox(height: 5),
                         Row(children: [
                           Expanded(
@@ -84,5 +102,37 @@ class ProductCard extends ConsumerWidget {
                         ]
                       ]))
             ])));
+  }
+}
+
+class _HighlightedProductName extends StatelessWidget {
+  const _HighlightedProductName({required this.name, required this.query});
+  final String name;
+  final String query;
+
+  @override
+  Widget build(BuildContext context) {
+    final match = query.trim();
+    final start = match.isEmpty ? -1 : name.toLowerCase().indexOf(match.toLowerCase());
+    if (start < 0) {
+      return AppText(name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.bold));
+    }
+    final end = start + match.length;
+    return Text.rich(
+      TextSpan(children: [
+        TextSpan(text: name.substring(0, start)),
+        TextSpan(
+            text: name.substring(start, end),
+            style: const TextStyle(
+                color: Brand.green, backgroundColor: Brand.mint)),
+        TextSpan(text: name.substring(end)),
+      ]),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
   }
 }
