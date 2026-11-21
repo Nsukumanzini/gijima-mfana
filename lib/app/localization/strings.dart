@@ -13,6 +13,66 @@ final languageProvider = StateProvider<String>((ref) {
 });
 const languageNames = {'en': 'English', 'af': 'Afrikaans', 'zu': 'isiZulu'};
 const _words = <String, (String, String)>{
+  'Total requests': ('Totale versoeke', 'Izicelo sezizonke'),
+  'In progress': ('Aan die gang', 'Kuyaqhubeka'),
+  'Action needed': ('Aksie nodig', 'Kudingeka isenzo'),
+  'Complete': ('Voltooi', 'Kuqediwe'),
+  'Start a request': ('Begin ’n versoek', 'Qala isicelo'),
+  'Start shopping request': (
+    'Begin ’n inkopieversoek',
+    'Qala isicelo sokuthengelwa'
+  ),
+  'Get collection quote': (
+    'Kry ’n afhaal-kwotasie',
+    'Thola isilinganiso sokulanda'
+  ),
+  'requests shown': ('versoeke gewys', 'izicelo ezibonisiwe'),
+  'Requests refreshed': ('Versoeke verfris', 'Izicelo zibuyekeziwe'),
+  'Refresh requests': ('Verfris versoeke', 'Vuselela izicelo'),
+  'No requests match this filter': (
+    'Geen versoeke pas by hierdie filter nie',
+    'Azikho izicelo ezihambisana nalesi sihlungi'
+  ),
+  'No requests yet': ('Nog geen versoeke nie', 'Azikho izicelo okwamanje'),
+  'Choose another status to see your requests.': (
+    'Kies ’n ander status om jou versoeke te sien.',
+    'Khetha esinye isimo ukuze ubone izicelo zakho.'
+  ),
+  'Start a personal shopping or collection request above.': (
+    'Begin hierbo ’n persoonlike inkopie- of afhaalversoek.',
+    'Qala isicelo sokuthengelwa noma sokulanda ngenhla.'
+  ),
+  'Required details complete': (
+    'Vereiste besonderhede voltooi',
+    'Imininingwane edingekayo iphelele'
+  ),
+  'Complete the required details to send your request.': (
+    'Voltooi die vereiste besonderhede om jou versoek te stuur.',
+    'Gcwalisa imininingwane edingekayo ukuze uthumele isicelo.'
+  ),
+  'Request details': ('Versoekbesonderhede', 'Imininingwane yesicelo'),
+  'Tell us what needs to be collected and delivered.': (
+    'Vertel ons wat afgehaal en afgelewer moet word.',
+    'Sitshele ukuthi yini okufanele ilandwe futhi ilethwe.'
+  ),
+  'Describe the item and where you would like us to look.': (
+    'Beskryf die item en waar ons daarna moet soek.',
+    'Chaza into nendawo ongathanda siyibheke kuyo.'
+  ),
+  'A photo can help identify the item you need.': (
+    '’n Foto kan help om die item te identifiseer.',
+    'Isithombe singasiza ukukhomba into oyidingayo.'
+  ),
+  'Current step': ('Huidige stap', 'Isinyathelo samanje'),
+  'Upcoming': ('Volgende', 'Okuzayo'),
+  'Closed': ('Gesluit', 'Kuvaliwe'),
+  'Selected reference photo': (
+    'Geselekteerde verwysingsfoto',
+    'Isithombe esikhethiwe esiyisibonelo'
+  ),
+  'Description': ('Beskrywing', 'Incazelo'),
+  'Business': ('Besigheid', 'Ibhizinisi'),
+  'Item budget': ('Itembegroting', 'Isabelomali sento'),
   'Shopping & account': ('Inkopies en rekening', 'Ukuthenga ne-akhawunti'),
   'No delivery address saved': (
     'Geen afleweringsadres gestoor nie',
