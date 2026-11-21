@@ -13,6 +13,108 @@ final languageProvider = StateProvider<String>((ref) {
 });
 const languageNames = {'en': 'English', 'af': 'Afrikaans', 'zu': 'isiZulu'};
 const _words = <String, (String, String)>{
+  'Preferences': ('Voorkeure', 'Okuncamelayo'),
+  'Settings at a glance': (
+    'Instellings in ’n oogopslag',
+    'Izilungiselelo ngokubuka nje'
+  ),
+  'All on': ('Alles aan', 'Konke kuvuliwe'),
+  'Some on': ('Sommige aan', 'Okunye kuvuliwe'),
+  'Off': ('Af', 'Kuvaliwe'),
+  'Help & privacy': ('Hulp en privaatheid', 'Usizo nobumfihlo'),
+  'Delivery and order status changes.': (
+    'Aflewerings- en bestelstatusveranderinge.',
+    'Izinguquko zesimo se-oda nokulethwa.'
+  ),
+  'Request reviews, quotations and progress.': (
+    'Versoekhersienings, kwotasies en vordering.',
+    'Ukubuyekezwa kwezicelo, izilinganiso nokuqhubeka.'
+  ),
+  'Replies and changes to support tickets.': (
+    'Antwoorde en veranderinge aan ondersteuningsnavrae.',
+    'Izimpendulo nezinguquko ezicelweni zosizo.'
+  ),
+  'These controls affect in-app updates on this device.': (
+    'Hierdie instellings beheer opdaterings in die toepassing op hierdie toestel.',
+    'Lezi zilawuli zithinta izibuyekezo zohlelo kule divayisi.'
+  ),
+  'Prototype · demo data only': (
+    'Prototipe · slegs demodata',
+    'Uhlelo lokuhlola · idatha yesivivinyo kuphela'
+  ),
+  'Available languages': ('Beskikbare tale', 'Izilimi ezitholakalayo'),
+  'Selected': ('Gekies', 'Kukhethiwe'),
+  'Language preview': ('Taalvoorskou', 'Ukubuka ulimi'),
+  'Sample language preview': (
+    'Plaaslike gunstelinge, by jou deur afgelewer.',
+    'Okuthandwayo kwasendaweni kulethwa emnyango wakho.'
+  ),
+  'Choose your preferred payment method': (
+    'Kies jou voorkeurbetaalmetode',
+    'Khetha indlela yokukhokha oyithandayo'
+  ),
+  'Card payment simulation at checkout.': (
+    'Kaartbetalingsimulasie by betaalpunt.',
+    'Isivivinyo sokukhokha ngekhadi lapho ukhokha.'
+  ),
+  'Bank transfer simulation at checkout.': (
+    'Bankoorplasing-simulasie by betaalpunt.',
+    'Isivivinyo sokudlulisa imali yasebhange lapho ukhokha.'
+  ),
+  'Wallet payment simulation at checkout.': (
+    'Beursiebetalingsimulasie by betaalpunt.',
+    'Isivivinyo sokukhokha ngesikhwama lapho ukhokha.'
+  ),
+  'Selected payment method': (
+    'Gekose betaalmetode',
+    'Indlela yokukhokha ekhethiwe'
+  ),
+  'Light mode is on': ('Ligmodus is aan', 'Imodi ekhanyayo ivuliwe'),
+  'The Gijima Mfana light theme keeps the app bright and uses emerald green and charcoal throughout.':
+      (
+    'Die Gijima Mfana-ligtema hou die toepassing helder met smaraggroen en houtskoolgrys.',
+    'Itimu ekhanyayo ye-Gijima Mfana igcina uhlelo lukhanya, isebenzisa okuluhlaza okwesimaragidu nomnyama ompunga.'
+  ),
+  'Brand colours': ('Handelsmerkkleure', 'Imibala yomkhiqizo'),
+  'Emerald': ('Smaraggroen', 'Okuluhlaza kwesimaragidu'),
+  'Charcoal': ('Houtskoolgrys', 'Omnyama ompunga'),
+  'Mint': ('Munt', 'Umbala we-mint'),
+  'Gijima Mfana · local shopping': (
+    'Gijima Mfana · plaaslike inkopies',
+    'Gijima Mfana · ukuthenga kwasendaweni'
+  ),
+  'This customer app is a prototype. The information below explains the demo behaviour.':
+      (
+    'Hierdie kliënttoepassing is ’n prototipe. Die inligting hieronder verduidelik die demowerking.',
+    'Lolu hlelo lwamakhasimende luyisivivinyo. Imininingwane engezansi ichaza indlela olusebenza ngayo.'
+  ),
+  'Prototype & demo data': (
+    'Prototipe en demodata',
+    'Uhlelo lokuhlola nedatha yesivivinyo'
+  ),
+  'Profile details, preferences, requests and orders use sample data and may be saved on this device.':
+      (
+    'Profielbesonderhede, voorkeure, versoeke en bestellings gebruik voorbeelddata en kan op hierdie toestel gestoor word.',
+    'Imininingwane yephrofayela, izilungiselelo, izicelo nama-oda kusebenzisa idatha yesampula futhi kungagcinwa kule divayisi.'
+  ),
+  'Demo payments': ('Demobetalings', 'Izinkokhelo zesivivinyo'),
+  'Payment choices and outcomes are simulated. The app does not collect or store real card or bank credentials.':
+      (
+    'Betaalkeuses en -uitkomste word gesimuleer. Die toepassing samel of stoor nie regte kaart- of bankbesonderhede nie.',
+    'Izindlela nemiphumela yokukhokha kuyalingiswa. Uhlelo aluqoqi noma lugcine imininingwane yangempela yekhadi noma yasebhange.'
+  ),
+  'Shops and images': ('Winkels en beelde', 'Izitolo nezithombe'),
+  'KFC and McDonald’s are illustrative demo listings. No partnership or availability is implied; photography is illustrative.':
+      (
+    'KFC en McDonald’s is voorbeeldinskrywings. Geen vennootskap of beskikbaarheid word geïmpliseer nie; foto’s is slegs illustratief.',
+    'I-KFC ne-McDonald’s yizibonelo kuphela. Akusho ukuthi kunobambiswano noma ukuthi ziyatholakala; izithombe ziyizibonelo.'
+  ),
+  'Service terms': ('Diensvoorwaardes', 'Imigomo yesevisi'),
+  'Full service terms will be supplied before launch.': (
+    'Volledige diensvoorwaardes sal voor bekendstelling verskaf word.',
+    'Imigomo egcwele yesevisi izonikezwa ngaphambi kokwethulwa.'
+  ),
+  'Light · Gijima Mfana': ('Lig · Gijima Mfana', 'Ukukhanya · Gijima Mfana'),
   'Total requests': ('Totale versoeke', 'Izicelo sezizonke'),
   'In progress': ('Aan die gang', 'Kuyaqhubeka'),
   'Action needed': ('Aksie nodig', 'Kudingeka isenzo'),
