@@ -13,6 +13,11 @@ final languageProvider = StateProvider<String>((ref) {
 });
 const languageNames = {'en': 'English', 'af': 'Afrikaans', 'zu': 'isiZulu'};
 const _words = <String, (String, String)>{
+  'Shopping & account': ('Inkopies en rekening', 'Ukuthenga ne-akhawunti'),
+  'No delivery address saved': (
+    'Geen afleweringsadres gestoor nie',
+    'Alikho ikheli lokulethwa eligciniwe'
+  ),
   'Order status': ('Bestelstatus', 'Isimo se-oda'),
   'Total orders': ('Totale bestellings', 'Ama-oda esewonke'),
   'Refresh orders': ('Verfris bestellings', 'Vuselela ama-oda'),
