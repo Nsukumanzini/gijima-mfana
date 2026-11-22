@@ -587,7 +587,6 @@ const _words = <String, (String, String)>{
   ),
   'Request progress': ('Vordering van versoek', 'Inqubekela phambili yesicelo'),
   'Submitted': ('Ingedien', 'Sithunyelwe'),
-  'Under review': ('Word hersien', 'Siyabuyekezwa'),
   'Quotation received': ('Kwotasie ontvang', 'Isilinganiso sitholiwe'),
   'Quote accepted': ('Kwotasie aanvaar', 'Isilinganiso samukelwe'),
   'Quote rejected': ('Kwotasie afgekeur', 'Isilinganiso senqatshiwe'),
@@ -680,6 +679,82 @@ const _words = <String, (String, String)>{
   'Help centre': ('Hulpsentrum', 'Isikhungo sosizo'),
   'Help & support': ('Hulp en ondersteuning', 'Usizo nokusekelwa'),
   'How can we help?': ('Hoe kan ons help?', 'Singakusiza kanjani?'),
+  'Frequently asked questions': ('Gereelde vrae', 'Imibuzo evame ukubuzwa'),
+  'Find quick answers about local delivery and requests.': (
+    'Kry vinnige antwoorde oor plaaslike aflewering en versoeke.',
+    'Thola izimpendulo ezisheshayo ngokulethwa kwasendaweni nezicelo.'
+  ),
+  'Search help topics': ('Soek hulponderwerpe', 'Sesha izihloko zosizo'),
+  'No help topics match your search.': (
+    'Geen hulponderwerpe pas by jou soektog nie.',
+    'Azikho izihloko zosizo ezihambisana nosesho lwakho.'
+  ),
+  'Add at least five characters.': (
+    'Voeg minstens vyf karakters by.',
+    'Faka okungenani izinhlamvu ezinhlanu.'
+  ),
+  'Add at least five characters. Please do not include payment details.': (
+    'Voeg minstens vyf karakters by. Moet asseblief nie betalingsbesonderhede insluit nie.',
+    'Faka okungenani izinhlamvu ezinhlanu. Ungafaki imininingwane yokukhokha.'
+  ),
+  'Related order': ('Verwante bestelling', 'I-oda elihlobene'),
+  'Choose an order for item, delivery or refund issues.': (
+    'Kies ’n bestelling vir item-, aflewerings- of terugbetalingsprobleme.',
+    'Khetha i-oda uma kunenkinga yomkhiqizo, yokulethwa noma yokubuyiselwa imali.'
+  ),
+  'Ticket number': ('Navraag-nommer', 'Inombolo yesicelo'),
+  'Refund status': ('Terugbetalingstatus', 'Isimo sokubuyiselwa imali'),
+  'Conversation': ('Gesprek', 'Ingxoxo'),
+  'Updates stay on this device for this prototype.': (
+    'Opdaterings bly op hierdie toestel vir hierdie prototipe.',
+    'Izibuyekezo zigcinwa kule divayisi kulolu hlelo lwesivivinyo.'
+  ),
+  'We’re here to help': ('Ons is hier om te help', 'Silapha ukukusiza'),
+  'Local support for Ermelo and Wesselton.': (
+    'Plaaslike hulp vir Ermelo en Wesselton.',
+    'Usizo lwasendaweni e-Ermelo nase-Wesselton.'
+  ),
+  'DEMO SUPPORT · NO LIVE AGENT': (
+    'DEMO-ONDERSTEUNING · GEEN REGSTREEKSE AGENT',
+    'USIZO LWESIVIVINYO · AKUKHO MSEBENZI OBukhoma'
+  ),
+  'Demo delivery coverage: Ermelo and Wesselton. Orders, reviews and refunds here are simulated.':
+      (
+    'Demo-afleweringsgebied: Ermelo en Wesselton. Bestellings, hersienings en terugbetalings hier is gesimuleer.',
+    'Indawo yokuletha yesivivinyo: i-Ermelo ne-Wesselton. Ama-oda, ukubuyekezwa nokubuyiselwa kwemali kuyalingiswa.'
+  ),
+  'No tickets in this status': (
+    'Geen navrae in hierdie status nie',
+    'Azikho izicelo ezikulesi simo'
+  ),
+  'Show all tickets': ('Wys alle navrae', 'Bonisa zonke izicelo'),
+  'Please enter a reply': ('Voer asseblief ’n antwoord in', 'Faka impendulo'),
+  'support tickets': ('hulpnavrae', 'izicelo zosizo'),
+  'Select the related order for this issue': (
+    'Kies die verwante bestelling vir hierdie probleem',
+    'Khetha i-oda elihlobene nale nkinga'
+  ),
+  'Submit your requirements, review a quotation, accept it, and simulate online payment. Your request then becomes a tracked delivery order.':
+      (
+    'Dien jou vereistes in, hersien ’n kwotasie, aanvaar dit en simuleer ’n aanlynbetaling. Jou versoek word dan ’n afleweringsbestelling wat opgespoor kan word.',
+    'Thumela okudingayo, ubuyekeze isilinganiso, usamukele bese ulingisa ukukhokha ku-inthanethi. Isicelo sakho siba i-oda lokuletha elingalandelwa.'
+  ),
+  'Thanks. Your demo ticket has been received. Use the simulation below to review it.':
+      (
+    'Dankie. Jou demo-navraag is ontvang. Gebruik die simulasie hieronder om dit na te gaan.',
+    'Siyabonga. Isicelo sakho sesivivinyo samukelwe. Sebenzisa ukulingisa okungezansi ukuze usibuyekeze.'
+  ),
+  'We are reviewing your order and issue.': (
+    'Ons hersien jou bestelling en probleem.',
+    'Sibuyekeza i-oda lakho nenkinga.'
+  ),
+  'Your demo issue is resolved.': (
+    'Jou demo-probleem is afgehandel.',
+    'Inkinga yakho yesivivinyo isixazululiwe.'
+  ),
+  'Open': ('Oop', 'Vuliwe'),
+  'Resolved': ('Afgehandel', 'Kuxazululiwe'),
+  'Under review': ('Word hersien', 'Siyabuyekezwa'),
   'Support ticket': ('Hulpnavraag', 'Isicelo sosizo'),
   'Buy now': ('Koop nou', 'Thenga manje'),
   'You may also like': ('Jy sal dalk ook hou van', 'Ungase uthande nalokhu'),
@@ -878,26 +953,59 @@ const _words = <String, (String, String)>{
   'Simulate payment': ('Simuleer betaling', 'Lingisa inkokhelo'),
   'Search this shop': ('Soek hierdie winkel', 'Sesha kulesi sitolo'),
   'Save business': ('Stoor winkel', 'Londoloza isitolo'),
-  'Unsave business': ('Verwyder gestoorde winkel', 'Susa isitolo esilondoloziwe'),
-  'Shop removed from favourites': ('Winkel uit gunstelinge verwyder', 'Isitolo sisusiwe kokuthandwayo'),
-  'Shop saved to favourites': ('Winkel by gunstelinge gestoor', 'Isitolo sigcinwe kokuthandwayo'),
-  'LOCAL SHOP · ERMELO': ('PLAASLIKE WINKEL · ERMELO', 'ISITOLO SASENDAWENI · ERMELO'),
-  'Open for simulated orders · 25–40 min delivery': ('Oop vir gesimuleerde bestellings · 25–40 min aflewering', 'Kuvulekele ama-oda esivivinyo · ukulethwa ngemizuzu engu-25–40'),
+  'Unsave business': (
+    'Verwyder gestoorde winkel',
+    'Susa isitolo esilondoloziwe'
+  ),
+  'Shop removed from favourites': (
+    'Winkel uit gunstelinge verwyder',
+    'Isitolo sisusiwe kokuthandwayo'
+  ),
+  'Shop saved to favourites': (
+    'Winkel by gunstelinge gestoor',
+    'Isitolo sigcinwe kokuthandwayo'
+  ),
+  'LOCAL SHOP · ERMELO': (
+    'PLAASLIKE WINKEL · ERMELO',
+    'ISITOLO SASENDAWENI · ERMELO'
+  ),
+  'Open for simulated orders · 25–40 min delivery': (
+    'Oop vir gesimuleerde bestellings · 25–40 min aflewering',
+    'Kuvulekele ama-oda esivivinyo · ukulethwa ngemizuzu engu-25–40'
+  ),
   'Demo address': ('Demo-adres', 'Ikheli lesivivinyo'),
   'Demo hours': ('Demo-ure', 'Amahora esivivinyo'),
   'Delivery': ('Aflewering', 'Ukulethwa'),
   'Minimum items': ('Minimum items', 'Inani elincane lezinto'),
   'Fictional rating': ('Fiktiewe gradering', 'Isilinganiso sesibonelo'),
   '25–40 min': ('25–40 min', 'Imizuzu engu-25–40'),
-  'Popular at this shop': ('Gewild by hierdie winkel', 'Okuthandwayo kulesi sitolo'),
+  'Popular at this shop': (
+    'Gewild by hierdie winkel',
+    'Okuthandwayo kulesi sitolo'
+  ),
   'Shop the catalogue': ('Blaai deur die katalogus', 'Bheka ikhathalogi'),
-  'Price: low to high': ('Prys: laag na hoog', 'Intengo: kusukela ephansi kuye phezulu'),
-  'Price: high to low': ('Prys: hoog na laag', 'Intengo: kusukela ephezulu kuye phansi'),
-  'demo products found': ('demo-produkte gevind', 'imikhiqizo yesivivinyo itholakele'),
+  'Price: low to high': (
+    'Prys: laag na hoog',
+    'Intengo: kusukela ephansi kuye phezulu'
+  ),
+  'Price: high to low': (
+    'Prys: hoog na laag',
+    'Intengo: kusukela ephezulu kuye phansi'
+  ),
+  'demo products found': (
+    'demo-produkte gevind',
+    'imikhiqizo yesivivinyo itholakele'
+  ),
   'No catalogue yet': ('Nog geen katalogus nie', 'Akukho khathalogi okwamanje'),
-  'Illustrative local shop': ('Illustrasie van ’n plaaslike winkel', 'Isithombe esimele isitolo sasendaweni'),
+  'Illustrative local shop': (
+    'Illustrasie van ’n plaaslike winkel',
+    'Isithombe esimele isitolo sasendaweni'
+  ),
   'No matching items': ('Geen passende items nie', 'Azikho izinto ezifanayo'),
-  'This shop has no demo products to show yet.': ('Hierdie winkel het nog geen demoprodukte om te wys nie.', 'Lesi sitolo asikabi nayo imikhiqizo yesivivinyo esingayibonisa.'),
+  'This shop has no demo products to show yet.': (
+    'Hierdie winkel het nog geen demoprodukte om te wys nie.',
+    'Lesi sitolo asikabi nayo imikhiqizo yesivivinyo esingayibonisa.'
+  ),
   'Save to favourites': ('Stoor by gunstelinge', 'Londoloza kokuthandwayo'),
   'Remove from favourites': ('Verwyder uit gunstelinge', 'Susa kokuthandwayo'),
   '10% off items, up to R 50. Apply at checkout.': (

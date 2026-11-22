@@ -522,12 +522,18 @@ class CommerceController extends Notifier<DemoState> {
         'kind': kind,
         'status': 'Open',
         'refund': 'Not reviewed',
+        'created': DateTime.now().toIso8601String(),
         'messages': [
-          {'sender': 'You', 'text': description},
+          {
+            'sender': 'You',
+            'text': description,
+            'time': DateTime.now().toIso8601String()
+          },
           {
             'sender': 'Support',
             'text':
-                'Thanks. Your demo ticket has been received. Use the simulation below to review it.'
+                'Thanks. Your demo ticket has been received. Use the simulation below to review it.',
+            'time': DateTime.now().toIso8601String()
           }
         ]
       },
@@ -543,7 +549,11 @@ class CommerceController extends Notifier<DemoState> {
     _patch('tickets', id, {
       'messages': [
         ...t['messages'] as List,
-        {'sender': 'You', 'text': text}
+        {
+          'sender': 'You',
+          'text': text,
+          'time': DateTime.now().toIso8601String()
+        }
       ]
     });
   }
@@ -564,6 +574,7 @@ class CommerceController extends Notifier<DemoState> {
         ...t['messages'] as List,
         {
           'sender': 'Support',
+          'time': DateTime.now().toIso8601String(),
           'text': resolved
               ? 'Your demo issue is resolved.${t['kind'] == 'Refund request' ? ' A simulated refund has been approved; no money moves.' : ''}'
               : 'We are reviewing your order and issue.'
