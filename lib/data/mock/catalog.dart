@@ -170,4 +170,9 @@ class RecentProductsController extends Notifier<List<String>> {
     state = [];
     persist(ref, 'recent-products.v1', {'items': state});
   }
+
+  void remove(String name) {
+    state = state.where((item) => item != name).toList();
+    persist(ref, 'recent-products.v1', {'items': state});
+  }
 }
