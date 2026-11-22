@@ -703,6 +703,76 @@ const _words = <String, (String, String)>{
     'Khetha i-oda uma kunenkinga yomkhiqizo, yokulethwa noma yokubuyiselwa imali.'
   ),
   'Ticket number': ('Navraag-nommer', 'Inombolo yesicelo'),
+  'Copy ticket number': ('Kopieer navraag-nommer', 'Kopisha inombolo yesicelo'),
+  'Ticket number copied.': (
+    'Navraag-nommer gekopieer.',
+    'Inombolo yesicelo ikopishiwe.'
+  ),
+  'Last updated': ('Laas opgedateer', 'Kugcine ukubuyekezwa'),
+  'Ticket progress': ('Vordering van navraag', 'Ukuqhubeka kwesicelo'),
+  'Issue summary': ('Probleemopsomming', 'Isifinyezo senkinga'),
+  'Refund details': (
+    'Terugbetalingbesonderhede',
+    'Imininingwane yokubuyiselwa imali'
+  ),
+  'Demo refund amount': (
+    'Demo-terugbetalingsbedrag',
+    'Inani lokubuyiselwa lemali yesivivinyo'
+  ),
+  'Reply saved on this device.': (
+    'Antwoord op hierdie toestel gestoor.',
+    'Impendulo ilondolozwe kule divayisi.'
+  ),
+  'Resolve this demo ticket?': (
+    'Los hierdie demo-navraag op?',
+    'Kuxazululwe lesi sicelo sesivivinyo?'
+  ),
+  'Start a demo review?': (
+    'Begin ’n demo-hersiening?',
+    'Qala ukubuyekeza kwesivivinyo?'
+  ),
+  'This will mark the issue resolved and add a final update to the conversation.':
+      (
+    'Dit sal die probleem as afgehandel merk en ’n finale opdatering by die gesprek voeg.',
+    'Lokhu kuzomaka inkinga njengeyixazululiwe bese kwengeza isibuyekezo sokugcina engxoxweni.'
+  ),
+  'This will move the ticket to Under review and add an update to the conversation.':
+      (
+    'Dit sal die navraag na Word hersien skuif en ’n opdatering by die gesprek voeg.',
+    'Lokhu kuzohambisa isicelo esigabeni sokubuyekezwa bese kwengeza isibuyekezo engxoxweni.'
+  ),
+  'Continue': ('Gaan voort', 'Qhubeka'),
+  'Ticket marked resolved.': (
+    'Navraag as afgehandel gemerk.',
+    'Isicelo simakwe njengesixazululiwe.'
+  ),
+  'Ticket moved to review.': (
+    'Navraag na hersiening geskuif.',
+    'Isicelo siyabuyekezwa.'
+  ),
+  'Ticket reopened.': ('Navraag heropen.', 'Isicelo sivulwe kabusha.'),
+  'Reopen demo ticket': (
+    'Heropen demo-navraag',
+    'Vula kabusha isicelo sesivivinyo'
+  ),
+  'Report another issue': ('Meld nog ’n probleem', 'Bika enye inkinga'),
+  'Your conversation updates will appear here.': (
+    'Jou gesprekopdaterings sal hier verskyn.',
+    'Izibuyekezo zengxoxo yakho zizovela lapha.'
+  ),
+  'Write a helpful reply…': (
+    'Skryf ’n nuttige antwoord…',
+    'Bhala impendulo ewusizo…'
+  ),
+  'Back to support': ('Terug na hulp', 'Buyela kosizo'),
+  'This ticket may have been removed from this device.': (
+    'Hierdie navraag is dalk van hierdie toestel verwyder.',
+    'Lesi sicelo kungenzeka sisusiwe kule divayisi.'
+  ),
+  'This demo ticket has been reopened and is back under review.': (
+    'Hierdie demo-navraag is heropen en word weer nagegaan.',
+    'Lesi sicelo sesivivinyo sivulwe kabusha futhi siyabuyekezwa.'
+  ),
   'Refund status': ('Terugbetalingstatus', 'Isimo sokubuyiselwa imali'),
   'Conversation': ('Gesprek', 'Ingxoxo'),
   'Updates stay on this device for this prototype.': (

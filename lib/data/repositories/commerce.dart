@@ -584,6 +584,31 @@ class CommerceController extends Notifier<DemoState> {
     notify('Support ${resolved ? 'resolved' : 'under review'} · $id',
         '/support/$id');
   }
+
+  void reopenTicket(String id) {
+    final ticket = find('tickets', id);
+    if (ticket == null || ticket['status'] != 'Resolved') return;
+    final now = DateTime.now().toIso8601String();
+    final patch = <String, dynamic>{
+      'status': 'Open',
+      if (ticket['kind'] == 'Refund request') 'refund': 'Under review',
+      'messages': [
+        ...ticket['messages'] as List,
+        {
+          'sender': 'Support',
+          'text':
+              'This demo ticket has been reopened and is back under review.',
+          'time': now
+        }
+      ]
+    };
+    if (ticket['kind'] == 'Refund request' &&
+        (ticket['orderId'] as String? ?? '').isNotEmpty) {
+      _patch('orders', ticket['orderId'] as String, {'refund': 'Under review'});
+    }
+    _patch('tickets', id, patch);
+    notify('Support ticket reopened · $id', '/support/$id');
+  }
 }
 
 final commerceProvider =

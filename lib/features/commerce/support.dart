@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
@@ -324,17 +325,76 @@ class TicketDetail extends ConsumerStatefulWidget {
 
 class _TicketState extends ConsumerState<TicketDetail> {
   final reply = TextEditingController();
-  final form = GlobalKey<FormState>();
+  final conversationScroll = ScrollController();
   @override
   void dispose() {
     reply.dispose();
+    conversationScroll.dispose();
     super.dispose();
+  }
+
+  Future<void> _sendReply() async {
+    final text = reply.text.trim();
+    if (text.isEmpty) return;
+    ref.read(commerceProvider.notifier).reply(widget.id, text);
+    reply.clear();
+    FocusScope.of(context).unfocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (conversationScroll.hasClients) {
+        conversationScroll.animateTo(
+          conversationScroll.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 240),
+          curve: Curves.easeOutCubic,
+        );
+      }
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: AppText('Reply saved on this device.'),
+        behavior: SnackBarBehavior.floating));
+  }
+
+  Future<void> _advanceTicket(String status) async {
+    final next = status == 'Open' ? 'Under review' : 'Resolved';
+    final shouldContinue = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        icon: Icon(
+            next == 'Resolved' ? Icons.task_alt_rounded : Icons.manage_search),
+        title: AppText(next == 'Resolved'
+            ? 'Resolve this demo ticket?'
+            : 'Start a demo review?'),
+        content: AppText(next == 'Resolved'
+            ? 'This will mark the issue resolved and add a final update to the conversation.'
+            : 'This will move the ticket to Under review and add an update to the conversation.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const AppText('Cancel')),
+          FilledButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: AppText('Continue'))
+        ],
+      ),
+    );
+    if (shouldContinue != true || !mounted) return;
+    ref.read(commerceProvider.notifier).reviewTicket(widget.id);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: AppText(next == 'Resolved'
+            ? 'Ticket marked resolved.'
+            : 'Ticket moved to review.'),
+        behavior: SnackBarBehavior.floating));
+  }
+
+  Future<void> _reopenTicket() async {
+    ref.read(commerceProvider.notifier).reopenTicket(widget.id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: AppText('Ticket reopened.'),
+        behavior: SnackBarBehavior.floating));
   }
 
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(commerceProvider);
-    final repo = ref.read(commerceProvider.notifier);
     final ticket = data.tickets.cast<Record?>().firstWhere(
           (item) => item?['id'] == widget.id,
           orElse: () => null,
@@ -342,18 +402,42 @@ class _TicketState extends ConsumerState<TicketDetail> {
     if (ticket == null) {
       return Scaffold(
         appBar: AppBar(title: const AppText('Support ticket')),
-        body: Center(
-            child: _TicketEmptyState(
-                hasAnyTickets: false, onReset: () => context.pop())),
+        body:
+            Center(child: _MissingTicket(onBack: () => context.go('/support'))),
       );
     }
 
     final status = ticket['status'] as String? ?? 'Open';
     final messages = (ticket['messages'] as List? ?? const []).cast<Record>();
+    final originalIndex =
+        messages.indexWhere((item) => item['sender'] == 'You');
+    final originalReport = originalIndex < 0 ? null : messages[originalIndex];
+    final threadMessages = [
+      for (var i = 0; i < messages.length; i++)
+        if (i != originalIndex) messages[i]
+    ];
+    final relatedOrder = data.orders.cast<Record?>().firstWhere(
+          (item) => item?['id'] == ticket['orderId'],
+          orElse: () => null,
+        );
+    final latestUpdate =
+        messages.isEmpty ? '' : _timestampLabel(context, messages.last['time']);
     return Scaffold(
       appBar: AppBar(
         title: const AppText('Support ticket'),
         actions: [
+          IconButton(
+              tooltip: tr(context, 'Copy ticket number'),
+              onPressed: () async {
+                await Clipboard.setData(
+                    ClipboardData(text: ticket['id'] as String? ?? widget.id));
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: const AppText('Ticket number copied.'),
+                      behavior: SnackBarBehavior.floating));
+                }
+              },
+              icon: const Icon(Icons.copy_rounded)),
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: Center(child: _StatusPill(status: status)),
@@ -363,117 +447,507 @@ class _TicketState extends ConsumerState<TicketDetail> {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 820),
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(18, 8, 18, 36),
-            children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        const _IconBubble(icon: Icons.support_agent_rounded),
-                        const SizedBox(width: 12),
-                        Expanded(
-                            child: AppText(ticket['kind'] as String? ?? 'Other',
-                                style: const TextStyle(
-                                    fontSize: 19,
-                                    color: Brand.charcoal,
-                                    fontWeight: FontWeight.w900))),
-                      ]),
-                      const SizedBox(height: 14),
-                      _DetailLine(
-                          label: 'Ticket number',
-                          value: ticket['id'] as String? ?? widget.id),
-                      if ((ticket['orderId'] as String? ?? '').isNotEmpty) ...[
-                        const SizedBox(height: 9),
-                        _DetailLine(
-                            label: 'Related order',
-                            value: ticket['orderId'] as String),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: TextButton.icon(
-                              onPressed: () =>
-                                  context.push('/orders/${ticket['orderId']}'),
-                              icon: const Icon(Icons.open_in_new_rounded),
-                              label: const AppText('View related order')),
-                        ),
-                      ],
-                      if (ticket['kind'] == 'Refund request')
-                        _DetailLine(
-                            label: 'Refund status',
-                            value: '${ticket['refund']} · Demo only'),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 18),
-              _SectionTitle(
-                  icon: Icons.chat_bubble_outline_rounded,
-                  title: 'Conversation',
-                  subtitle: 'Updates stay on this device for this prototype.'),
-              const SizedBox(height: 8),
-              for (final item in messages) _MessageBubble(message: item),
-              if (status != 'Resolved') ...[
-                const SizedBox(height: 10),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Form(
-                      key: form,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          TextFormField(
-                            controller: reply,
-                            minLines: 2,
-                            maxLines: 4,
-                            textCapitalization: TextCapitalization.sentences,
-                            decoration: InputDecoration(
-                                labelText: tr(context, 'Add a reply'),
-                                alignLabelWithHint: true),
-                            validator: (value) => (value ?? '').trim().isEmpty
-                                ? tr(context, 'Please enter a reply')
-                                : null,
-                          ),
-                          const SizedBox(height: 10),
-                          OutlinedButton.icon(
-                              onPressed: () {
-                                if (!form.currentState!.validate()) return;
-                                repo.reply(widget.id, reply.text.trim());
-                                reply.clear();
-                                FocusScope.of(context).unfocus();
-                              },
-                              icon: const Icon(Icons.send_rounded),
-                              label: const AppText('Send local reply')),
-                        ],
-                      ),
+          child: Column(children: [
+            Expanded(
+              child: ListView(
+                controller: conversationScroll,
+                padding: const EdgeInsets.fromLTRB(18, 8, 18, 20),
+                children: [
+                  _TicketSummary(ticket: ticket, latestUpdate: latestUpdate),
+                  const SizedBox(height: 12),
+                  _TicketProgress(status: status, ticket: ticket),
+                  if (ticket['kind'] == 'Refund request') ...[
+                    const SizedBox(height: 12),
+                    _RefundSummary(ticket: ticket, order: relatedOrder),
+                  ],
+                  if (originalReport != null) ...[
+                    const SizedBox(height: 12),
+                    _OriginalReport(message: originalReport),
+                  ],
+                  if (relatedOrder != null) ...[
+                    const SizedBox(height: 12),
+                    _RelatedOrderCard(
+                      order: relatedOrder,
+                      onTap: () =>
+                          context.push('/orders/${relatedOrder['id']}'),
                     ),
+                  ],
+                  const SizedBox(height: 18),
+                  _SectionTitle(
+                      icon: Icons.chat_bubble_outline_rounded,
+                      title: 'Conversation',
+                      subtitle:
+                          'Updates stay on this device for this prototype.'),
+                  const SizedBox(height: 8),
+                  if (threadMessages.isEmpty)
+                    const _SoftNotice(
+                        icon: Icons.chat_bubble_outline_rounded,
+                        text: 'Your conversation updates will appear here.'),
+                  ..._messagesWithDateDividers(context, threadMessages),
+                  const SizedBox(height: 12),
+                  if (status != 'Resolved')
+                    FilledButton.icon(
+                        onPressed: () => _advanceTicket(status),
+                        icon: Icon(status == 'Open'
+                            ? Icons.manage_search_rounded
+                            : Icons.task_alt_rounded),
+                        label: AppText(status == 'Open'
+                            ? 'Simulate support review'
+                            : 'Simulate resolution'))
+                  else
+                    OutlinedButton.icon(
+                        onPressed: _reopenTicket,
+                        icon: const Icon(Icons.refresh_rounded),
+                        label: const AppText('Reopen demo ticket')),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                        onPressed: () => context.push(
+                            '/support?order=${Uri.encodeComponent(ticket['orderId'] as String? ?? '')}'),
+                        icon: const Icon(Icons.add_circle_outline_rounded),
+                        label: const AppText('Report another issue')),
                   ),
-                ),
-                const SizedBox(height: 10),
-                FilledButton.icon(
-                    onPressed: () => repo.reviewTicket(widget.id),
-                    icon: Icon(status == 'Open'
-                        ? Icons.manage_search_rounded
-                        : Icons.task_alt_rounded),
-                    label: AppText(status == 'Open'
-                        ? 'Simulate support review'
-                        : 'Simulate resolution')),
-              ],
-              const SizedBox(height: 14),
-              const _SoftNotice(
-                  icon: Icons.lock_outline_rounded,
-                  text:
-                      'This conversation stays on your device. No external ticket, message or refund is sent.'),
-            ],
-          ),
+                  const SizedBox(height: 8),
+                  const _SoftNotice(
+                      icon: Icons.lock_outline_rounded,
+                      text:
+                          'This conversation stays on your device. No external ticket, message or refund is sent.'),
+                ],
+              ),
+            ),
+            if (status != 'Resolved')
+              _ReplyComposer(
+                  controller: reply,
+                  onChanged: () => setState(() {}),
+                  onSend: _sendReply),
+          ]),
         ),
       ),
     );
   }
 }
+
+class _TicketSummary extends StatelessWidget {
+  const _TicketSummary({required this.ticket, required this.latestUpdate});
+  final Record ticket;
+  final String latestUpdate;
+  @override
+  Widget build(BuildContext context) => Card(
+        child: Padding(
+          padding: const EdgeInsets.all(17),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              _IconBubble(
+                  icon: _issueIcon(ticket['kind'] as String? ?? 'Other')),
+              const SizedBox(width: 12),
+              Expanded(
+                  child: AppText(ticket['kind'] as String? ?? 'Other',
+                      style: const TextStyle(
+                          color: Brand.charcoal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900))),
+              _StatusPill(status: ticket['status'] as String? ?? 'Open'),
+            ]),
+            const SizedBox(height: 15),
+            Row(children: [
+              Expanded(
+                  child: _DetailLine(
+                      label: 'Ticket number',
+                      value: ticket['id'] as String? ?? '')),
+              if (latestUpdate.isNotEmpty) ...[
+                const SizedBox(width: 12),
+                Expanded(
+                    child:
+                        _DetailLine(label: 'Last updated', value: latestUpdate))
+              ]
+            ]),
+          ]),
+        ),
+      );
+}
+
+class _TicketProgress extends StatelessWidget {
+  const _TicketProgress({required this.status, required this.ticket});
+  final String status;
+  final Record ticket;
+  @override
+  Widget build(BuildContext context) {
+    final messages = (ticket['messages'] as List? ?? const []).cast<Record>();
+    final reviewMessage = messages.where((message) {
+      final text = (message['text'] as String? ?? '').toLowerCase();
+      return message['sender'] == 'Support' && text.contains('reviewing');
+    }).lastOrNull;
+    final resolvedMessage = messages.where((message) {
+      final text = (message['text'] as String? ?? '').toLowerCase();
+      return message['sender'] == 'Support' && text.contains('resolved');
+    }).lastOrNull;
+    final stages = ['Open', 'Under review', 'Resolved'];
+    final current = stages.indexOf(status).clamp(0, stages.length - 1);
+    final timeByStage = [
+      ticket['created'],
+      reviewMessage?['time'],
+      resolvedMessage?['time']
+    ];
+    final a11y = '${tr(context, 'Ticket progress')}: ${tr(context, status)}';
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 14, 15, 13),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            const Icon(Icons.timeline_rounded, color: Brand.green, size: 19),
+            const SizedBox(width: 8),
+            Expanded(
+                child: AppText('Ticket progress',
+                    style: const TextStyle(
+                        color: Brand.charcoal, fontWeight: FontWeight.w900))),
+            AppText(tr(context, status),
+                style: const TextStyle(
+                    color: Brand.green,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800)),
+          ]),
+          const SizedBox(height: 16),
+          Semantics(
+            label: a11y,
+            child: Row(children: [
+              for (var i = 0; i < stages.length; i++) ...[
+                Expanded(
+                    flex: 2,
+                    child: _ProgressDot(
+                        complete: i < current,
+                        active: i == current,
+                        label: stages[i],
+                        time: timeByStage[i])),
+                if (i < stages.length - 1)
+                  Expanded(
+                      child: Container(
+                          height: 2,
+                          margin: const EdgeInsets.only(bottom: 34),
+                          color: i < current ? Brand.green : Brand.mint)),
+              ]
+            ]),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+class _ProgressDot extends StatelessWidget {
+  const _ProgressDot(
+      {required this.complete,
+      required this.active,
+      required this.label,
+      required this.time});
+  final bool complete, active;
+  final String label;
+  final dynamic time;
+  @override
+  Widget build(BuildContext context) {
+    final date = _dateLabel(context, time);
+    final color = complete || active ? Brand.green : Colors.black26;
+    return Column(children: [
+      AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        width: active ? 27 : 23,
+        height: active ? 27 : 23,
+        decoration: BoxDecoration(
+            color: complete || active ? Brand.green : Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(color: color, width: active ? 3 : 2)),
+        child: Icon(complete ? Icons.check : _stageIcon(label),
+            size: 13,
+            color: complete || active ? Colors.white : Colors.black38),
+      ),
+      const SizedBox(height: 6),
+      AppText(label,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          style: TextStyle(
+              color: active || complete ? Brand.charcoal : Colors.black45,
+              fontSize: 10,
+              height: 1.15,
+              fontWeight: active ? FontWeight.w900 : FontWeight.w700)),
+      if (date.isNotEmpty) ...[
+        const SizedBox(height: 2),
+        Text(date,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black45, fontSize: 9))
+      ]
+    ]);
+  }
+}
+
+class _OriginalReport extends StatelessWidget {
+  const _OriginalReport({required this.message});
+  final Record message;
+  @override
+  Widget build(BuildContext context) {
+    final date = _timestampLabel(context, message['time']);
+    return Card(
+      color: Brand.mint,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            const Icon(Icons.description_outlined,
+                color: Brand.green, size: 18),
+            const SizedBox(width: 8),
+            Expanded(
+                child: AppText('Issue summary',
+                    style: const TextStyle(
+                        color: Brand.charcoal, fontWeight: FontWeight.w900))),
+            if (date.isNotEmpty)
+              Text(date,
+                  style: const TextStyle(color: Colors.black54, fontSize: 10))
+          ]),
+          const SizedBox(height: 8),
+          AppText(message['text'] as String? ?? '',
+              style: const TextStyle(color: Brand.charcoal, height: 1.4)),
+        ]),
+      ),
+    );
+  }
+}
+
+class _RelatedOrderCard extends StatelessWidget {
+  const _RelatedOrderCard({required this.order, required this.onTap});
+  final Record order;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(children: [
+              const _IconBubble(icon: Icons.receipt_long_outlined),
+              const SizedBox(width: 11),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    AppText(order['merchant'] as String? ?? 'Local order',
+                        style: const TextStyle(
+                            color: Brand.charcoal,
+                            fontWeight: FontWeight.w900)),
+                    const SizedBox(height: 3),
+                    AppText(
+                        '${order['id']} · ${tr(context, _orderStatus(order))}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.black54, fontSize: 11)),
+                    const SizedBox(height: 4),
+                    TextButton.icon(
+                        onPressed: onTap,
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(0, 32),
+                            alignment: Alignment.centerLeft),
+                        icon: const Icon(Icons.open_in_new_rounded, size: 16),
+                        label: const AppText('View related order')),
+                  ])),
+              if (order['total'] is int)
+                AppText(rand(order['total'] as int),
+                    style: const TextStyle(
+                        color: Brand.charcoal,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900)),
+            ]),
+          ),
+        ),
+      );
+}
+
+class _RefundSummary extends StatelessWidget {
+  const _RefundSummary({required this.ticket, required this.order});
+  final Record ticket;
+  final Record? order;
+  @override
+  Widget build(BuildContext context) {
+    final total = order?['total'];
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+          color: Brand.mint,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Brand.green.withValues(alpha: .14))),
+      child: Row(children: [
+        const _IconBubble(icon: Icons.currency_exchange_rounded),
+        const SizedBox(width: 11),
+        Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const AppText('Refund details',
+              style: TextStyle(
+                  color: Brand.charcoal, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 3),
+          AppText(
+              '${tr(context, 'Refund status')}: ${ticket['refund'] ?? 'Not reviewed'}',
+              style: const TextStyle(color: Brand.charcoal, fontSize: 12)),
+          if (total is int)
+            AppText('${tr(context, 'Demo refund amount')}: ${rand(total)}',
+                style: const TextStyle(
+                    color: Brand.green,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800))
+        ])),
+        const Icon(Icons.info_outline_rounded, color: Brand.green, size: 19),
+      ]),
+    );
+  }
+}
+
+class _ReplyComposer extends StatelessWidget {
+  const _ReplyComposer(
+      {required this.controller,
+      required this.onChanged,
+      required this.onSend});
+  final TextEditingController controller;
+  final VoidCallback onChanged, onSend;
+  @override
+  Widget build(BuildContext context) => SafeArea(
+        top: false,
+        child: Material(
+          elevation: 8,
+          color: Theme.of(context).colorScheme.surface,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(14, 10, 14, 8),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              Expanded(
+                  child: TextField(
+                controller: controller,
+                minLines: 1,
+                maxLines: 3,
+                maxLength: 500,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.newline,
+                onChanged: (_) => onChanged(),
+                onSubmitted: (_) => onSend(),
+                decoration: InputDecoration(
+                    labelText: tr(context, 'Add a reply'),
+                    hintText: tr(context, 'Write a helpful reply…'),
+                    counterText: '${controller.text.length}/500',
+                    contentPadding: const EdgeInsets.fromLTRB(14, 10, 14, 5)),
+              )),
+              const SizedBox(width: 8),
+              Semantics(
+                label: tr(context, 'Send local reply'),
+                button: true,
+                enabled: controller.text.trim().isNotEmpty,
+                child: IconButton.filled(
+                    tooltip: tr(context, 'Send local reply'),
+                    onPressed: controller.text.trim().isEmpty ? null : onSend,
+                    icon: const Icon(Icons.send_rounded)),
+              )
+            ]),
+          ),
+        ),
+      );
+}
+
+class _MissingTicket extends StatelessWidget {
+  const _MissingTicket({required this.onBack});
+  final VoidCallback onBack;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(22),
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 420),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: Brand.mint)),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            const _IconBubble(icon: Icons.search_off_rounded),
+            const SizedBox(height: 12),
+            const AppText('Ticket not found.',
+                style: TextStyle(
+                    color: Brand.charcoal,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900)),
+            const SizedBox(height: 6),
+            const AppText('This ticket may have been removed from this device.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black54)),
+            const SizedBox(height: 14),
+            FilledButton.icon(
+                onPressed: onBack,
+                icon: const Icon(Icons.support_agent_rounded),
+                label: const AppText('Back to support'))
+          ]),
+        ),
+      );
+}
+
+class _DateDivider extends StatelessWidget {
+  const _DateDivider({required this.label});
+  final String label;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(children: [
+          const Expanded(child: Divider(color: Brand.mint)),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(label,
+                  style: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700))),
+          const Expanded(child: Divider(color: Brand.mint))
+        ]),
+      );
+}
+
+List<Widget> _messagesWithDateDividers(
+    BuildContext context, List<Record> messages) {
+  final children = <Widget>[];
+  DateTime? lastDay;
+  for (var index = 0; index < messages.length; index++) {
+    final item = messages[index];
+    final time = DateTime.tryParse(item['time'] as String? ?? '')?.toLocal();
+    if (time != null) {
+      final day = DateUtils.dateOnly(time);
+      if (lastDay == null || !DateUtils.isSameDay(lastDay, day)) {
+        children.add(_DateDivider(
+            label: MaterialLocalizations.of(context).formatFullDate(time)));
+      }
+      lastDay = day;
+    }
+    children.add(TweenAnimationBuilder<double>(
+      key: ValueKey('${item['time'] ?? 'message'}-$index'),
+      tween: Tween(begin: .88, end: 1),
+      duration: const Duration(milliseconds: 240),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) => Opacity(
+          opacity: value,
+          child: Transform.translate(
+              offset: Offset(0, (1 - value) * 8), child: child)),
+      child: _MessageBubble(message: item),
+    ));
+  }
+  return children;
+}
+
+String _dateLabel(BuildContext context, dynamic value) {
+  if (value is! String) return '';
+  final date = DateTime.tryParse(value)?.toLocal();
+  return date == null
+      ? ''
+      : MaterialLocalizations.of(context).formatShortDate(date);
+}
+
+IconData _stageIcon(String stage) => switch (stage) {
+      'Open' => Icons.mark_email_unread_outlined,
+      'Under review' => Icons.manage_search_rounded,
+      _ => Icons.task_alt_rounded,
+    };
 
 class _SupportHero extends StatelessWidget {
   const _SupportHero({required this.onOrders});
