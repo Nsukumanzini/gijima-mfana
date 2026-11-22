@@ -206,6 +206,110 @@ const _words = <String, (String, String)>{
   'Browse shops': ('Blaai deur winkels', 'Buka izitolo'),
   'Make a request': ('Dien ’n versoek in', 'Thumela isicelo'),
   'Order progress': ('Bestelvordering', 'Ukuqhubeka kwe-oda'),
+  'Copy order number': ('Kopieer bestelnommer', 'Kopisha inombolo ye-oda'),
+  'Order number copied.': (
+    'Bestelnommer gekopieer.',
+    'Inombolo ye-oda ikopishiwe.'
+  ),
+  'Payment pending': ('Betaling hangende', 'Ukukhokha kusalindile'),
+  'Delivered at': ('Afgelewer om', 'Ilethwe ngo'),
+  'This order is cancelled. Tracking updates and courier contact are unavailable.':
+      (
+    'Hierdie bestelling is gekanselleer. Naspooropdaterings en koerierkontak is nie beskikbaar nie.',
+    'Le oda ikhanseliwe. Izibuyekezo zokulandelela nokuxhumana nomthumeli akutholakali.'
+  ),
+  'Complete the simulated payment before courier allocation can begin.': (
+    'Voltooi die gesimuleerde betaling voordat ’n koerier toegewys kan word.',
+    'Qedela inkokhelo yesivivinyo ngaphambi kokuba kwabelwe umthumeli.'
+  ),
+  'Tracking update saved.': (
+    'Naspooropdatering gestoor.',
+    'Isibuyekezo sokulandelela silondoloziwe.'
+  ),
+  'Estimated arrival': (
+    'Geskatte aankomst',
+    'Isikhathi sokufika esilinganisiwe'
+  ),
+  'Scheduled arrival': ('Beplande aankoms', 'Isikhathi sokufika esihleliwe'),
+  'After payment': ('Ná betaling', 'Ngemva kokukhokha'),
+  'After courier allocation': (
+    'Ná koeriertoewysing',
+    'Ngemva kokwabelwa komthumeli'
+  ),
+  '5–15 min': ('5–15 min', 'Imizuzu engu-5–15'),
+  '20–35 min': ('20–35 min', 'Imizuzu engu-20–35'),
+  'km · illustrative': ('km · illustratief', 'km · okulinganisiwe'),
+  'ETA and route distance are illustrative estimates.': (
+    'Die geskatte aankomsttyd en roeteafstand is slegs voorbeelde.',
+    'Isikhathi sokufika nebanga lomzila kuyizilinganiso eziyizibonelo.'
+  ),
+  'Illustrative route map': (
+    'Illustratiewe roetekaart',
+    'Imephu yomzila oyisibonelo'
+  ),
+  'Accessible tracking summary': (
+    'Naspeuropsomming',
+    'Isifinyezo sokulandelela'
+  ),
+  'From': ('Van', 'Kusuka'),
+  'To': ('Na', 'Kuya'),
+  'Collection point': ('Afhaalpunt', 'Indawo yokulanda'),
+  'Demo courier en route': (
+    'Demo-koerier op pad',
+    'Umthumeli wesivivinyo usendleleni'
+  ),
+  'Courier': ('Koerier', 'Umthumeli'),
+  'Demo bicycle · unit GM-01': (
+    'Demo-fiets · eenheid GM-01',
+    'Ibhayisikili lesivivinyo · iyunithi GM-01'
+  ),
+  'Contact courier': ('Kontak koerier', 'Xhumana nomthumeli'),
+  'Tracking updates are simulated.': (
+    'Naspooropdaterings word gesimuleer.',
+    'Izibuyekezo zokulandelela ziyalingiswa.'
+  ),
+  'Collection hand-off': (
+    'Afhaaloorhandiging',
+    'Ukudlulisa ngesikhathi sokulanda'
+  ),
+  'Delivery updates': ('Afleweringsopdaterings', 'Izibuyekezo zokulethwa'),
+  'Current update': ('Huidige opdatering', 'Isibuyekezo samanje'),
+  'Up next': ('Volgende', 'Okulandelayo'),
+  'Preview next delivery update': (
+    'Voorskou volgende afleweringsopdatering',
+    'Buka isibuyekezo sokuletha esilandelayo'
+  ),
+  'Next simulated update': (
+    'Volgende gesimuleerde opdatering',
+    'Isibuyekezo esilandelayo sesivivinyo'
+  ),
+  'Confirm demo delivery?': (
+    'Bevestig demo-aflewering?',
+    'Qinisekisa ukulethwa kwesivivinyo?'
+  ),
+  'This will mark the order as delivered to your demo address. No courier is dispatched.':
+      (
+    'Dit sal die bestelling as afgelewer by jou demoadres merk. Geen koerier word uitgestuur nie.',
+    'Lokhu kuzomaka i-oda njengolethwe ekhelini lakho lesivivinyo. Akukho mthumeli ozothunyelwa.'
+  ),
+  'No live courier or location is involved.': (
+    'Geen regstreekse koerier of ligging is betrokke nie.',
+    'Akukho mthumeli noma indawo ebukhoma ehilelekile.'
+  ),
+  'This prototype does not send calls or messages. You can record a simulated contact request on this device.':
+      (
+    'Hierdie prototipe stuur nie oproepe of boodskappe nie. Jy kan ’n gesimuleerde kontakversoek op hierdie toestel aanteken.',
+    'Lolu hlelo aluthumeli izingcingo noma imilayezo. Ungaqopha isicelo sokuxhumana sesivivinyo kule divayisi.'
+  ),
+  'Record demo request': (
+    'Teken demo-versoek aan',
+    'Qopha isicelo sesivivinyo'
+  ),
+  'Demo contact request recorded. No call or message was sent.': (
+    'Demo-kontakversoek aangeteken. Geen oproep of boodskap is gestuur nie.',
+    'Isicelo sokuxhumana sesivivinyo siqoshiwe. Akukho cingo noma myalezo othunyelwe.'
+  ),
+  'Delivery complete': ('Aflewering voltooi', 'Ukulethwa kuqediwe'),
   'Collection': ('Afhaal', 'Ukulanda'),
   'Reference': ('Verwysing', 'Inombolo yesithenjwa'),
   'Recipient': ('Ontvanger', 'Umamukeli'),

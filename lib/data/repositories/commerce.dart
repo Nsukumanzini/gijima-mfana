@@ -259,6 +259,7 @@ class CommerceController extends Notifier<DemoState> {
     }
     final t = basketTotals(basket, code);
     final id = _id('GM');
+    final created = DateTime.now();
     final order = {
       'id': id,
       'type': 'Shop',
@@ -284,7 +285,14 @@ class CommerceController extends Notifier<DemoState> {
       'payment': outcome,
       'step': outcome == 'Successful' ? 1 : 0,
       'cancelled': outcome == 'Cancelled',
-      'created': DateTime.now().toIso8601String()
+      'created': created.toIso8601String(),
+      'trackingHistory': [
+        {'step': 0, 'time': created.toIso8601String()},
+        if (outcome == 'Successful')
+          {'step': 1, 'time': created.toIso8601String()},
+        if (outcome == 'Cancelled')
+          {'status': 'Cancelled', 'time': created.toIso8601String()}
+      ]
     };
     _list('orders', [order, ...state.orders]);
     notify('Order $id · Payment $outcome', '/orders/$id');
@@ -296,11 +304,19 @@ class CommerceController extends Notifier<DemoState> {
     if (o == null || o['payment'] == 'Successful' || o['cancelled'] == true) {
       return;
     }
+    final now = DateTime.now().toIso8601String();
+    final history = List<Record>.from(o['trackingHistory'] ?? const []);
+    if (outcome == 'Successful') {
+      history.add({'step': 1, 'time': now});
+    } else if (outcome == 'Cancelled') {
+      history.add({'status': 'Cancelled', 'time': now});
+    }
     _patch('orders', id, {
       'payment': outcome,
       if (method != null) 'method': method,
       'step': outcome == 'Successful' ? 1 : 0,
-      'cancelled': outcome == 'Cancelled'
+      'cancelled': outcome == 'Cancelled',
+      'trackingHistory': history
     });
     notify('Payment $outcome · $id', '/orders/$id');
   }
@@ -313,7 +329,9 @@ class CommerceController extends Notifier<DemoState> {
     final steps = stepsFor(o);
     final next = (o['step'] as int) + 1;
     if (next >= steps.length) return;
-    _patch('orders', id, {'step': next});
+    final history = List<Record>.from(o['trackingHistory'] ?? const []);
+    history.add({'step': next, 'time': DateTime.now().toIso8601String()});
+    _patch('orders', id, {'step': next, 'trackingHistory': history});
     notify('${steps[next]} · $id', '/orders/$id');
     if (o['requestId'] != null) {
       _patch('requests', o['requestId'] as String, {'status': steps[next]});
@@ -323,7 +341,10 @@ class CommerceController extends Notifier<DemoState> {
   void cancelOrder(String id) {
     final o = find('orders', id);
     if (o == null || (o['step'] as int) >= 2 || o['cancelled'] == true) return;
-    _patch('orders', id, {'cancelled': true});
+    final history = List<Record>.from(o['trackingHistory'] ?? const []);
+    history
+        .add({'status': 'Cancelled', 'time': DateTime.now().toIso8601String()});
+    _patch('orders', id, {'cancelled': true, 'trackingHistory': history});
     if (o['requestId'] != null) {
       _patch('requests', o['requestId'] as String, {'status': 'Cancelled'});
     }
@@ -453,6 +474,7 @@ class CommerceController extends Notifier<DemoState> {
     final total = (r['itemPrice'] as int) +
         (r['delivery'] as int) +
         (r['service'] as int);
+    final created = DateTime.now();
     _list('orders', [
       {
         'id': oid,
@@ -483,7 +505,11 @@ class CommerceController extends Notifier<DemoState> {
         'payment': 'Successful',
         'step': 1,
         'cancelled': false,
-        'created': DateTime.now().toIso8601String()
+        'created': created.toIso8601String(),
+        'trackingHistory': [
+          {'step': 0, 'time': created.toIso8601String()},
+          {'step': 1, 'time': created.toIso8601String()}
+        ]
       },
       ...state.orders
     ]);
