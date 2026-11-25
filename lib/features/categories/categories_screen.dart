@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
 import '../../data/mock/catalog.dart';
@@ -243,7 +244,7 @@ class _CategoryCardState extends State<_CategoryCard> {
       scale: _selected ? .975 : 1,
       duration: const Duration(milliseconds: 130),
       curve: Curves.easeOut,
-      child: Card(
+      child: GlassCard(
         margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
         elevation: _selected ? 4 : 1,

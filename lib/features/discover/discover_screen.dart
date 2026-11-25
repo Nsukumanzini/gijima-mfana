@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
@@ -193,7 +194,7 @@ class _DiscoverState extends ConsumerState<DiscoverScreen> {
                     final item = products.firstWhere((p) => p.store == shop);
                     return SizedBox(
                         width: 128,
-                        child: Card(
+                        child: GlassCard(
                           clipBehavior: Clip.antiAlias,
                           child: InkWell(
                               onTap: () => context
@@ -360,7 +361,7 @@ class _ShopCard extends StatelessWidget {
     final categories =
         items.map((p) => tr(context, p.category)).toSet().join(' · ');
     if (compact) {
-      return Card(
+      return GlassCard(
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () => context.push('/shop/${Uri.encodeComponent(shop)}'),
@@ -395,7 +396,7 @@ class _ShopCard extends StatelessWidget {
             ]),
           ));
     }
-    return Card(
+    return GlassCard(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () => context.push('/shop/${Uri.encodeComponent(shop)}'),

@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/mock/catalog.dart';
@@ -149,7 +150,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
               ]),
             ),
             const SizedBox(height: 14),
-            Card(
+            GlassCard(
               clipBehavior: Clip.antiAlias,
               child: InkWell(
                 onTap: () =>
@@ -227,7 +228,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                     final item = related[index];
                     return SizedBox(
                       width: 150,
-                      child: Card(
+                      child: GlassCard(
                         clipBehavior: Clip.antiAlias,
                         child: InkWell(
                           onTap: () => context.push(

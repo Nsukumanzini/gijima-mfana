@@ -9,6 +9,7 @@ import '../../data/repositories/commerce.dart';
 import 'package:go_router/go_router.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/mock/catalog.dart';
 import '../shared/product_card.dart';
@@ -186,7 +187,7 @@ class _PaymentPreferenceOptions extends StatelessWidget {
                   ),
               ]),
             ),
-            Card(
+            GlassCard(
               child: Padding(
                 padding: const EdgeInsets.all(14),
                 child: Row(children: [
@@ -270,7 +271,7 @@ class _AppearancePreview extends StatelessWidget {
                 title: 'Brand colours',
                 description:
                     'Emerald green for actions, charcoal for headings, and a soft mint surface for highlights.'),
-            Card(
+            GlassCard(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(children: [
@@ -282,7 +283,7 @@ class _AppearancePreview extends StatelessWidget {
                 ]),
               ),
             ),
-            const Card(
+            const GlassCard(
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Row(children: [
@@ -389,7 +390,7 @@ class _AccountInfoSection extends StatelessWidget {
   final IconData icon;
   final String title, description;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: const EdgeInsets.only(bottom: 9),
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
@@ -362,7 +363,7 @@ class _RecentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (compact) {
-      return Card(
+      return GlassCard(
           clipBehavior: Clip.antiAlias,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -419,7 +420,7 @@ class _RecentCard extends StatelessWidget {
                 ])),
           ]));
     }
-    return Card(
+    return GlassCard(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () =>

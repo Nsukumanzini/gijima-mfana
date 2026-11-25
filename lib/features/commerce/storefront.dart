@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
@@ -438,7 +439,7 @@ class _StoreFact extends StatelessWidget {
   final IconData icon;
   final String label, value;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(11),

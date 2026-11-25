@@ -1,5 +1,6 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/localization/strings.dart';
@@ -185,7 +186,7 @@ class _ProfileStats extends StatelessWidget {
   final int orders, shops, products;
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
@@ -275,7 +276,7 @@ class _DeliveryAddressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasAddress = address != null;
-    return Card(
+    return GlassCard(
       margin: const EdgeInsets.only(bottom: 9),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -362,7 +363,7 @@ class _ProfileLink extends StatelessWidget {
   final IconData icon;
   final String title, subtitle, route;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: const EdgeInsets.only(bottom: 9),
         clipBehavior: Clip.antiAlias,
         child: ListTile(

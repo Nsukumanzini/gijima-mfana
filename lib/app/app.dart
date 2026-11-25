@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'theme/app_theme.dart';
+import '../shared/components/glass_surface.dart';
 import '../features/shell/shell.dart';
 import '../features/checkout/checkout.dart';
 import '../features/product/product_detail.dart';
@@ -111,5 +112,12 @@ class GijimaApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: buildTheme(Brightness.light),
       themeMode: ThemeMode.light,
+      builder: (context, child) => Stack(
+            fit: StackFit.expand,
+            children: [
+              const LiquidGlassBackdrop(),
+              if (child != null) child,
+            ],
+          ),
       routerConfig: ref.watch(routerProvider));
 }

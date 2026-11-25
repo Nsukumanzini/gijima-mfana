@@ -1,5 +1,6 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/localization/strings.dart';
 import '../../app/theme/app_theme.dart';
@@ -91,7 +92,7 @@ class LanguageScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Card(
+            GlassCard(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(

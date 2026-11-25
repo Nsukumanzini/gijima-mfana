@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
@@ -252,7 +253,7 @@ class _RequestStartCard extends StatelessWidget {
   final String title, description, action;
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: const EdgeInsets.only(bottom: 9),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -392,7 +393,7 @@ class _RequestCard extends StatelessWidget {
           opacity: value,
           child: Transform.translate(
               offset: Offset(0, 10 * (1 - value)), child: child)),
-      child: Card(
+      child: GlassCard(
         margin: const EdgeInsets.only(bottom: 10),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -715,7 +716,7 @@ class _RequestFormState extends ConsumerState<RequestForm> {
                                 'Order reference / collection code'),
                             input(fields['recipient']!,
                                 'Recipient name / demo contact'),
-                            Card(
+                            GlassCard(
                                 color: Brand.mint,
                                 margin: const EdgeInsets.only(bottom: 10),
                                 child: ListTile(
@@ -898,7 +899,7 @@ class _FormProgressCard extends StatelessWidget {
   final int completed, total;
   final double progress;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -942,7 +943,7 @@ class _RequestFormSection extends StatelessWidget {
   final String title, subtitle;
   final List<Widget> children;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -997,12 +998,12 @@ class RequestDetail extends ConsumerWidget {
             constraints: const BoxConstraints(maxWidth: 820),
             child: ListView(padding: const EdgeInsets.all(18), children: [
               if (ref.watch(saveErrorProvider) != null)
-                Card(
+                GlassCard(
                     color: Theme.of(context).colorScheme.errorContainer,
                     child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: AppText(ref.watch(saveErrorProvider)!))),
-              Card(
+              GlassCard(
                 color: Brand.mint,
                 child: Padding(
                   padding: const EdgeInsets.all(18),
@@ -1160,7 +1161,7 @@ class RequestDetail extends ConsumerWidget {
                       }
                     }),
               if (status == 'Quote rejected')
-                Card(
+                GlassCard(
                     color: const Color(0xFFFFF5E5),
                     child: Padding(
                         padding: const EdgeInsets.all(14),
@@ -1201,7 +1202,7 @@ class _RequestDetailSection extends StatelessWidget {
   final IconData icon;
   final List<Widget> children;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: const EdgeInsets.only(top: 14),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),

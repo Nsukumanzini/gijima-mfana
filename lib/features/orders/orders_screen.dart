@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -337,7 +338,7 @@ class _OrderCard extends StatelessWidget {
           opacity: value,
           child: Transform.translate(
               offset: Offset(0, 12 * (1 - value)), child: child)),
-      child: Card(
+      child: GlassCard(
         margin: const EdgeInsets.only(bottom: 11),
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -479,7 +480,7 @@ class OrderDetail extends ConsumerWidget {
                 child: ListView(
                     padding: const EdgeInsets.fromLTRB(18, 12, 18, 36),
                     children: [
-                      Card(
+                      GlassCard(
                         color: Brand.mint,
                         child: Padding(
                           padding: const EdgeInsets.all(20),
@@ -688,7 +689,7 @@ class OrderDetail extends ConsumerWidget {
 
 Widget _orderSection(BuildContext context, String title, IconData icon,
         List<Widget> children) =>
-    Card(
+    GlassCard(
       margin: const EdgeInsets.only(top: 14),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
@@ -1350,7 +1351,7 @@ class _DemoCourierCard extends StatelessWidget {
         onPressed: onContact,
         icon: const Icon(Icons.chat_outlined, size: 17),
         label: const AppText('Contact courier'));
-    return Card(
+    return GlassCard(
       margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),

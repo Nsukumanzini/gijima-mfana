@@ -4,6 +4,7 @@ import '../../app/localization/strings.dart';
 import '../../shared/components/brand_text.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme/app_theme.dart';
 import '../../data/mock/catalog.dart';
@@ -270,7 +271,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                           const AppText('Shops',
                               style: TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.bold)),
-                          ...matchingShops.map((name) => Card(
+                          ...matchingShops.map((name) => GlassCard(
                               child: ListTile(
                                   leading: const CircleAvatar(
                                       backgroundColor: Brand.mint,
@@ -292,7 +293,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                   fontSize: 17, fontWeight: FontWeight.bold))
                         ],
                         if (matchingProducts.isEmpty && matchingShops.isEmpty)
-                          Card(
+                          GlassCard(
                               color: Brand.mint,
                               child: Padding(
                                   padding: const EdgeInsets.all(20),
@@ -357,7 +358,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 24),
                         AnimatedSwitcher(
                             duration: const Duration(milliseconds: 260),
-                            child: Card(
+                            child: GlassCard(
                                 key: ValueKey('$basketSavings-${basket.count}'),
                                 color: Brand.mint,
                                 child: ListTile(
@@ -422,7 +423,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                   return Container(
                                       width: 170,
                                       margin: const EdgeInsets.only(right: 12),
-                                      child: Card(
+                                      child: GlassCard(
                                           clipBehavior: Clip.antiAlias,
                                           child: InkWell(
                                               onTap: () => context.push(
@@ -507,7 +508,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                 child: const AppText('See all'))
                         ]),
                         if (recentProducts.isEmpty)
-                          Card(
+                          GlassCard(
                               color: Colors.white,
                               child: ListTile(
                                   leading: const CircleAvatar(
@@ -532,7 +533,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                         width: 230,
                                         margin:
                                             const EdgeInsets.only(right: 10),
-                                        child: Card(
+                                        child: GlassCard(
                                             child: ListTile(
                                                 leading: ClipRRect(
                                                     borderRadius:
@@ -728,7 +729,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
     return compact ? card : Expanded(child: card);
   }
 
-  Widget _recentSearchPanel() => Card(
+  Widget _recentSearchPanel() => GlassCard(
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 8, 8, 10),
@@ -762,7 +763,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
 
   Widget _liveSuggestions(List<String> shops, List<ShopProduct> items) {
     if (shops.isEmpty && items.isEmpty) return const SizedBox.shrink();
-    return Card(
+    return GlassCard(
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(12),

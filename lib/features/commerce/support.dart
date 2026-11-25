@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -109,7 +110,7 @@ class _SupportState extends ConsumerState<SupportScreen> {
                         icon: Icons.search_off_rounded,
                         text: 'No help topics match your search.')
                   else
-                    ...visibleFaqs.map((faq) => Card(
+                    ...visibleFaqs.map((faq) => GlassCard(
                           margin: const EdgeInsets.only(bottom: 8),
                           clipBehavior: Clip.antiAlias,
                           child: ExpansionTile(
@@ -138,7 +139,7 @@ class _SupportState extends ConsumerState<SupportScreen> {
                   const SizedBox(height: 10),
                   _DemoCoverageNote(),
                   const SizedBox(height: 10),
-                  Card(
+                  GlassCard(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Form(
@@ -532,7 +533,7 @@ class _TicketSummary extends StatelessWidget {
   final Record ticket;
   final String latestUpdate;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         child: Padding(
           padding: const EdgeInsets.all(17),
           child:
@@ -590,7 +591,7 @@ class _TicketProgress extends StatelessWidget {
       resolvedMessage?['time']
     ];
     final a11y = '${tr(context, 'Ticket progress')}: ${tr(context, status)}';
-    return Card(
+    return GlassCard(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 14, 15, 13),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -686,7 +687,7 @@ class _OriginalReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final date = _timestampLabel(context, message['time']);
-    return Card(
+    return GlassCard(
       color: Brand.mint,
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -717,7 +718,7 @@ class _RelatedOrderCard extends StatelessWidget {
   final Record order;
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
@@ -1138,7 +1139,7 @@ class _TicketListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final status = ticket['status'] as String? ?? 'Open';
     final created = _timestampLabel(context, ticket['created']);
-    return Card(
+    return GlassCard(
       margin: const EdgeInsets.only(bottom: 9),
       clipBehavior: Clip.antiAlias,
       child: InkWell(

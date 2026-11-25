@@ -2,6 +2,7 @@ import '../../app/localization/strings.dart';
 import '../../app/theme/app_theme.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/commerce.dart';
 import 'common.dart';
@@ -238,7 +239,7 @@ class _CoverageChecker extends StatelessWidget {
             ? const Color(0xFF9A5A00)
             : Brand.charcoal;
 
-    return Card(
+    return GlassCard(
       color: Brand.mint,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -388,7 +389,7 @@ class _AddressCard extends StatelessWidget {
     final label = (address['label'] as String? ?? '').trim();
     final pinLabel = address['pinLabel'] as String? ?? 'Town centre';
 
-    return Card(
+    return GlassCard(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 14, 10, 14),
         child: Column(
@@ -628,7 +629,7 @@ class _EmptyAddresses extends StatelessWidget {
   final VoidCallback onAdd;
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(22, 28, 22, 24),
           child: Column(

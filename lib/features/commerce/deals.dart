@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -318,7 +319,8 @@ class _OfferHero extends StatelessWidget {
               'Demo offer · Shop orders only · One code per order · Delivery and service fees excluded',
               style: TextStyle(color: Colors.white70, fontSize: 11)),
           const SizedBox(height: 3),
-          const AppText('Shop minimums vary by store and still apply at checkout.',
+          const AppText(
+              'Shop minimums vary by store and still apply at checkout.',
               style: TextStyle(color: Colors.white70, fontSize: 11)),
         ]),
       );
@@ -348,7 +350,7 @@ class _DealCard extends StatelessWidget {
           child: Transform.translate(
               offset: Offset(0, 12 * (1 - value)), child: child),
         ),
-        child: Card(
+        child: GlassCard(
           clipBehavior: Clip.antiAlias,
           elevation: 1,
           child:

@@ -1,5 +1,6 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/localization/strings.dart';
@@ -66,7 +67,7 @@ class SettingsScreen extends ConsumerWidget {
                       route: '/account/Appearance')),
               const SizedBox(height: 14),
               const _SettingsSectionTitle(title: 'Notifications'),
-              Card(
+              GlassCard(
                 margin: EdgeInsets.zero,
                 child: Column(children: [
                   Padding(
@@ -196,7 +197,7 @@ class _SettingsOverview extends StatelessWidget {
       {required this.language, required this.payment, required this.updates});
   final String language, payment, updates;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -295,7 +296,7 @@ class _SettingsLink extends StatelessWidget {
   final IconData icon;
   final String title, subtitle, route;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => GlassCard(
         margin: const EdgeInsets.only(bottom: 9),
         clipBehavior: Clip.antiAlias,
         child: ListTile(

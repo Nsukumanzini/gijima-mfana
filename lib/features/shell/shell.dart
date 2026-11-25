@@ -3,6 +3,7 @@ import '../../app/localization/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../shared/components/glass_surface.dart';
 import '../../data/mock/catalog.dart';
 import '../../data/repositories/commerce.dart';
 import '../../data/repositories/local_store.dart';
@@ -31,6 +32,7 @@ class _AppShellState extends ConsumerState<AppShell> {
   Widget build(BuildContext context) {
     final count = ref.watch(basketProvider).count;
     return Scaffold(
+      extendBody: true,
       body: SafeArea(
           child: Column(children: [
         if (ref.watch(saveErrorProvider) != null)
@@ -53,10 +55,11 @@ class _AppShellState extends ConsumerState<AppShell> {
               onPressed: () => _cart(context),
               icon: const Icon(Icons.shopping_basket_outlined),
               label: AppText('Cart · $count')),
-      bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
-          onDestinationSelected: (i) => setState(() => index = i),
-          destinations: [
+      bottomNavigationBar: GlassNavigation(
+          child: NavigationBar(
+              selectedIndex: index,
+              onDestinationSelected: (i) => setState(() => index = i),
+              destinations: [
             NavigationDestination(
                 icon: const Icon(Icons.home_outlined),
                 selectedIcon: const Icon(Icons.home),
@@ -77,7 +80,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                 icon: const Icon(Icons.person_outline),
                 selectedIcon: const Icon(Icons.person),
                 label: tr(context, 'Profile'))
-          ]),
+          ])),
     );
   }
 

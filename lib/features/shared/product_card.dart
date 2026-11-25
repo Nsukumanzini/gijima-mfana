@@ -1,6 +1,7 @@
 import '../../app/localization/strings.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
+import '../../shared/components/glass_surface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/mock/catalog.dart';
@@ -26,7 +27,7 @@ class ProductCard extends ConsumerWidget {
         onTap: () =>
             context.push('/product/${Uri.encodeComponent(product.name)}'),
         borderRadius: BorderRadius.circular(20),
-        child: Card(
+        child: GlassCard(
             clipBehavior: Clip.antiAlias,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -37,8 +38,11 @@ class ProductCard extends ConsumerWidget {
                     right: 7,
                     top: 7,
                     child: IconButton.filledTonal(
-                        tooltip: tr(context,
-                            saved ? 'Remove from favourites' : 'Save to favourites'),
+                        tooltip: tr(
+                            context,
+                            saved
+                                ? 'Remove from favourites'
+                                : 'Save to favourites'),
                         onPressed: () =>
                             ref.read(favoritesProvider.notifier).state = saved
                                 ? ({...favorites}..remove(product.name))
@@ -113,7 +117,8 @@ class _HighlightedProductName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final match = query.trim();
-    final start = match.isEmpty ? -1 : name.toLowerCase().indexOf(match.toLowerCase());
+    final start =
+        match.isEmpty ? -1 : name.toLowerCase().indexOf(match.toLowerCase());
     if (start < 0) {
       return AppText(name,
           maxLines: 1,
